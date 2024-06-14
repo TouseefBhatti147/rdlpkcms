@@ -1,0 +1,65 @@
+@extends('layouts.fdhl')
+
+@section('title')
+    @if(isset($widgets['contact-us']) && $widgets['contact-us']['status'] == 1)
+        {{$widgets['contact-us']['meta_title']}}
+    @endif
+@endsection
+
+@section('description')
+    @if(isset($widgets['contact-us']) && $widgets['contact-us']['status'] == 1)
+        {{$widgets['contact-us']['meta_description']}}
+    @endif
+@endsection
+
+@section('keywords')
+    @if(isset($widgets['contact-us']) && $widgets['contact-us']['status'] == 1)
+        {{$widgets['contact-us']['meta_keywords']}}
+    @endif
+@endsection
+
+
+
+@section('content')
+<div class="aboutusBanner">
+    <div class="container">
+
+        @if($alias != '')
+        	@include('certificates.'.$alias)
+        @else
+        	@include('certificates._all')
+        @endif
+
+
+       <div class="row">
+                <div class="col-12">
+                    <hr>
+        		</div>
+        </div>
+
+   </div>
+</div>
+
+
+
+
+
+<!-- Contact us Div Starts Here-->
+<div class="contact-us">
+    <div class="container">
+        <div class="row">
+        <div class="col-12 d-flex justify-content-center col-sm-12 justify-content-sm-center col-md-7 justify-content-md-start col-lg-9 justify-content-lg-start cucol1">
+            <h2>Have a question or need help! Don't hesitate to contact us</h2>
+        </div>
+        <div class="col-12  d-flex justify-content-center col-sm-12 justify-content-center col-md-5 justify-content-md-start col-lg-3 justify-content-lg-start cucol2">
+            <a href="{{url('/contact-us')}}" class="btn btn-border">Contact us</a>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Contact us Div Ends Here-->
+@endsection
+
+
+
+

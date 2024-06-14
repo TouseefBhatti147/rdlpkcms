@@ -1,0 +1,25 @@
+.dashboardlogo{
+  display: inline-block;
+    max-height: 50px;
+    width: auto;
+    margin:10px;
+}
+#loadersvg{
+   position: fixed;
+   float: left;
+   top: 50%;
+   z-index: 999999999999999999 !important;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
+
+#logoloader{
+	height : 70px;
+	width: auto;
+   position: fixed;
+   float: left;
+   z-index: 999999999999999 !important;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}

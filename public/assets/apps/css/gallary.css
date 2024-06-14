@@ -1,0 +1,31 @@
+.grid-container {
+  display: grid  !important;
+
+}
+ .grid-container {
+  display: inline-grid !important;
+}
+
+.image-diemensions{
+  padding-right: 40px;
+  padding-left:40px;
+  padding-top:40px;
+
+}
+.image-caption{
+  padding-right: 40px;
+  padding-left:40px;
+  padding-top:20px;
+
+}
+li  {display: inline}
+
+
+
+.table-title{
+  padding: 7px !important;
+}
+.table-element{
+
+  padding: 10px !important;
+}

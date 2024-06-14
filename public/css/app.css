@@ -1,0 +1,2663 @@
+@import url(https://fonts.googleapis.com/css?family=Nunito);#loadersvg {
+  position: fixed;
+  float: left;
+  top: 50%;
+  z-index: 999999999999999999 !important;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+#logoloader {
+  height: 70px;
+  width: auto;
+  position: fixed;
+  float: left;
+  z-index: 999999999999999 !important;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+/*CSS for body padding starts here*/
+
+/* Extra small devices (phones, 600px and down) */
+
+@media only screen and (max-width: 600px) {
+  body {
+    padding-top: 165px !important;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+
+@media only screen and (min-width: 600px) {
+  body {
+    padding-top: 165px !important;
+  }
+}
+
+@media only screen and (min-width: 700px) {
+  body {
+    padding-top: 175px !important;
+  }
+}
+
+
+
+/* Medium devices (landscape tablets, 768px and up) */
+
+@media only screen and (min-width: 768px) {
+  body {
+    padding-top: 155px !important;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+
+@media only screen and (min-width: 992px) {
+  body {
+    padding-top: 155px !important;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+
+@media only screen and (min-width: 1200px) {
+  body {
+    padding-top: 155px !important;
+  }
+}
+
+/*CSS for body padding ends here*/
+
+/*very important topbar code ends here*/
+
+html {
+  scroll-behavior: smooth;
+}
+
+/*CSS for the logo of the website begins here */
+
+.logo {
+  height: 70px;
+  padding-right: 15px;
+  padding-left: 5px;
+}
+
+@media (max-width: 700px) {
+  .logo {
+    height: 60px;
+  }
+}
+
+/* CSS for the logo ends here */
+
+/*CSS code for button starts here*/
+
+.btn-primary {
+  Background: #eeb313 !important;
+  color: #2d3338 !important;
+}
+
+.btn-primary:hover {
+  color: white !important;
+  Background: #2d3338 !important;
+}
+
+/*Displaying the content just below the navbar for small screens*/
+
+body {
+  font-family: 'Source Sans Pro', Arial, sans-serif !important;
+  font-weight: 400 !important;
+  line-height: 1.7 !important;
+  font-size: 16px !important;
+  position: relative;
+}
+
+/*
+@media only screen and (width:900px){
+body{
+  padding-top: 0px !important;
+}
+}*/
+
+/*Displaying the content just below the navbar for small screens*/
+
+.btn {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: -0.5px !important;
+  border-radius: 0px !important;
+  padding: 10px 28px !important;
+  border: none !important;
+}
+
+@media (max-width: 700px) {
+  .btn {
+    font-size: 12px;
+    margin-top: 20px;
+  }
+}
+
+p {
+  font-size: 14px !important;
+}
+
+h1 {
+  font-size: 19px !important;
+  font-weight: bold !important;
+}
+
+h2 {
+  font-size: 17px !important;
+  font-weight: bold !important;
+}
+
+h3 {
+  font-size: 16px !important;
+  font-weight: bold !important;
+}
+
+span {
+  font-size: 14px !important;
+}
+
+@media (max-width: 700px) {
+  span {
+    font-size: 12px !important;
+  }
+}
+
+/*CSS code for line begins here*/
+
+.line-yellow {
+  display: inline-block;
+  content: '';
+  width: 35px;
+  height: 3px;
+  background: #eeb313;
+  margin-top: -5px;
+  left: 0;
+}
+
+.line-black {
+  content: '';
+  width: 35px;
+  height: 3px;
+  background: #1a1a00;
+  margin-top: 18px;
+  left: 0;
+}
+
+.line {
+  display: inline-block;
+  content: '';
+  width: 35px;
+  height: 3px;
+  margin-top: 30px;
+  background: #404040;
+  margin-top: 18px;
+  left: 0;
+}
+
+.line-white {
+  display: inline-block;
+  content: '';
+  width: 35px;
+  height: 3px;
+  margin-top: 30px;
+  margin-top: 18px;
+  left: 0;
+  background: #f2f2f2;
+}
+
+.line-addres {
+  display: inline-block;
+  content: '';
+  width: 35px;
+  height: 3px;
+  background: #eeb313;
+  margin-top: -5px;
+  left: 0;
+}
+
+/* CSS code responsive underline starts here */
+
+.rline {
+  text-align: left;
+}
+
+.pline {
+  text-align: center;
+}
+
+/* Here i am putting a media query to make the line responsive */
+
+@media (max-width: 768px) {
+  .rline {
+    text-align: center;
+  }
+}
+
+/* Media Query to make the underline responsive ends here */
+
+/*CSS code for awsome icons start here*/
+
+.fa-users {
+  font-size: 45px;
+  padding-bottom: 30px;
+}
+
+.fa-smile-beam {
+  font-size: 45px;
+  padding-bottom: 30px;
+}
+
+.fa-trophy {
+  font-size: 45px;
+  padding-bottom: 30px;
+}
+
+/*CSS code for awsome icons ends here*/
+
+/*CSS code for media boxes start here*/
+
+.fa {
+  padding: -10px;
+  width: 30px;
+  text-align: left;
+  text-decoration: none;
+  margin: 0px auto;
+}
+
+.fab {
+  padding-bottom: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 20px;
+  font-size: 20px;
+  width: 20px;
+  text-align: left;
+  text-decoration: none;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+@media (max-width: 700px) {
+  .fab {
+    padding: 0px;
+    margin: 8px;
+  }
+}
+
+.fab:hover {
+  opacity: 1;
+  color: white;
+}
+
+.fa-facebook-f {
+  background: black;
+  color: #bfbfbf;
+}
+
+.fa-twitter {
+  background: black;
+  color: #bfbfbf;
+}
+
+.fa-youtube {
+  background: black;
+  color: #bfbfbf;
+}
+
+.fa-instagram {
+  background: black;
+  color: #bfbfbf;
+}
+
+/*CSS code for learn more starts here*/
+
+.more-link {
+  color: #eeb313 !important;
+  text-decoration: none !important;
+  outline: none !important;
+}
+
+@media (max-width: 700px) {
+  .more-link {
+    padding-left: 15px !important;
+    padding-top: 0px !important;
+  }
+}
+
+/*CSS code for learn more ends here*/
+
+ul#web-menu li {
+  display: inline;
+}
+
+.web-menu-element {
+  background-color: #0d0d0d;
+  color: #808080;
+  font-family: 'Source Sans Pro', Arial, sans-serif !important;
+  font-weight: 400 !important;
+  line-height: 1.7 !important;
+}
+
+.web-menu-element:hover {
+  color: white;
+}
+
+.web-menu-div {
+  padding-top: 20px;
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.7 !important;
+}
+
+@media (max-width: 700px) {
+  .web-menu-div {
+    padding: 0px;
+    line-height: 1.7em;
+    font-size: 12px  !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .web-menu-div {
+    padding: 0px;
+    line-height: 1.7em;
+    font-size: 12px  !important;
+  }
+}
+
+/*very important topbar code starts here*/
+
+/* Extra small devices (phones, 600px and down) */
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+
+/* Medium devices (landscape tablets, 768px and up) */
+
+/* Large devices (laptops/desktops, 992px and up) */
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+
+/*very important topbar code ends here*/
+
+.pagewide {
+  margin-top: 0px !important;
+  height: 50px !important;
+  color: darkgrey !important;
+  background: black !important;
+}
+
+@media (max-width: 781px) {
+  .pagewide {
+    height: 80px !important;
+    font-size: 10px !important;
+    position: fixed;
+  }
+}
+
+@media (min-width: 781px) {
+  .pagewide {
+    padding-top: 30px !important;
+    height: 60px !important;
+    font-size: 14px !important;
+  }
+}
+
+.pagewide i {
+  color: #eeb313 !important;
+  margin-right: 7px !important;
+}
+
+ul#topbar li {
+  display: inline;
+}
+
+@media only screen and (width: 768px) {
+  .p-3 {
+    height: 3rem !important;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+
+@media only screen and (min-width: 1200px) {
+  .topbarcolumn1 ul {
+    top: -10px;
+  }
+}
+
+@media screen and (min-width: 800px) and (max-width: 990px) {
+  .topbarcolumn1 ul {
+    top: -15px;
+  }
+}
+
+.topbarcolumn1 ul {
+  list-style-type: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  position: relative;
+}
+
+.topbarcolumn1 li {
+  float: left !important;
+}
+
+ul.social-media-list img {
+  padding: 2px !important;
+  border-radius: 2px !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+@media (max-width: 700px) {
+  .ul.social-media-list img {
+    padding: 2px !important;
+    border-radius: 1px !important;
+    line-height: 1.7em;
+    width: 2px !important;
+    height: 2px !important;
+  }
+}
+
+ul.social-media-list li {
+  display: inline-block !important;
+  margin-top: 0px !important;
+  margin-bottom: 5px !important;
+  margin-right: 2px !important;
+  margin-left: 2px !important;
+  position: relative;
+}
+
+@media only screen and (min-width: 1200px) {
+  ul.social-media-list li {
+    top: -10px;
+  }
+}
+
+@media screen and (min-width: 800px) and (max-width: 990px) {
+  ul.social-media-list li {
+    top: -15px;
+  }
+}
+
+@media (max-width: 700px) {
+  ul.social-media-list li {
+    display: inline-block !important;
+    margin-top: 0px !important;
+    margin-bottom: 5px !important;
+    line-height: 1.7em;
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  ul.social-media-list li {
+    padding-top: 7px !important;
+    line-height: 1.7em;
+  }
+}
+
+ul.social-media-list {
+  list-style-type: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 0px !important;
+}
+
+ul.social-media-list img:hover {
+  background-color: transparent !important;
+}
+
+/*Exerimental div starts here*/
+
+#div_for_social_media_icons {
+  display: inline;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+#list_social_media_icons li {
+  display: inline;
+}
+
+/*very important topbar code starts here*/
+
+/* Extra small devices (phones, 600px and down) */
+
+@media only screen and (max-width: 600px) {
+  #div_for_social_media_icons h1 {
+    display: none;
+  }
+
+  #div_for_social_media_icons img {
+    padding: 2px !important;
+    border-radius: 2px !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .topbarcolumn2 {
+    padding-top: 5px;
+    float: left !important;
+    margin-left: -42px !important;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+
+@media only screen and (min-width: 600px) {
+  #div_for_social_media_icons h1 {
+    display: none;
+  }
+
+  #div_for_social_media_icons img {
+    padding: 2px !important;
+    border-radius: 2px !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .topbarcolumn2 {
+    padding-top: 5px;
+    float: left !important;
+    margin-left: -42px !important;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+
+@media only screen and (min-width: 768px) {
+  #div_for_social_media_icons h1 {
+    display: none;
+  }
+
+  #div_for_social_media_icons img {
+    padding: 2px !important;
+    border-radius: 2px !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+
+@media only screen and (min-width: 992px) {
+  #div_for_social_media_icons h1 {
+    display: none;
+  }
+
+  #div_for_social_media_icons img {
+    padding: 2px !important;
+    border-radius: 2px !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .topbarcolumn2 {
+    margin-top: -10px;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+
+@media only screen and (min-width: 1200px) {
+  #div_for_social_media_icons h1 {
+    background-color: black;
+    display: inline;
+    color: white;
+    font-weight: bold;
+    font-size: 14px !important;
+  }
+
+  #div_for_social_media_icons img {
+    padding: 2px !important;
+    border-radius: 2px !important;
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .topbarcolumn2 {
+    margin-top: -15px;
+  }
+}
+
+/*@media only screen and (min-width: 1200px) {
+  ul#div_for_social_media_icons li{
+      top:-10px;
+  }
+  }
+  @media screen and (min-width:800px) and (max-width:990px){
+    ul#div_for_social_media_icons li{
+        top:-15px;
+    }
+  }
+  @media (max-width: 700px) {
+   ul#div_for_social_media_icons li {
+      display: inline-block !important;
+      margin-top: 0px !important;
+      margin-bottom: 5px !important;
+       line-height: 1.7em;
+      margin-right:0px !important;
+      margin-left:0px !important;
+  }
+  }
+  @media (max-width: 700px) {
+     ul#div_for_social_media_icons li {
+     padding-top: 7px !important;
+      line-height: 1.7em;
+  
+  }
+  }  */
+
+/*very important topbar code starts here*/
+
+/* Extra small devices (phones, 600px and down) */
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+
+/* Medium devices (landscape tablets, 768px and up) */
+
+/* Large devices (laptops/desktops, 992px and up) */
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+
+/*very important topbar code ends here*/
+
+/*css Navbar transparent code starts here*/
+
+nav.navbar.shrink {
+  min-height: 15px;
+}
+
+nav.navbar.shrink .logo {
+  height: 55px;
+}
+
+.navbar {
+  margin-top: 0;
+  top: 30px !important;
+  /*top: 40px;*/
+  background: #FFFFFF;
+  opacity: 0.9;
+  filter: alpha(opacity=50);
+}
+
+@media (max-width: 781px) {
+  .navbar {
+    margin-top: 0;
+    top: 80px !important;
+  }
+}
+
+@media (min-width: 781px) {
+  .navbar {
+    margin-top: 0;
+    top: 60px !important;
+  }
+}
+
+@media only screen and (width: 768px) {
+  .navbar {
+    top: 45px !important;
+  }
+}
+
+.nav-link {
+  padding: 8px;
+}
+
+/*css Navbar transparent code ends here*/
+
+/*css for hoverover dropdown starts here*/
+
+.dropbtn {
+  background-color: #FFFFFF;
+  opacity: 0.9;
+  filter: alpha(opacity=50);
+  color: black;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-right: 5px;
+  padding-left: 5px;
+  font-size: 16px;
+  border: none;
+}
+
+@media (min-width: 900px) {
+  .dropbtn {
+    margin-right: 3px;
+    margin-left: 3px;
+  }
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #FFFFFF;
+  opacity: 0.9;
+  filter: alpha(opacity=50);
+  min-width: 160px;
+  -webkit-box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black !important;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: lightgrey;
+  opacity: 0.9;
+  filter: alpha(opacity=50);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #FFFFFF;
+  opacity: 0.9;
+  filter: alpha(opacity=50);
+}
+
+/*css for hoverover dropdown ends here*/
+
+/*CSS for social media links starts here*/
+
+.social-media-links {
+  min-height: 120px;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/*CSS for social media links ends here*/
+
+/*CSS social media col1 begins here*/
+
+.smcol1 {
+  padding-top: 55px;
+  text-align: left;
+  color: #bfbfbf;
+}
+
+@media (max-width: 700px) {
+  .smcol1 {
+    padding-top: 20px;
+    color: #bfbfbf;
+  }
+}
+
+/*CSS for social media col1 ends here*/
+
+/*CSS social media col2 begins here*/
+
+.smcol2 {
+  padding-top: 40px;
+  text-align: left;
+  color: #bfbfbf;
+}
+
+@media (max-width: 700px) {
+  .smcol2 {
+    padding-top: 10px;
+  }
+}
+
+/*CSS for social media col2 ends here*/
+
+/*CSS social media col3 begins here*/
+
+.smcol3 {
+  padding-top: 55px;
+  text-align: left;
+  color: #bfbfbf;
+}
+
+@media (max-width: 700px) {
+  .smcol3 {
+    padding-top: 30px;
+    margin-bottom: -30px;
+  }
+}
+
+/*CSS for social media col3 ends here*/
+
+/*CSS social media col4 begins here*/
+
+.smcol4 {
+  padding-top: 50px;
+  padding-bottom: 30px;
+  text-align: left;
+  color: white;
+}
+
+@media (max-width: 700px) {
+  .smcol4 {
+    color: white;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
+input::-webkit-input-placeholder {
+  color: white !important;
+}
+
+input:-moz-placeholder {
+  /* Firefox 18- */
+  color: white !important;
+}
+
+input::-moz-placeholder {
+  /* Firefox 19+ */
+  color: white !important;
+}
+
+input:-ms-input-placeholder {
+  color: white !important;
+}
+
+/*CSS for social media col4 ends here*/
+
+/*CSS for social media inline form starts here*/
+
+.inbox {
+  border-radius: 0px !important;
+  border: 1px solid #eeb313 !important;
+  background: transparent !important;
+  font-size: 14px !important;
+  height: 41px !important;
+  font-weight: 200 !important;
+  margin-left: 5px !important;
+  margin-right: -5px !important;
+  color: white !important;
+  width: 180px !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+@media (max-width: 700px) {
+  .inbox {
+    margin-top: 20px !important;
+    height: 38px !important;
+    font-size: 12px !important;
+  }
+}
+
+/*CSS for social media inline form ends here*/
+
+/*css for button border begins here*/
+
+.btn-border {
+  background-color: transparent !important;
+  color: #2d3338 !important;
+  border: 2px solid #2d3338 !important;
+}
+
+/*css for button border ends here*/
+
+/*CSS for footer starts here */
+
+.footer {
+  min-height: 500px !important;
+  padding-top: 10 px !important;
+  color: #999999 !important;
+  background: #2a2f35 !important;
+}
+
+/*CSS for footer ends her*/
+
+/*Footer new css start from here*/
+
+hr {
+  margin-top: 22px !important;
+  margin-bottom: 22px !important;
+  border: 0 !important;
+  border-top: 1px solid #eeeeee !important;
+}
+
+.text-warning {
+  color: #c09853 !important;
+}
+
+.footer-title {
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+}
+
+.footer-title h1 {
+  color: #eeeeee !important;
+  font-size: 18px !important;
+  font-family: 'Montserrat', sans-serif !important;
+  text-transform: uppercase !important;
+}
+
+.footer-content {
+  padding-top: 20px !important;
+}
+
+.element {
+  margin-left: 30px;
+  margin-top: -27px;
+  padding: 1px !important;
+  font-size: 15px !important;
+}
+
+.footer-content em {
+  color: #eeb313 !important;
+  margin-right: 10px !important;
+  font-size: 14px !important;
+}
+
+.footer-contet .fa {
+  display: inline-block !important;
+  font: normal normal normal 14px/1 FontAwesome !important;
+  font-size: inherit !important;
+  text-rendering: auto !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+.footer-address {
+  padding-top: 60px !important;
+  padding-bottom: 60px !important;
+}
+
+/* Extra small devices (phones, 600px and down) */
+
+@media only screen and (max-width: 600px) {
+  .footer-address {
+    padding-top: 10px !important;
+  }
+}
+
+/*footer css ends here*/
+
+/* CSS for copy right content starts from here*/
+
+.copyright {
+  min-height: 10px;
+  background-color: #0d0d0d;
+  color: #808080;
+}
+
+.copyrightcol {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: left;
+}
+
+@media (max-width: 700px) {
+  .copyright {
+    text-align: center !important;
+    line-height: 1.7em;
+  }
+
+  p {
+    font-size: 12px !important;
+    line-height: 1.7em;
+  }
+}
+
+@media (max-width: 400px) {
+  .copyright {
+    text-align: center !important;
+    line-height: 10px !important;
+  }
+
+  p {
+    font-size: 12px !important;
+    line-height: 1.7em;
+  }
+}
+
+@media (max-width: 300px) {
+  .copyright {
+    text-align: center !important;
+    line-height: 10px !important;
+  }
+
+  p {
+    font-size: 12px !important;
+    line-height: 1.7em;
+  }
+}
+
+/* CSS for copy right content ends here*/
+
+/*CSS for contact us starts here*/
+
+.contact-us {
+  min-height: 120px;
+  background-color: #ad8501;
+  color: #404040;
+}
+
+/*CSS our partners starts here */
+
+/*CSS contact us col1 begins here*/
+
+.cucol1 {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  text-align: left;
+}
+
+@media (max-width: 700px) {
+  .cucol1 {
+    padding-bottom: 0px;
+    padding-top: 30px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+}
+
+/*CSS contact us col1 ends here*/
+
+/*CSS contact us col2 begins here*/
+
+.cucol2 {
+  padding-top: 35px;
+  padding-bottom: 40px;
+  text-align: left;
+}
+
+@media (max-width: 700px) {
+  .cucol2 {
+    padding-top: 20px;
+  }
+}
+
+.fdhl-flipbooks {
+  padding-top: 100px !important;
+  padding-bottom: 100px !important;
+}
+
+.pages-title {
+  padding-top: 40px !important;
+}
+
+.pages-content {
+  padding-top: 40px !important;
+  padding-bottom: 40px !important;
+}
+
+/*CSS for news and events ncol1 ends here*/
+
+.our-partners {
+  min-height: 30px;
+  background-color: white !important;
+  color: #404040 !important;
+  margin: 0px;
+}
+
+@media (max-width: 700px) {
+  .row {
+    margin: 0px;
+  }
+}
+
+/*CSS for our partners ends here*/
+
+/*CSS our partners col1 starts here*/
+
+.opcol1 {
+  padding-top: 20px;
+  padding-bottom: auto;
+  font-size: 21px;
+  background-color: white;
+  min-height: 10px;
+  color: #404040;
+  font-weight: bold;
+}
+
+/*CSS for our partners col1 ends here*/
+
+/*	CSS our partners col2 starts here*/
+
+.opcol2 {
+  padding-top: 40px;
+  padding-left: 20px;
+  display: block;
+  width: 320px;
+  height: 150px;
+  float: left;
+  padding-bottom: 20px;
+}
+
+.opcol2 img {
+  width: 100%;
+  border-style: inset;
+  -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+          box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/*	@media (max-width: 700px){
+	.opcol2{
+		padding-left : 50px;
+	}
+
+} */
+
+/*CSS for our partners col2 ends here*/
+
+/*CSS our partners col3 starts here*/
+
+.opcol3 {
+  padding-top: 40px;
+  padding-left: 20px;
+  margin: 0 auto;
+  display: block;
+  width: 320px;
+  height: 150px;
+  float: left;
+  padding-bottom: 20px;
+}
+
+.opcol3 img {
+  width: 100%;
+  border-style: inset;
+  -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+          box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/*@media (max-width: 700px){
+	.opcol3{
+		padding-left : 50px;
+	}
+}*/
+
+/*CSS for our partners col3 ends here*/
+
+/*CSS our partners col3 starts here*/
+
+.opcol4 {
+  padding-top: 40px;
+  padding-left: 20px;
+  margin-bottom: 20px;
+  display: block;
+  width: 320px;
+  height: 150px;
+  float: left;
+}
+
+.opcol4 img {
+  width: 100%;
+  border-style: inset;
+  -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+          box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/*@media (max-width: 700px){
+	.opcol4{
+		padding-left : 50px;
+		padding-bottom:30px;
+	}
+}/
+/*CSS for our partners col3 ends here*/
+
+/*SLider css added in this class*/
+
+/*SLider css starts from here*/
+
+#carouselExampleIndicators > .carousel-indicators > li {
+  border-radius: 0px;
+  min-width: 25px;
+  background-color: white;
+  border: 1px solid black;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+#carouselExampleIndicators > .carousel-indicators > .active {
+  background-color: #eeb313 !important;
+}
+
+/*CSS for slider text start here*/
+
+/* Extra small devices (phones, 600px and down) */
+
+@media only screen and (max-width: 600px) {
+  .carousel-caption h3 {
+    padding-top: 30px !important;
+    padding-bottom: 40px !important;
+    text-align: center;
+    bottom: initial;
+    font-size: 18px !important;
+    -webkit-transform: translateY(-90%) !important;
+            transform: translateY(-90%) !important;
+    text-shadow: 2px 2px 10px #000 !important;
+  }
+
+  .slidertext {
+    padding-top: 30px !important;
+    padding-bottom: 50px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+
+@media only screen and (min-width: 600px) {
+  .carousel-caption h3 {
+    padding-top: 30px !important;
+    padding-bottom: 40px !important;
+    text-align: center;
+    bottom: initial;
+    font-size: 35px !important;
+    -webkit-transform: translateY(-40%);
+            transform: translateY(-40%);
+    text-shadow: 2px 2px 10px #000 !important;
+  }
+
+  .slidertext {
+    padding-top: 30px !important;
+    padding-bottom: 50px !important;
+    font-size: 28px !important;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+
+@media only screen and (min-width: 768px) {
+  .carousel-caption h3 {
+    color: white !important;
+    font-size: 40px !important;
+    text-shadow: 2px 2px 10px #000 !important;
+  }
+
+  .slidertext {
+    color: white !important;
+    font-size: 32px !important;
+    text-shadow: 2px 2px 10px #000 !important;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+
+@media only screen and (min-width: 992px) {
+  /*CSS for slider text ends here*/
+
+  .carousel-caption h3 {
+    font-size: 40px !important;
+    /*  text-transform: uppercase !important; */
+    font-weight: bold !important;
+    text-align: center !important;
+    bottom: initial !important;
+    -webkit-transform: translateY(-90%) !important;
+            transform: translateY(-90%) !important;
+    padding-bottom: 50px !important;
+    text-shadow: 2px 2px 10px #000 !important;
+    /* display:table-cell;
+
+      margin-left:-10px;
+      text-align:left;
+      font-size: 25px;
+    top:60%;
+         right: 58%;
+      */
+  }
+
+  .slidertext {
+    color: white !important;
+    font-size: 32px !important;
+    text-shadow: 2px 2px 10px #000 !important;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+
+@media only screen and (min-width: 1200px) {
+  /*CSS for slider text ends here*/
+
+  .carousel-caption h3 {
+    font-size: 45px !important;
+    /*text-transform: uppercase !important;*/
+    font-weight: bold !important;
+    text-align: center !important;
+    bottom: initial !important;
+    -webkit-transform: translateY(-80%) !important;
+            transform: translateY(-80%) !important;
+    padding-bottom: 40px !important;
+    text-shadow: 2px 2px 10px #000 !important;
+    /* display:table-cell;
+
+      margin-left:-10px;
+      text-align:left;
+      font-size: 25px;
+    top:60%;
+         right: 58%;
+      */
+  }
+
+  .slidertext {
+    color: white !important;
+    font-size: 36px !important;
+    text-shadow: 2px 2px 10px #000 !important;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+
+/* Extra small devices (phones, 600px and down) */
+
+@media only screen and (min-width: 1500px) {
+  /*CSS for slider text ends here*/
+
+  .carousel-caption h3 {
+    font-size: 55px !important;
+    /*   text-transform: uppercase !important; */
+    font-weight: bold !important;
+    text-align: center !important;
+    bottom: initial !important;
+    -webkit-transform: translateY(-90%) !important;
+            transform: translateY(-90%) !important;
+    padding-bottom: 50px !important;
+    text-shadow: 2px 2px 10px #000 !important;
+    /* display:table-cell;
+
+      margin-left:-10px;
+      text-align:left;
+      font-size: 25px;
+    top:60%;
+         right: 58%;
+      */
+  }
+
+  .slidertext {
+    color: white !important;
+    font-size: 44px !important;
+    text-shadow: 2px 2px 10px #000 !important;
+  }
+}
+
+/*CSS for image slider starts here*/
+
+/* Extra small devices (phones, 600px and down) */
+
+/*CSS for the slider images start here */
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+
+@media only screen and (max-width: 600px) {
+  .carousel-item img {
+    height: 360px !important;
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .carousel-item img {
+    height: 450px !important;
+    width: 100%;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+
+@media only screen and (min-width: 768px) {
+  .carousel-item img {
+    height: 450px !important;
+    width: 100%;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+
+@media only screen and (min-width: 992px) {
+  .carousel-item img {
+    height: 470px !important;
+    width: 100%;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+
+@media only screen and (min-width: 1200px) {
+  .carousel-item img {
+    height: 480px !important;
+    width: 100%;
+  }
+}
+
+/*CSS for image slider ends here*/
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+
+@media only screen and (min-width: 1500px) {
+  .carousel-item img {
+    height: 650px !important;
+    width: 100%;
+  }
+}
+
+/*CSS code for card begins here */
+
+.col3 {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.col4 {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.about-page-card-om {
+  height: auto !important;
+}
+
+/* Extra small devices (phones, 600px and down) */
+
+@media only screen and (max-width: 600px) {
+  .main-page-card-edl {
+    height: auto !important;
+  }
+
+  .main-page-card-clic {
+    height: auto !important;
+  }
+
+  .about-page-card {
+    height: auto !important;
+  }
+
+  .about-page-card-om {
+    height: auto !important;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+
+@media only screen and (min-width: 600px) {
+  .main-page-card-edl {
+    height: auto !important;
+  }
+
+  .main-page-card-clic {
+    height: auto !important;
+  }
+
+  .about-page-card {
+    height: auto !important;
+  }
+
+  .about-page-card-om {
+    height: auto !important;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+
+@media only screen and (min-width: 768px) {
+  .main-page-card-edl {
+    height: auto !important;
+  }
+
+  .main-page-card-clic {
+    height: auto !important;
+  }
+
+  .about-page-card {
+    height: auto !important;
+  }
+
+  .about-page-card-om {
+    height: auto !important;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+
+@media only screen and (min-width: 992px) {
+  .main-page-card-edl {
+    height: auto !important;
+  }
+
+  .main-page-card-clic {
+    height: auto !important;
+  }
+
+  .about-page-card {
+    height: auto !important;
+  }
+
+  .about-page-card-om {
+    height: auto !important;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+
+@media only screen and (min-width: 1200px) {
+  .main-page-card-edl {
+    height: auto !important;
+  }
+
+  .main-page-card-clic {
+    height: auto !important;
+  }
+
+  .about-page-card {
+    height: auto !important;
+  }
+
+  .about-page-card-om {
+    height: auto !important;
+  }
+}
+
+/*CSS for body padding ends here*/
+
+/*very important topbar code ends here*/
+
+/*CSS parallax overlay has been implemented in our projects container*/
+
+.fa-chevron-left {
+  margin-top: 20px;
+  border: 2px solid white;
+  padding: 5px;
+}
+
+.fa-chevron-right {
+  margin-top: 20px;
+  border: 2px solid white;
+  padding: 5px;
+}
+
+.mb_parallax_container {
+  height: auto;
+  width: 100%;
+  margin: 0px auto;
+  /* border-bottom: 10px solid black;*/
+  padding-top: 0vh;
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-bottom: 20px;
+}
+
+.mb_parallax_overlay {
+  height: auto;
+  width: 100%;
+  margin: auto;
+  background-color: none;
+  opacity: .9;
+}
+
+/*CSS for parrlax overlay ends here*/
+
+/*CSS for our projects col1 starts here */
+
+.our-projects-col1 {
+  padding-bottom: 30px;
+  padding-top: 20px;
+  font-size: 21px;
+  background-color: transparent;
+  min-height: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+/*CSS for our projects col1 ends here*/
+
+/*CSS for our projects col2 starts here */
+
+.our-projects-col2 {
+  height: 150px;
+  width: 350px;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+@media (max-width: 700px) {
+  .our-projects-col2 {
+    padding-left: 25px;
+  }
+}
+
+/*CSS for our projects col2 ends here*/
+
+/*CSS for our projects col3 starts here */
+
+.our-projects-col3 {
+  padding-top: 70px;
+  font-family: georgia, serif;
+  color: white;
+  font-size: 14px;
+  margin: 0px auto;
+  font-weight: bold;
+  font-style: italic;
+  letter-spacing: .1em;
+  padding-bottom: 20px;
+}
+
+/*CSS for our projects col3 ends here*/
+
+.projects-caption {
+  color: white;
+  margin-bottom: .5rem;
+  padding-top: 30px;
+  background-color: transparent;
+  font-family: inherit;
+  line-height: 1.2;
+  margin-top: 0px auto;
+}
+
+/*CSS for our projects col3 starts here */
+
+.our-projects-col4 {
+  margin: 0 auto;
+  padding-bottom: 10px;
+  padding-top: 60px;
+  padding-bottom: auto;
+  background-color: transparent;
+  min-height: 10px;
+  color: white;
+  font-size: 17px !important;
+  font-weight: bold !important;
+}
+
+@media (max-width: 700px) {
+  .sm-screen {
+    padding: 20px !important;
+  }
+}
+
+@media (max-width: 800px) {
+  .sm-screen {
+    padding: 20px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .our-projects-col4 {
+    padding-top: 10px;
+    padding-left: 25px;
+  }
+}
+
+/*CSS for our projects col3 ends here*/
+
+.project-column {
+  padding-bottom: 20px;
+}
+
+.parent-icon-column {
+  text-align: center !important;
+}
+
+.icon-column {
+  display: inline-block !important;
+}
+
+/*CSS for number counter starts here*/
+
+.staff {
+  margin-top: -10px !important;
+  font-size: 30px !important;
+  color: #eeb313 !important;
+}
+
+.clients {
+  font-size: 30px !important;
+  margin-top: -10px !important;
+  color: #eeb313 !important;
+}
+
+.awards {
+  font-size: 30px !important;
+  margin-top: -10px !important;
+  color: #eeb313 !important;
+}
+
+/*CSS for number counter ends here*/
+
+.media {
+  margin-top: 0px !important;
+  height: 890px !important;
+  background-color: #22262a !important;
+  margin-bottom: 0px !important;
+}
+
+@media (max-width: 1000px) {
+  .media {
+    height: auto !important;
+  }
+}
+
+.fas {
+  margin-left: 3px;
+  margin-right: 2px;
+}
+
+.newsletter-buttons {
+  text-align: center  !important;
+}
+
+@media (max-width: 800px) {
+  .newsletter-buttons {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+.newsletter-viewmore {
+  display: inline-block !important;
+}
+
+.btn-xs {
+  margin-top: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+  border-radius: 0px;
+  padding: 10px;
+  border: none;
+  display: inline-block !important;
+}
+
+/*CSS for media columns starts here*/
+
+.media-column1 {
+  border-right: 1px solid grey;
+  height: 650px;
+}
+
+.media-column2 {
+  border-right: 1px solid grey;
+  height: 650px;
+}
+
+.media-column3 {
+  border-right: 1px solid grey;
+  height: 650px;
+}
+
+/*CSS for media columns ends here*/
+
+.hl {
+  display: block;
+  margin-top: -25px;
+  margin-bottom: 22px;
+  width: 250px;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: inset;
+  border-color: grey;
+  border-width: 1px;
+}
+
+.hln {
+  display: block;
+  margin-top: -9px;
+  margin-bottom: 22px;
+  width: 255px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-style: inset;
+  border-color: grey;
+  border-width: 1px;
+}
+
+@media only screen and (max-width: 991px) {
+  .hl {
+    border: none;
+  }
+
+  .hln {
+    border: none;
+  }
+
+  .media-column1 {
+    border-right: hidden;
+    border-left: hidden;
+  }
+
+  .media-column2 {
+    border-right: hidden;
+    border-left: hidden;
+  }
+
+  .media-column3 {
+    border-right: hidden;
+    border-left: hidden;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .hl {
+    width: 110px;
+  }
+
+  .hln {
+    width: 110px;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .hl {
+    width: 130px;
+  }
+
+  .hln {
+    width: 130px;
+  }
+}
+
+@media only screen and (max-width: 1150px) {
+  .hl {
+    width: 150px;
+  }
+
+  .hln {
+    width: 150px;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .hl {
+    width: 200px;
+  }
+
+  .hln {
+    width: 200px;
+  }
+}
+
+.media-section-heading {
+  padding-bottom: 20px;
+  padding-top: 20px;
+  min-height: 10px;
+  color: #FFF !important;
+  font-weight: bold;
+}
+
+.media-section-sub-heading {
+  padding-bottom: 20px;
+  padding-top: 20px;
+  min-height: 10px;
+  color: #FFF !important;
+  font-weight: bold;
+}
+
+.media-section-sub-heading h1 {
+  text-align: center !important;
+}
+
+.index-button {
+  padding-top: 40px !important;
+  padding-bottom: 40px  !important;
+}
+
+.index-button-2 {
+  margin-top: -35px !important;
+}
+
+@media (max-width: 763px) {
+  .index-button-2 {
+    margin-top: 0px !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  .index-button {
+    padding-top: 0px !important;
+    padding-bottom: 40px  !important;
+  }
+
+  .media-section-sub-heading h1 {
+    text-align: center !important;
+  }
+
+  .media-section-card {
+    height: 270px !important;
+  }
+}
+
+@media (max-width: 800px) {
+  .index-button {
+    padding-top: 0px !important;
+    padding-bottom: 40px  !important;
+  }
+
+  .media-section-sub-heading h1 {
+    text-align: center !important;
+  }
+
+  .media-section-card {
+    height: 270px !important;
+  }
+
+  .index-button-2 {
+    padding-top: 0px !important;
+    padding-bottom: 40px  !important;
+  }
+}
+
+.media-section-card {
+  width: 16rem;
+  height: 310px;
+  border: none !important;
+  border-style: none !important;
+  background-color: #22262a !important;
+  color: #a0a6ab !important;
+}
+
+@media (max-width: 800px) {
+  .media-section-card {
+    width: 25rem;
+  }
+}
+
+.media-sub-heading {
+  text-align: center;
+}
+
+#media-img-shadow {
+  -webkit-box-shadow: 5px 5px 5px #999;
+          box-shadow: 5px 5px 5px #999;
+}
+
+.media-text {
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+.media-date {
+  text-align: center;
+  font-size: 12px;
+}
+
+/*Modal CSS starts here*/
+
+.media-modal-header {
+  text-align: left !important;
+  padding: 15px !important;
+}
+
+.media-modal-title {
+  display: inline-block !important;
+}
+
+.videoColumn {
+  min-height: 400px !important;
+  margin-bottom: -40px;
+}
+
+.certificates {
+  height: 680px !important;
+  background-color: white !important;
+  color: #404040 !important;
+  z-index: auto;
+}
+
+@media only screen and (max-width: 800px) {
+  .certificates {
+    height: auto !important;
+  }
+}
+
+.iso-certificate {
+  padding: 20px;
+  display: block;
+  width: 200px;
+  height: 300px;
+  float: left;
+  z-index: auto;
+}
+
+@media only screen and (max-width: 700px) {
+  .iso-certificate {
+    width: auto;
+    height: auto;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .iso-certificate {
+    width: auto;
+    height: auto;
+  }
+}
+
+.zoom {
+  -webkit-transition: 2s;
+  transition: 2s;
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transition-duration: 2s;
+          transition-duration: 2s;
+  -webkit-transition-timing-function: ease;
+          transition-timing-function: ease;
+  -webkit-transition-delay: 0s;
+          transition-delay: 0s;
+}
+
+.zoom:hover {
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+  /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.modal-header-custom {
+  background-color: #eeb313 !important;
+  padding: 20px 20px 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-title-custom {
+  -webkit-box-pack: center !important;
+      -ms-flex-pack: center !important;
+          justify-content: center !important;
+}
+
+.modal-footer-custom {
+  padding: 20px 20px 15px !important;
+}
+
+.f-font-white {
+  color: white !important;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog-custom {
+    max-width: 500px;
+    margin: 1.75rem auto;
+  }
+}
+
+.h2-custom {
+  color: white !important;
+  margin: 10px 0;
+  padding: 8px !important;
+}
+
+.nf-close {
+  background-color: #eeb313 !important;
+  border: 1px solid #eeb313;
+  color: #2d3338 !important;
+}
+
+.nf-close:hover {
+  border: 1px solid #eeb313;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.shadow-2 {
+  -webkit-box-shadow: 2px 2px 10px #d3d3d3;
+          box-shadow: 2px 2px 10px #d3d3d3;
+  padding: 2px !important;
+}
+
+.label-primary {
+  background-color: black;
+}
+
+.modal-body-cutom {
+  padding-top: 20px !important;
+  padding-bottom: 10px !important;
+}
+
+.breadcrumb {
+  background: #f5f5f5 !important;
+}
+
+.breadcrumb-item a {
+  color: #7f8386 !important;
+}
+
+.aboutusBanner {
+  background: #f5f5f5 !important;
+  min-height: 100px !important;
+  color: #7f8386 !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+}
+
+.aboutusBannerCol1 {
+  padding-top: 40px;
+  text-align: left;
+  color: #7f8386;
+}
+
+@media (max-width: 700px) {
+  .aboutusBannerCol1 {
+    padding-top: 20px;
+    color: #7f8386;
+  }
+}
+
+.aboutusBannerCol2 {
+  padding-top: 33px;
+  text-align: left;
+  color: #7f8386;
+}
+
+@media (max-width: 700px) {
+  .aboutusBannerCol2 {
+    padding-top: 20px;
+    color: #7f8386;
+  }
+}
+
+/*CSS for about us company starts from here*/
+
+.aboutusCompany {
+  min-height: 700px !important;
+  background: white !important;
+  color: #7f8386 !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+}
+
+.heading {
+  padding-top: 20px;
+  color: #2d3338;
+  padding-bottom: 0px;
+}
+
+.aboutusParagraph {
+  padding-top: 30px !important;
+}
+
+.aboutusParagraph p {
+  display: block !important;
+  font-size: 16px !important;
+}
+
+.aboutusParagraph2 {
+  padding-top: 30px !important;
+  height: auto !important;
+}
+
+.aboutusParagraph2 em {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left: 7px;
+  background: #eeb313;
+  border-radius: 1%;
+  color: #ffffff;
+  margin-right: 20px;
+  font-size: 18px;
+}
+
+.aboutusParagraph2 .fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  /*    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;*/
+}
+
+.aboutusParagraph2 p {
+  margin-left: 52px;
+  margin-right: 100px;
+  margin-top: -10px;
+  display: block;
+  font-size: 16px;
+}
+
+@media only screen and (max-width: 731px) {
+  .aboutusParagraph2 p {
+    margin-right: 0px !important;
+  }
+}
+
+.aboutusParagraph2 h2 {
+  margin-bottom: 15px;
+}
+
+@media (max-width: 731px) {
+  .aboutusParagraph3 {
+    padding-top: 30px;
+    margin: auto;
+  }
+}
+
+@media (min-width: 732px) {
+  .aboutusParagraph3 {
+    padding-top: 30px;
+    margin-top: -170px;
+  }
+}
+
+.aboutusParagraph3 em {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left: 7px;
+  background: #eeb313;
+  border-radius: 1%;
+  z-index: 0 !important;
+  color: #ffffff;
+  margin-right: 20px;
+  font-size: 18px;
+}
+
+.aboutusParagraph3 .fa {
+  display: inline-block;
+  z-index: 0;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  /*    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;*/
+}
+
+.aboutusParagraph3 p {
+  margin-left: 52px;
+  margin-right: 100px;
+  margin-top: -10px;
+  display: block;
+  font-size: 16px;
+}
+
+@media only screen and (max-width: 731px) {
+  .aboutusParagraph3 p {
+    margin-right: 0px;
+  }
+}
+
+@media only screen and (max-width: 731px) {
+  .column-1 {
+    margin-right: -40px;
+  }
+}
+
+@media only screen and (max-width: 731px) {
+  .iconColumn {
+    margin-top: -30px;
+  }
+}
+
+.aboutusParagraph3 h2 {
+  margin-bottom: 15px;
+}
+
+.aboutusCard1 {
+  padding: 30px;
+  border: none;
+}
+
+.card {
+  text-decoration: none;
+}
+
+.aboutusCard1 p {
+  display: block;
+  font-size: 16px !important;
+  padding-bottom: 0px;
+}
+
+.above-portion {
+  height: 460px;
+}
+
+.card-header {
+  color: #ffffff;
+  background: #f5f5f5;
+  /* background: #eeb313;*/
+  text-decoration: none;
+}
+
+.card-header:focus {
+  background: #eeb313;
+}
+
+.btn-link {
+  color: #2d3338 !important;
+}
+
+/*CSS for boxICons starts here*/
+
+.boxIcons {
+  min-height: 200px;
+  background: white;
+  color: #7f8386;
+}
+
+iframe {
+  padding-top: 0px;
+  height: 400;
+  width: 100%;
+  padding-bottom: auto;
+}
+
+.videoColumn {
+  min-height: 400px;
+  padding-bottom: 90px !important;
+}
+
+.box {
+  /* margin=topbarp:10px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    margin-left: -15px;*/
+  margin: 5px;
+  overflow: hidden;
+  position: relative;
+  background: #f5f5f5;
+  padding: 20px;
+}
+
+.fa-clock {
+  padding: 25px;
+  font-size: 40px;
+  color: #eeb313;
+}
+
+.fa-user-tie {
+  padding: 25px;
+  font-size: 40px;
+  color: #eeb313;
+}
+
+.fa-gift {
+  padding: 25px;
+  font-size: 40px;
+  color: #eeb313;
+}
+
+.fa-wallet {
+  padding: 25px;
+  font-size: 40px;
+  color: #eeb313;
+}
+
+.fa-star {
+  z-index: auto;
+  color: #eeb313;
+}
+
+.fa-heart {
+  z-index: auto;
+  color: #eeb313;
+}
+
+/*CSS for boxicons ends here*/
+
+/*CSS for about us company ends here*/
+
+.contactBanner {
+  margin-top: 150px !important;
+  min-height: 100px;
+  background: #f5f5f5;
+  color: #7f8386;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.contactBannerCol1 {
+  padding-top: 40px;
+  text-align: left;
+  color: #7f8386;
+}
+
+@media (max-width: 700px) {
+  .contactBannerCol1 {
+    padding-top: 20px;
+    color: #7f8386;
+  }
+}
+
+.contactBannerCol2 {
+  padding-top: 33px;
+  text-align: left;
+  color: #7f8386;
+}
+
+@media (max-width: 700px) {
+  .contactBannerCol2 {
+    padding-top: 20px;
+    color: #7f8386;
+  }
+}
+
+.breadcrumb {
+  background: #f5f5f5 !important;
+}
+
+.breadcrumb-item a {
+  color: #7f8386 !important;
+}
+
+.contactForm {
+  font-family: 'Source Sans Pro', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  font-size: 16px;
+  padding-top: 80px;
+  min-height: 500px;
+  background: #ffffff;
+  color: #7f8386;
+  padding-bottom: 100px;
+}
+
+@media (max-width: 700px) {
+  .fdhlContact {
+    padding-top: 50px;
+  }
+}
+
+/*Responsive Maps Area Starts from here*/
+
+.mapsArea {
+  height: 500px;
+  background: snow;
+  color: black;
+  margin-bottom: 2px;
+  margin-top: 2px;
+}
+
+@media (max-width: 700px) {
+  .mapsArea {
+    min-height: auto;
+    height: auto;
+  }
+}
+
+.map-responsive {
+  overflow: hidden;
+  padding-bottom: 56.25%;
+  position: relative;
+  height: 0;
+}
+
+.map-responsive iframe {
+  left: 0;
+  top: 0;
+  height: 500px;
+  width: 100%;
+  position: absolute;
+}
+
+/*Responsive Maps Area Ends here*/
+
+/*CSS for new list starts here*/
+
+.list {
+  min-height: 600px;
+}
+
+/*CSS news & events ncol1 starts here*/
+
+.listCol1 {
+  padding: 40px !important;
+  /*padding-bottom :20px;
+	padding-top: 40px;*/
+  /*background-color :#bfbfbf; */
+  min-height: 20px;
+  color: #404040;
+}
+
+.card-body {
+  height: 200px;
+}
+
+@media (max-width: 700px) {
+  .listCol1 {
+    height: auto;
+  }
+}
+
+/*CSS for news and events ncol1 ends here*/
+
+/*CSS for news list end here*/
+
+/*CSS for news and events ncol1 ends here*/
+
+/*CSS for Projects list ends here*/
+
+.projectDetails {
+  min-height: 650px !important;
+}
+
+.projectDetailsCol1 {
+  padding-top: 30px !important;
+}
+
+.projectDetailsCol1 img {
+  height: auto !important;
+  width: 100% !important;
+}
+
+.btn1 {
+  padding-top: 20px !important;
+}
+
+.projectDetailsCol2 {
+  padding-top: 30px !important;
+}
+
+.projectDetailsCol2 h2 {
+  font-family: 'Source Sans Pro', Arial, sans-serif !important;
+  font-weight: 400 !important;
+  line-height: 1.7 !important;
+}
+
+.projectDetailsCol2 p {
+  font-family: 'Source Sans Pro', Arial, sans-serif !important;
+  font-weight: 400 !important;
+  line-height: 1.7 !important;
+  color: #999999 !important;
+  font-size: 16px !important;
+}
+
+/*CSS for project details start here*/
+
+/*CSS for new list starts here*/
+
+.news-list {
+  min-height: 900px !important;
+}
+
+/*CSS news & events ncol1 starts here*/
+
+.newsCol1 {
+  padding-top: 40px;
+  /*padding-bottom :20px;
+	padding-top: 40px;*/
+  padding-bottom: 40px;
+  /*background-color :#bfbfbf; */
+  min-height: 20px;
+  color: #404040;
+}
+
+@media (max-width: 700px) {
+  .newsCol1 {
+    padding-left: 35px;
+  }
+}
+
+/*CSS for news and events ncol1 ends here*/
+
+/*importing pages*/
+
+.our-smart-group {
+  min-height: auto !important;
+  background: #f7fafb !important;
+  background-color: #f7fafb !important;
+  color: #404040 !important;
+  margin: 0px;
+}
+
+@media only screen and (max-width: 800px) {
+  .our-smart-group {
+    height: auto !important;
+  }
+}
+
+.group-defination {
+  padding-top: 20px;
+  padding-bottom: auto;
+  font-size: 21px;
+  background: #f7fafb !important;
+  background-color: #f7fafb !important;
+  min-height: 10px;
+  color: #404040;
+  font-weight: bold;
+}
+
+.group-company {
+  padding-top: 30px;
+  display: block;
+  padding-bottom: 50px;
+}
+
+.group-company img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  height: 400px !important;
+  width: 150px;
+}
+
+.navbar-laravel {
+  background-color: #fff;
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+
+.certificate-img{
+    height: 190px;
+  width: auto;
+  object-fit: contain;
+}
+
+.card-body-certificates{
+   height: 115px;
+   text-align: center;
+}
+
+
+
