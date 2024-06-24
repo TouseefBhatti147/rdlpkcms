@@ -51,7 +51,7 @@ function deleteUser(userId) {
             success: function(response) {
                 // Reload page or update UI as needed
                 alert(response.message);
-                location.reload(); // Example: Reload page after deletion
+                location.reload(); // eExample: Reload page after deletion
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
