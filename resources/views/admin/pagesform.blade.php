@@ -2,174 +2,205 @@
 @section('content')
 <!-- BEGIN PAGE BREADCRUMB -->
 <ul class="page-breadcrumb breadcrumb">
-<li><a href="{{url('/admin/home')}}">Home</a><i class="fa fa-circle"></i></li>
-<li><a href="{{url('/admin/pages')}}">Manage Pages</a> <i class="fa fa-circle"></i></li>
-<li><a href="#">{{isset($PageEdit)?'Edit':'New'}} Page</a></li> </ul>
+    <li><a href="{{url('/admin/home')}}">Home</a><i class="fa fa-circle"></i></li>
+    <li><a href="{{url('/admin/pages')}}">Manage Pages</a> <i class="fa fa-circle"></i></li>
+    <li><a href="#">{{isset($PageEdit)?'Edit':'New'}} Page</a></li>
+</ul>
 <!-- END PAGE BREADCRUMB -->
-                   <!-- BEGIN PAGE BASE CONTENT -->
-                   <!-- BEGIN SAMPLE FORM PORTLET-->
-                           <div class="portlet light bordered">
-                               <div class="portlet-title">
-                                   <div class="caption">
-                                       <i class="icon-settings font-dark"></i>
-                               <span class="caption-subject font-dark sbold uppercase">{{isset($PageEdit)?'Edit':'New'}} Page</span>
-                                   </div>
-                                    <div style="float: right;" class="caption">
-                                    <a  class="btn btn-default" href="{{url('/admin/pages')}}">
-                               <span class="glyphicon glyphicon-arrow-left"></span> &nbsp;Back
-                                </a>
-                                   </div>
-                               </div>
-                               <div class="portlet-body form">
-                                 <div class="page-title">
-                               @include('inc.messages')
-                                    </div>
-                               @if(isset($PageEdit))
-                               {!! Form::model($PageEdit,['method'=>'put','files'=>true,'class'=>'form-horizontal']) !!}
-                                 @else
-                               {!! Form::open(['action','pagesController@create','class'=>'form-horizontal','role'=>'form','enctype'=>'multipart/form-data','files'=>true]) !!}
-                               @endif
-                                       <div class="form-body">
+<!-- BEGIN PAGE BASE CONTENT -->
+<!-- BEGIN SAMPLE FORM PORTLET-->
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-settings font-dark"></i>
+            <span class="caption-subject font-dark sbold uppercase">{{ isset($PageEdit) ? 'Edit' : 'New' }} Page</span>
+        </div>
+        <div style="float: right;" class="caption">
+            <a class="btn btn-default" href="{{ url('/admin/pages') }}">
+                <span class="glyphicon glyphicon-arrow-left"></span> &nbsp;Back
+            </a>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <div class="page-title">
+            @include('inc.messages')
+        </div>
 
-                                       <div class="form-group form-md-line-input">
-                                               {!! Form::label("title","Title",["class"=>"control-label col-md-2"]) !!}
-                                                <div class="col-md-6">
-                                                      {!! Form::text("title",isset($PageEdit)?$PageEdit->title:null,["class"=>"form-control".($errors->has('title')?" is-invalid":"")
-                                                                                              ,"autofocus"
-                                                                                              ,"placeholder"=>"Enter Title here"
-                                                                                              ,"required"]) !!}
+        @if(isset($PageEdit))
+        <form method="POST" action="{{ route('pages.update', $PageEdit->id) }}" class="form-horizontal"
+            enctype="multipart/form-data">
+            @method('PUT')
+            @else
+            <form method="POST" action="{{ route('pages.store') }}" class="form-horizontal"
+                enctype="multipart/form-data">
+                @endif
+                @csrf
 
-                                               </div>
-
-                                              </div>
-                                               <div class="form-group form-md-line-input">
-                                                 {!! Form::label("alias","Alias (URL)",["class"=>"control-label col-md-2"]) !!}
-                                                <div class="col-md-6">
-                                                         {!! Form::text("alias",isset($PageEdit)?$PageEdit->alias:null,["class"=>"form-control".($errors->has('alias')?" is-invalid":"")
-                                                                                              ,"autofocus"
-                                                                                              ,"placeholder"=>"Enter Alias here"
-                                                                                              ,"required",
-                                                                                              isset($PageEdit)?"readonly":null]) !!}
-                                                </div>
-                                               </div>
-
-
-
-                                 
-                                             
-
-
-                                           {{--   <div class="form-group">
-                                               {!! Form::label("status","Select Status",["class"=>"control-label col-md-2"]) !!}
-                                              <div class="col-md-6">
-                                                      {{Form::select("status",[
-                                                                '1' => 'Enable',
-                                                                '0' => 'Disable' ]
-                                                     ,(isset($ProjectEdit)?$ProjectEdit->status:null) ,
-                                                       [
-                                                    "class" => "bs-select form-control",
-                                                     "placeholder" => "Select Status"
-                                                           ])
-                                                      }}
-                                                       </div> 
-                                                  </div>   --}}
-
-
-                                             <div class="form-group form-md-line-input">
-                                               {!! Form::label("website","Website",["class"=>"control-label col-md-2"]) !!}
-                                                <div class="col-md-6">
-                                               {!! Form::text("website",isset($PageEdit)?$PageEdit->website:null,["class"=>"form-control".($errors->has('website')?" is-invalid":"")
-                                                                                              ,"autofocus"
-                                                                                              ,"placeholder"=>"Enter Website here"
-                                                                                              ,"required"]) !!}
-
-                                                </div>
-                                             </div>
-
-                                             <div class="form-group">
-                                              {!! Form::label("status","Status",["class"=>"control-label  col-md-3 col-lg-2"]) !!}
-                                              <div class="col-md-6">
-                                               <div class="input-inline input-large">
-                                                <div class="mt-radio-inline">
-                                                 <label class="mt-radio">{!! Form::radio('status', 1 ,isset($ProjectEdit)?$ProjectEdit->status==1?true:false : true ) !!}
-                                                  Enable <span></span></label>
-                                                 <label class="mt-radio">{!! Form::radio('status', 0, isset($ProjectEdit)?$ProjectEdit->status==0?true:false : false) !!}
-                                                  Disable <span></span></label>
-                                               </div>
-                                             </div>
-                                            </div>
-                                            </div>
-
-
-                                            <div class="form-group">
-                                             {!! Form::label("description","Enter Description",["class"=>"control-label col-md-2"]) !!}
-                                               <div class="col-md-9">
-                                                  {!! Form::textarea('description', null, ['id' => 'description', 'rows' => 4, 'cols' => 54, 'style' => 'resize:none']) !!}
-                                              <script>
-                                                 CKEDITOR.replace('description');
-                                                  </script>
-                                             </div>
-                                            </div>
-
-                                       <!-- Code for image upload is placed here -->
-                                        <div class="form-group ">
-                                          {!! Form::label("image","Select image",["class"=>"control-label col-md-2", "for"=>"exampleInputFile"]) !!}
-                                         <div class="col-md-9">
-
-                                           <img id="preview"
-                                            src="{{asset((isset($PageEdit) && $PageEdit->image!='')?'uploads/'.$PageEdit->image:'images/noimage.jpg')}}"
-                                            height="200px" width="200px"/>
-                                            {!! Form::file("image",["class"=>"form-control","style"=>"display:none"]) !!}
-                                            <br/>
-                                            <a href="javascript:changeProfile();">{{isset($PageEdit)?'Change':'Add'}}</a> |
-                                            <a style="color: red" href="javascript:removeImage()">Remove</a>
-                                            {{ Form::hidden('remove',0 ) }}
-
-                                             </div>
-                                           </div>
-                                           <div class="form-actions">
-                                         <div class="caption">
-
-                                           <h4>
-                                             <strong class="caption-subject font-dark sbold uppercase">SEO</strong>
-                                           </h4>
-                                         </div>
-                                         <br>
-                                         <div class="form-group form-md-line-input">
-                                                {!! Form::label("meta_title","Meta Title",["class"=>"control-label col-md-2"]) !!}
-                                                  <div class="col-md-6">
-                                                         {!! Form::text("meta_title",isset($PageEdit)?$PageEdit->meta_title:null,["class"=>"form-control".($errors->has('title')?" is-invalid":"")
-                                                         ,"autofocus"
-                                                         ,"placeholder"=>"Enter meta Title here"
-                                                         ]) !!}
-                                                  </div>
-                                               </div>
-                                               <div class="form-group form-md-line-input">
-                                               {!! Form::label("meta_description","Meta Description",["class"=>"control-label col-md-2"]) !!}
-                                                   <div class="col-md-6">
-                                                 {!! Form::textarea('meta_description', isset($PageEdit)?$PageEdit->meta_description:null, [ 'class'=>'form-control','rows' => 2, 'cols' => 88, 'style' => 'resize:none','placeholder'=>'Enter Meta Description']) !!}
-                                                 </div>
-                                                </div>
-                                                <div class="form-group form-md-line-input">
-                                                {!! Form::label("meta_keywords","Meta Keywords",["class"=>"control-label col-md-2"]) !!}
-                                                    <div class="col-md-6">
-                                                  {!! Form::textarea('meta_keywords', isset($PageEdit)?$PageEdit->meta_keywords:null, [ 'class'=>'form-control','rows' => 2, 'cols' => 88, 'style' => 'resize:none','placeholder'=>'Enter Meta Keywords']) !!}
-                                                  </div>
-                                                 </div>
-                                         </div>
-                                       <div class="form-actions">
-                                           <div class="row">
-                                               <div class="col-md-offset-3 col-md-9">
-                                                   {{ Form::button('<span class="glyphicon glyphicon-save">&nbsp;Save</span>', ['type' => 'submit', 'name'=>'btnSave', 'class' =>'btn red btn-sm'] )  }}
-                                                 <button type="button" onclick="window.location='{{url('/admin/pages')}}'" class="btn default btn-sm">Cancel</button>
-                                               </div>
-                                           </div>
-                                       </div>
-                               </div>
-                            {{ Form::close() }}
-                         </div>
+                <div class="form-body">
+                    <div class="form-group form-md-line-input">
+                        <label for="title" class="control-label col-md-2">Title</label>
+                        <div class="col-md-6">
+                            <input id="title" type="text" class="form-control @error('title') is-invalid @enderror"
+                                name="title" value="{{ isset($PageEdit) ? $PageEdit->title : old('title') }}" autofocus
+                                placeholder="Enter Title here" required>
+                            @error('title')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
-                           <!-- END SAMPLE FORM PORTLET-->
+                    </div>
+
+                    <div class="form-group form-md-line-input">
+                        <label for="alias" class="control-label col-md-2">Alias (URL)</label>
+                        <div class="col-md-6">
+                            <input id="alias" type="text" class="form-control @error('alias') is-invalid @enderror"
+                                name="alias" value="{{ isset($PageEdit) ? $PageEdit->alias : old('alias') }}" autofocus
+                                placeholder="Enter Alias here" required {{ isset($PageEdit) ? 'readonly' : '' }}>
+                            @error('alias')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Status</label>
+                        <div class="col-md-6">
+                            <div class="mt-radio-inline">
+                                <label class="mt-radio">
+                                    <input type="radio" name="status" value="1"
+                                        {{ isset($PageEdit) && $PageEdit->status == 1 ? 'checked' : '' }}>
+                                    Enable <span></span>
+                                </label>
+                                <label class="mt-radio">
+                                    <input type="radio" name="status" value="0"
+                                        {{ isset($PageEdit) && $PageEdit->status == 0 ? 'checked' : '' }}>
+                                    Disable <span></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-md-line-input">
+                        <label for="website" class="control-label col-md-2">Website</label>
+                        <div class="col-md-6">
+                            <input id="website" type="text" class="form-control @error('website') is-invalid @enderror"
+                                name="website" value="{{ isset($PageEdit) ? $PageEdit->website : old('website') }}"
+                                autofocus placeholder="Enter Website here" required>
+                            @error('website')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description" class="control-label col-md-2">Description</label>
+                        <div class="col-md-9">
+                            <textarea id="description" class="form-control @error('description') is-invalid @enderror"
+                                name="description" rows="4" cols="54"
+                                style="resize: none">{{ isset($PageEdit) ? $PageEdit->description : old('description') }}</textarea>
+                            <script>
+                            CKEDITOR.replace('description');
+                            </script>
+                            @error('description')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Image upload section -->
+                    <div class="form-group">
+                        <label for="image" class="control-label col-md-2">Select Image</label>
+                        <div class="col-md-9">
+                            <img id="preview"
+                                src="{{ asset((isset($PageEdit) && $PageEdit->image != '') ? 'uploads/'.$PageEdit->image : 'images/noimage.jpg') }}"
+                                height="200px" width="200px" />
+                            <input id="image" type="file" class="form-control" name="image" style="display: none;">
+                            <br />
+                            <a href="javascript:changeProfile();">{{ isset($PageEdit) ? 'Change' : 'Add' }}</a> |
+                            <a style="color: red" href="javascript:removeImage()">Remove</a>
+                            <input type="hidden" name="remove" value="0">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="caption">
+                            <h4>
+                                <strong class="caption-subject font-dark sbold uppercase">SEO</strong>
+                            </h4>
+                        </div>
+                        <br>
+                        <div class="form-group form-md-line-input">
+                            <label for="meta_title" class="control-label col-md-2">Meta Title</label>
+                            <div class="col-md-6">
+                                <input id="meta_title" type="text"
+                                    class="form-control @error('meta_title') is-invalid @enderror" name="meta_title"
+                                    value="{{ isset($PageEdit) ? $PageEdit->meta_title : old('meta_title') }}" autofocus
+                                    placeholder="Enter Meta Title here">
+                                @error('meta_title')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group form-md-line-input">
+                            <label for="meta_description" class="control-label col-md-2">Meta Description</label>
+                            <div class="col-md-6">
+                                <textarea id="meta_description"
+                                    class="form-control @error('meta_description') is-invalid @enderror"
+                                    name="meta_description" rows="2" cols="88" style="resize: none"
+                                    placeholder="Enter Meta Description">{{ isset($PageEdit) ? $PageEdit->meta_description : old('meta_description') }}</textarea>
+                                @error('meta_description')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group form-md-line-input">
+                            <label for="meta_keywords" class="control-label col-md-2">Meta Keywords</label>
+                            <div class="col-md-6">
+                                <textarea id="meta_keywords"
+                                    class="form-control @error('meta_keywords') is-invalid @enderror"
+                                    name="meta_keywords" rows="2" cols="88" style="resize: none"
+                                    placeholder="Enter Meta Keywords">{{ isset($PageEdit) ? $PageEdit->meta_keywords : old('meta_keywords') }}</textarea>
+                                @error('meta_keywords')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn red btn-sm">
+                                    <span class="glyphicon glyphicon-save"></span> Save
+                                </button>
+                                <button type="button" onclick="window.location='{{ url('/admin/pages') }}'"
+                                    class="btn default btn-sm">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+    </div>
+</div>
+
+<!-- END SAMPLE FORM PORTLET-->
 @endsection
 @section('scripts')
 @if(isset($PageEdit))
@@ -179,15 +210,15 @@ const a = 'àáäâãåăæçèéëêǵḧìíïîḿńǹñòóöôœøṕŕßś
 const b = 'aaaaaaaaceeeeghiiiimnnnooooooprssstuuuuuwxyz------'
 const p = new RegExp(a.split('').join('|'), 'g')
 $('#title').keyup(function() {
-  $('#alias').val(this.value
-  .toLowerCase()
-  .replace(/\s+/g, '-')// Replace spaces with -
-  .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
-  .replace(/&/g, '-and-') // Replace & with 'and'
-  .replace(/[^\w\-]+/g, '') // Remove all non-word characters
-  .replace(/\-\-+/g, '-') // Replace multiple - with single -
-  .replace(/^-+/, '') // Trim - from start of text
-  );
+    $('#alias').val(this.value
+        .toLowerCase()
+        .replace(/\s+/g, '-') // Replace spaces with -
+        .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+        .replace(/&/g, '-and-') // Replace & with 'and'
+        .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+        .replace(/\-\-+/g, '-') // Replace multiple - with single -
+        .replace(/^-+/, '') // Trim - from start of text
+    );
 });
 </script>
 @endif

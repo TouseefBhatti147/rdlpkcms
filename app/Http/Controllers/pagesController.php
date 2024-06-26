@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Pages;
+use App\Models\Pages;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Yajra\Datatables\Facades\Datatables;
@@ -114,7 +113,7 @@ class pagesController extends Controller
               return '<label class="badge badge-danger">Disabled</label>';  } else {
                      return '<label class="badge badge-success">Enabaled</label>';    }
         })
-        ->addColumn('image', function ($data) { 
+        ->addColumn('image', function ($data) {
           if($data->image!==''){
           $url= asset('uploads/'.$data->image);
           return '<img src="'.$url.'" class="img-rounded" align="center" style="object-fit: cover;" height="70px" width="70px"  />';}else{
@@ -123,11 +122,11 @@ class pagesController extends Controller
           }
         })
       ->rawColumns(['action','status','image'])
-      ->addIndexColumn() 
-      ->make(true); 
+      ->addIndexColumn()
+      ->make(true);
     }
 
-   
+
 
     /**
      * Update the specified resource in storage.
@@ -188,7 +187,7 @@ class pagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-  
+
     public function delete($id)
     {
       //  User must be deleted softly i.e 0,1 i.e either it is one or zero
@@ -217,7 +216,7 @@ class pagesController extends Controller
             'message' => $message]);
           }
     }
-  
+
      /*   public function delete($id)
      {
        $Page = Pages::find($id);

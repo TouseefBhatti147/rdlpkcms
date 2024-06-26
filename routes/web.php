@@ -79,6 +79,8 @@ Route::group(['prefix' => 'admin/files'], function () {
     /* Route::get('/search','filesController@search')->name('files.search'); */
     Route::get('/v1/files', [filesController::class, 'getAllFiles'])->name('api.files.index');
     Route::match(['get', 'post'], 'create', [filesController::class, 'create']);
+    Route::post('post', [filesController::class, 'store'])->name('files.store');
+
     Route::match(['get', 'put'], 'update/{id}', [filesController::class, 'update']);
     Route::delete('delete/{id}', [filesController::class, 'delete']);
 });
@@ -101,6 +103,8 @@ Route::group(['prefix' => 'admin/pages'], function () {
     /* Route::get('/search','pagesController@search')->name('pages.search'); */
     Route::get('/v1/pages', [pagesController::class, 'getAllPages'])->name('api.pages.index');
     Route::match(['get', 'post'], 'create', [pagesController::class, 'create']);
+    Route::post('post', [PagesController::class, 'store'])->name('pages.store');
+
     Route::match(['get', 'put'], 'update/{id}', [pagesController::class, 'update']);
     Route::delete('delete/{id}', [pagesController::class, 'delete']);
 });
@@ -114,6 +118,8 @@ Route::group(['prefix' => 'admin/projects'], function () {
     Route::get('/v1/projects', [projectsController::class, 'getAllProjects'])->name('api.projects.index');
     Route::match(['get', 'post'], 'create', [projectsController::class, 'create']);
     Route::match(['get', 'put'], 'update/{id}', [projectsController::class, 'update']);
+    Route::post('post', [projectsController::class, 'store'])->name('projects.store');
+
     Route::delete('delete/{id}', [projectsController::class, 'delete']);
 });
 
@@ -124,6 +130,8 @@ Route::group(['prefix' => 'admin/news'], function () {
     Route::match(['get', 'post'], 'create', [newsController::class, 'create']);
     Route::match(['get', 'put'], 'update/{id}', [newsController::class, 'update']);
     Route::get('/v1/news', [newsController::class, 'getAllNews'])->name('api.news.index');
+    Route::post('post', [newsController::class, 'store'])->name('news.store');
+
     Route::delete('delete/{id}', [newsController::class, 'delete']);
 });
 
@@ -182,6 +190,7 @@ Route::group(['prefix' => 'admin/users'], function () {
     Route::get('/v1/users', [usersController::class, 'getAllUsers'])->name('api.users.index');
     Route::match(['get', 'post'], 'create', [usersController::class, 'create']);
     Route::match(['get', 'put'], 'update/{id}', [usersController::class, 'update']);
+    Route::post('post', [UsersController::class, 'store'])->name('users.store'); // Route for creating a new user
     Route::delete('delete/{id}', [usersController::class, 'delete']);
 });
 

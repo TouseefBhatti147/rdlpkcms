@@ -1,11 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Pages;
-use App\News;
-use App\Settings;
-use App\Offices;
+use App\Models\Events;
+use App\Models\Files;
+use App\Models\News;
+use App\Models\Offices;
+use App\Models\Pages;
+use App\Models\Projects;
+use App\Models\Settings;
+use App\Models\Videos;
+use App\Models\Widgets;
 use Carbon\Carbon;
 use Yajra\Datatables\Facades\Datatables;
 use Illuminate\Http\Request;
@@ -109,7 +113,7 @@ class newsController extends Controller
               return '<label class="badge badge-danger">Disabled</label>';  } else {
                      return '<label class="badge badge-success">Enabaled</label>';    }
         })
-        ->addColumn('image', function ($data) { 
+        ->addColumn('image', function ($data) {
           if($data->image!==''){
           $url= asset('uploads/'.$data->image);
           return '<img src="'.$url.'" class="img-rounded" align="center" style="object-fit: cover;" height="70px" width="70px"  />';}else{
@@ -118,8 +122,8 @@ class newsController extends Controller
           }
         })
       ->rawColumns(['action','status','image'])
-      ->addIndexColumn() 
-      ->make(true); 
+      ->addIndexColumn()
+      ->make(true);
 
     }
 
@@ -200,7 +204,7 @@ class newsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-  
+
     public function delete($id)
     {
       //  User must be deleted softly i.e 0,1 i.e either it is one or zero
@@ -229,8 +233,8 @@ class newsController extends Controller
             'message' => $message]);
           }
     }
-    
-  
+
+
      /*  public function delete($id)
      {
        $News = News::find($id);

@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Pages;
-use App\Projects;
-use App\Settings;
-use App\Offices;
+use App\Models\Pages;
+use App\Models\Projects;
+use App\Models\Settings;
+use App\Models\Offices;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Yajra\Datatables\Facades\Datatables;
@@ -124,7 +123,7 @@ class projectsController extends Controller
               return '<label class="badge badge-danger">Disabled</label>';  } else {
                      return '<label class="badge badge-success">Enabaled</label>';    }
         })
-        ->addColumn('image', function ($data) { 
+        ->addColumn('image', function ($data) {
           if($data->image!==''){
           $url= asset('uploads/'.$data->image);
           return '<img src="'.$url.'" class="img-rounded" align="center" style="object-fit: cover;" height="70px" width="70px"  />';}else{
@@ -133,11 +132,11 @@ class projectsController extends Controller
           }
         })
       ->rawColumns(['action','status','image'])
-      ->addIndexColumn() 
-      ->make(true); 
+      ->addIndexColumn()
+      ->make(true);
     }
 
-   
+
 
     /**
      * Update the specified resource in storage.
@@ -182,16 +181,16 @@ class projectsController extends Controller
                           $Project->meta_title = $request->meta_title;
                           $Project->meta_description = $request->meta_description;
                           $Project->meta_keywords = $request->meta_keywords;
-              
+
                           $Project->website = $request->website;
                           $Project->title = $request->title;
-                          
+
                           if(isset($request->broucher_link)){
                           $Project->broucher_link = $request->broucher_link;
                           }else{
                           $Project->broucher_link = '';
                           }
-                          
+
                           $Project->alias = $request->alias;
                           $Project->status = $request->status;
                           $Project->description = $request->description;
@@ -235,8 +234,8 @@ class projectsController extends Controller
             'message' => $message]);
           }
     }
-  
-  
+
+
      /*  public function delete($id)
      {
        $Project = Projects::find($id);

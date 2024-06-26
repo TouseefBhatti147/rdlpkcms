@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Files;
 
-use App\Files;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -77,9 +77,9 @@ class filesController extends Controller
                           $File->link = $newpath;
                    }else{return redirect()->back()->withErrors('The File may not be greater than 200MB.')->withInput();}
             }else{return redirect()->back()->withErrors('Please Select proper image upload format')->withInput();}
-        }elseif($request->file==null){      $File->file =''; $File->link = $request->link;   } 
+        }elseif($request->file==null){      $File->file =''; $File->link = $request->link;   }
         /*Code for file ends here*/
-        
+
         if ($request->hasFile('image')) {
             $dir = 'uploads/';
             $size = $request->file('image')->getSize();
@@ -97,7 +97,7 @@ class filesController extends Controller
                 //    $File->image ='';
         //}
         $File->title = $request->title;
-       
+
         if(isset($request->title_first_line)){
           $File->title_first_line = $request->title_first_line;
          }else{
@@ -111,7 +111,7 @@ class filesController extends Controller
           $File->title_second_line = '';
          }
 
-       
+
 
         $File->link_status = 0;
         $File->alias = $request->alias;
@@ -151,7 +151,7 @@ class filesController extends Controller
 
       $file_title = (!empty($request->file_title)) ? $request->file_title :  null;
       $file_category = (!empty($request->file_category)) ? $request->file_category :  null;
-     
+
       if ($file_title !== null) { $query->where('files.title', '=', $file_title);  }
       if ($file_category !== null) {
         $query->where('files.category', '=',$file_category);   }
@@ -168,7 +168,7 @@ class filesController extends Controller
               return '<label class="badge badge-danger">Disabled</label>';  } else {
                      return '<label class="badge badge-success">Enabaled</label>';    }
         })
-        ->addColumn('file', function ($data) { 
+        ->addColumn('file', function ($data) {
           if($data->image!==''){
             $allowExt1  = array('pdf');
             $allowExt2  = array('jpeg','jpg','png');
@@ -185,22 +185,22 @@ class filesController extends Controller
               return '<div class="image-diemensions"><img src="'.$url.'" height="150px" width="300px" /></div>';
             }
           }
-        }) 
+        })
       ->rawColumns(['action','status','file'])
-      ->addIndexColumn() 
-      ->make(true); 
+      ->addIndexColumn()
+      ->make(true);
     }
 
     /*
-        
+
       // $url= asset('uploads/'.$data->image);
-     
-        
-        
-         
+
+
+
+
           }else{
-          
-          } 
+
+          }
     */
     /**
      * Update the specified resource in storage.

@@ -1,206 +1,198 @@
 @extends('layouts.admin')
 @section('content')
 <!-- BEGIN PAGE BREADCRUMB -->
-  <ul class="page-breadcrumb breadcrumb">
-        <li>
-            <a href="{{url('/admin/home')}}">Home</a>
-            <i class="fa fa-circle"></i>
-      </li>
-  <li>
-            <a href="{{url('/admin/news')}}">Manage News</a>
-            <i class="fa fa-circle"></i>
+<ul class="page-breadcrumb breadcrumb">
+    <li>
+        <a href="{{ url('/admin/home') }}">Home</a>
+        <i class="fa fa-circle"></i>
     </li>
     <li>
-            <a href="#">{{isset($NewsEdit)?'Edit':'New'}} News</a>
-  </li>
-  </ul>
-              <!-- END PAGE BREADCRUMB -->
-              <!-- BEGIN PAGE BASE CONTENT -->
-                     <div class="portlet light bordered">
-                          <div class="portlet-title">
-                              <div class="caption">
-                                  <i class="icon-settings font-dark"></i>
-                                  <span class="caption-subject font-dark sbold uppercase">{{isset($NewsEdit)?'Edit':'New'}} News</span>
-                              </div>
-                               <div style="float: right;" class="caption">
-                               <a  class="btn btn-default" href="{{url('/admin/news')}}">
-                          <span class="glyphicon glyphicon-arrow-left"></span> &nbsp;Back
-                           </a>
-                              </div>
-                          </div>
-                          <div class="portlet-body form">
-                                 <div class="page-title">
-                                    @include('inc.messages')
-                                     </div>
-                                   @if(isset($NewsEdit))
-                                   {!! Form::model($NewsEdit,['method'=>'put','files'=>true,'class'=>'form-horizontal']) !!}
-                                   @else
-                                   {!! Form::open(['action','newsController@create','class'=>'form-horizontal','role'=>'form','enctype'=>'multipart/form-data','files'=>true]) !!}
-                                   @endif
-
-                                  <div class="form-body">
-                                   <div class="form-group form-md-line-input">
-                                          {!! Form::label("title","Title",["class"=>"control-label col-md-2"]) !!}
-                                            <div class="col-md-6">
-                                                   {!! Form::text("title",isset($NewsEdit)?$NewsEdit->title:null,["class"=>"form-control".($errors->has('title')?" is-invalid":"")
-                                                   ,"autofocus"
-                                                   ,"placeholder"=>"Enter Title here"
-                                                   ,"required"]) !!}
-                                            </div>
-
-                                          </div>
-
-
-                                          <div class="form-group form-md-line-input">
-                                            {!! Form::label("alias","Alias (URL)",["class"=>"control-label col-md-2"]) !!}
-                                              <div class="col-md-6">
-                                               {!! Form::text("alias",isset($NewsEdit)?$NewsEdit->alias:null,["class"=>"form-control".($errors->has('alias')?" is-invalid":"")
-                                                       ,"autofocus"
-                                                       ,"placeholder"=>"Enter Alias here"
-                                                       ,"required",
-                                                       isset($NewsEdit)?"readonly":null]) !!}
-
-                                              </div>
-                                          </div>
-
-                                   {{--     <div class="form-group">
-                                         {!! Form::label("link","Enter Link",["class"=>"control-label col-md-2"]) !!}
-                                          <div class="col-md-9">
-                                              {!! Form::text("link",isset($NewsEdit)?$NewsEdit->link:null,["class"=>"form-control input-inline input-medium".($errors->has('link')?" is-invalid":"")
-                                                   ,"autofocus"
-                                                   ,"placeholder"=>"Enter Link here"
-                                                   ,"required"]) !!}
-
-                                          </div>
-                                      </div> --}}
-
-                                 
-                                 
-                                      <div class="form-group">
-                                        {!! Form::label("status","Status",["class"=>"control-label  col-md-3 col-lg-2"]) !!}
-                                        <div class="col-md-6">
-                                         <div class="input-inline input-large">
-                                          <div class="mt-radio-inline">
-                                           <label class="mt-radio">{!! Form::radio('status', 1 ,isset($NewsEdit)?$NewsEdit->status==1?true:false : true ) !!}
-                                            Enable <span></span></label>
-                                           <label class="mt-radio">{!! Form::radio('status', 0, isset($NewsEdit)?$NewsEdit->status==0?true:false : false) !!}
-                                            Disable <span></span></label>
-                                         </div>
-                                       </div>
-                                      </div>
-                                      </div>
-                                 
-                                       <div class="form-group form-md-line-input">
-                                      {!! Form::label("short_description","Short Description",["class"=>"control-label col-md-2"]) !!}
-                                          <div class="col-md-6">
-                                        {!! Form::textarea('short_description', isset($NewsEdit)?$NewsEdit->short_description:null, [ 'class'=>'form-control','rows' => 2, 'cols' => 88,  'maxlength'=>60, 'style' => 'resize:none','placeholder'=>'Enter Short Description']) !!}
-                                        </div>
-                                       </div>
-                                      {{-- 
-                                       <div class="form-group">
-                                              {!! Form::label("status","Select Status",["class"=>"control-label col-md-2"]) !!}
-                                              <div class="col-md-2">
-                                             {{Form::select("status",[
-                                                 '1' => 'Enable',
-                                                 '0' => 'Disable' ]
-                                                 ,(isset($NewsEdit)?$NewsEdit->status:null) ,
-                                                            [
-                                                               "class" => "bs-select form-control",
-                                                               "placeholder" => "Select Status"
-                                                            ])
-                                               }}
-                                             </div>
-                                       </div>  --}}
-
-
-                                      <div class="form-group">
-                                           {!! Form::label("description","Description",["class"=>"control-label col-md-2"]) !!}
-                                          <div class="col-md-9">
-
-                                         {!! Form::textarea('description', isset($NewsEdit)?$NewsEdit->description:null, ['id' => 'description', 'rows' => 2, 'cols' => 88, 'style' => 'resize:none']) !!}
-                                         <script>
-                                            CKEDITOR.replace('description');
-                                             </script>
-                                        </div>
-                                       </div>
-
-                                       <!-- Code for image upload is placed here -->
-                                        <div class="form-group ">
-                                          {!! Form::label("image","image",["class"=>"control-label col-md-2", "for"=>"exampleInputFile"]) !!}
-                                         <div class="col-md-9">
-
-                                           <img id="preview"
-                                            src="{{asset((isset($NewsEdit) && $NewsEdit->image!='')?'uploads/'.$NewsEdit->image:'images/noimage.jpg')}}"
-                                            height="200px" width="200px"/>
-                                            {!! Form::file("image",["class"=>"form-control","style"=>"display:none",]) !!}
-                                            <br/>
-                                            <a href="javascript:changeProfile();">{{isset($NewsEdit)?'Change':'Add'}}</a> |
-                                            <a style="color: red" href="javascript:removeImage()">Remove</a>
-                                                  {{ Form::hidden('remove',0 ) }}
-                                             </div>
-                                           </div>
-                                           <div class="form-actions">
-                                         <div class="caption">
-
-                                           <h4>
-                                             <strong class="caption-subject font-dark sbold uppercase">SEO</strong>
-                                           </h4>
-                                         </div>
-                                         <br>
-                                         <div class="form-group form-md-line-input">
-                                                {!! Form::label("meta_title","Meta Title",["class"=>"control-label col-md-2"]) !!}
-                                                  <div class="col-md-6">
-                                                         {!! Form::text("meta_title",isset($NewsEdit)?$NewsEdit->meta_title:null,["class"=>"form-control".($errors->has('title')?" is-invalid":"")
-                                                         ,"autofocus"
-                                                         ,"placeholder"=>"Enter meta Title here"
-                                                         ]) !!}
-                                                  </div>
-                                               </div>
-                                               <div class="form-group form-md-line-input">
-                                               {!! Form::label("meta_title","Meta Description",["class"=>"control-label col-md-2"]) !!}
-                                                   <div class="col-md-6">
-                                                 {!! Form::textarea('meta_description', isset($NewsEdit)?$NewsEdit->meta_description:null, [ 'class'=>'form-control','rows' => 2, 'cols' => 88, 'style' => 'resize:none','placeholder'=>'Enter Meta Description']) !!}
-                                                 </div>
-                                                </div>
-                                                <div class="form-group form-md-line-input">
-                                                {!! Form::label("meta_title","Meta Keywords",["class"=>"control-label col-md-2"]) !!}
-                                                    <div class="col-md-6">
-                                                  {!! Form::textarea('meta_keywords', isset($NewsEdit)?$NewsEdit->meta_keywords:null, [ 'class'=>'form-control','rows' => 2, 'cols' => 88, 'style' => 'resize:none','placeholder'=>'Enter Meta Keywords']) !!}
-                                                  </div>
-                                                 </div>
-                                         </div>
-                                  <div class="form-actions">
-                                      <div class="row">
-                                          <div class="col-md-offset-3 col-md-9">
-                                            {{ Form::button('<span class="glyphicon glyphicon-save">&nbsp;Save</span>', ['type' => 'submit', 'name'=>'btnSave', 'class' =>'btn red btn-sm'] )  }}
-                                                 <button type="button" onclick="window.location='{{url('/admin/news')}}'" class="btn default btn-sm">Cancel</button>
-                                          </div>
-                                      </div>
-                                  </div>
-                          </div>
-                       {{ Form::close() }}
+        <a href="{{ url('/admin/news') }}">Manage News</a>
+        <i class="fa fa-circle"></i>
+    </li>
+    <li>
+        <a href="#">{{ isset($NewsEdit) ? 'Edit' : 'New' }} News</a>
+    </li>
+</ul>
+<!-- END PAGE BREADCRUMB -->
+<!-- BEGIN PAGE BASE CONTENT -->
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-settings font-dark"></i>
+            <span class="caption-subject font-dark sbold uppercase">{{ isset($NewsEdit) ? 'Edit' : 'New' }} News</span>
+        </div>
+        <div style="float: right;" class="caption">
+            <a class="btn btn-default" href="{{ url('/admin/news') }}">
+                <span class="glyphicon glyphicon-arrow-left"></span> &nbsp;Back
+            </a>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <div class="page-title">
+            @include('inc.messages')
+        </div>
+        @if(isset($NewsEdit))
+        <form method="POST" action="{{ route('news.update', $NewsEdit->id) }}" enctype="multipart/form-data"
+            class="form-horizontal">
+            @method('PUT')
+            @else
+            <form method="POST" action="{{ route('news.store') }}" enctype="multipart/form-data"
+                class="form-horizontal">
+                @endif
+                @csrf
+                <div class="form-body">
+                    <div class="form-group form-md-line-input">
+                        <label for="title" class="control-label col-md-2">Title</label>
+                        <div class="col-md-6">
+                            <input type="text" name="title" id="title"
+                                class="form-control @error('title') is-invalid @enderror" placeholder="Enter Title here"
+                                value="{{ old('title', isset($NewsEdit) ? $NewsEdit->title : '') }}" required autofocus>
+                            @error('title')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
-                   </div>
+
+                    <div class="form-group form-md-line-input">
+                        <label for="alias" class="control-label col-md-2">Alias (URL)</label>
+                        <div class="col-md-6">
+                            <input type="text" name="alias" id="alias"
+                                class="form-control @error('alias') is-invalid @enderror" placeholder="Enter Alias here"
+                                value="{{ old('alias', isset($NewsEdit) ? $NewsEdit->alias : '') }}" required
+                                {{ isset($NewsEdit) ? 'readonly' : '' }} autofocus>
+                            @error('alias')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status" class="control-label col-md-3 col-lg-2">Status</label>
+                        <div class="col-md-6">
+                            <div class="input-inline input-large">
+                                <div class="mt-radio-inline">
+                                    <label class="mt-radio">
+                                        <input type="radio" name="status" value="1"
+                                            {{ old('status', isset($NewsEdit) ? $NewsEdit->status : 1) == 1 ? 'checked' : '' }}>
+                                        Enable <span></span>
+                                    </label>
+                                    <label class="mt-radio">
+                                        <input type="radio" name="status" value="0"
+                                            {{ old('status', isset($NewsEdit) ? $NewsEdit->status : 1) == 0 ? 'checked' : '' }}>
+                                        Disable <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-md-line-input">
+                        <label for="short_description" class="control-label col-md-2">Short Description</label>
+                        <div class="col-md-6">
+                            <textarea name="short_description" id="short_description" class="form-control" rows="2"
+                                cols="88" maxlength="60" style="resize:none"
+                                placeholder="Enter Short Description">{{ old('short_description', isset($NewsEdit) ? $NewsEdit->short_description : '') }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description" class="control-label col-md-2">Description</label>
+                        <div class="col-md-9">
+                            <textarea name="description" id="description" class="form-control" rows="2" cols="88"
+                                style="resize:none">{{ old('description', isset($NewsEdit) ? $NewsEdit->description : '') }}</textarea>
+                            <script>
+                            CKEDITOR.replace('description');
+                            </script>
+                        </div>
+                    </div>
+
+                    <!-- Code for image upload is placed here -->
+                    <div class="form-group">
+                        <label for="image" class="control-label col-md-2">Image</label>
+                        <div class="col-md-9">
+                            <img id="preview"
+                                src="{{ asset(isset($NewsEdit) && $NewsEdit->image != '' ? 'uploads/' . $NewsEdit->image : 'images/noimage.jpg') }}"
+                                height="200px" width="200px" />
+                            <input type="file" name="image" id="image" class="form-control" style="display:none">
+                            <br />
+                            <a href="javascript:changeProfile();">{{ isset($NewsEdit) ? 'Change' : 'Add' }}</a> |
+                            <a style="color: red" href="javascript:removeImage()">Remove</a>
+                            <input type="hidden" name="remove" value="0">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="caption">
+                            <h4><strong class="caption-subject font-dark sbold uppercase">SEO</strong></h4>
+                        </div>
+                        <br>
+                        <div class="form-group form-md-line-input">
+                            <label for="meta_title" class="control-label col-md-2">Meta Title</label>
+                            <div class="col-md-6">
+                                <input type="text" name="meta_title" id="meta_title"
+                                    class="form-control @error('meta_title') is-invalid @enderror"
+                                    placeholder="Enter Meta Title here"
+                                    value="{{ old('meta_title', isset($NewsEdit) ? $NewsEdit->meta_title : '') }}"
+                                    autofocus>
+                                @error('meta_title')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group form-md-line-input">
+                            <label for="meta_description" class="control-label col-md-2">Meta Description</label>
+                            <div class="col-md-6">
+                                <textarea name="meta_description" id="meta_description" class="form-control" rows="2"
+                                    cols="88" style="resize:none"
+                                    placeholder="Enter Meta Description">{{ old('meta_description', isset($NewsEdit) ? $NewsEdit->meta_description : '') }}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-md-line-input">
+                            <label for="meta_keywords" class="control-label col-md-2">Meta Keywords</label>
+                            <div class="col-md-6">
+                                <textarea name="meta_keywords" id="meta_keywords" class="form-control" rows="2"
+                                    cols="88" style="resize:none"
+                                    placeholder="Enter Meta Keywords">{{ old('meta_keywords', isset($NewsEdit) ? $NewsEdit->meta_keywords : '') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" name="btnSave" class="btn red btn-sm">
+                                    <span class="glyphicon glyphicon-save">&nbsp;Save</span>
+                                </button>
+                                <button type="button" onclick="window.location='{{ url('/admin/news') }}'"
+                                    class="btn default btn-sm">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+    </div>
+</div>
 @endsection
 
-
 @section('scripts')
-@if(isset($NewsEdit))
-@else
+@if(!isset($NewsEdit))
 <script>
 const a = 'àáäâãåăæçèéëêǵḧìíïîḿńǹñòóöôœøṕŕßśșțùúüûǘẃẍÿź·/_,:;'
 const b = 'aaaaaaaaceeeeghiiiimnnnooooooprssstuuuuuwxyz------'
 const p = new RegExp(a.split('').join('|'), 'g')
 $('#title').keyup(function() {
-  $('#alias').val(this.value
-  .toLowerCase()
-  .replace(/\s+/g, '-')// Replace spaces with -
-  .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
-  .replace(/&/g, '-and-') // Replace & with 'and'
-  .replace(/[^\w\-]+/g, '') // Remove all non-word characters
-  .replace(/\-\-+/g, '-') // Replace multiple - with single -
-  .replace(/^-+/, '') // Trim - from start of text
-  );
+    $('#alias').val(this.value
+        .toLowerCase()
+        .replace(/\s+/g, '-') // Replace spaces with -
+        .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+        .replace(/&/g, '-and-') // Replace & with 'and'
+        .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+        .replace(/\-\-+/g, '-') // Replace multiple - with single -
+        .replace(/^-+/, '') // Trim - from start of text
+    );
 });
 </script>
 @endif

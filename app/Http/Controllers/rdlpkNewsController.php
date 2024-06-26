@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Events;
-use App\Files;
-use App\News;
-use App\Offices;
-use App\Pages;
-use App\Projects;
-use App\Settings;
-use App\Videos;
-use App\Widgets;
+use App\Models\Events;
+use App\Models\Files;
+use App\Models\News;
+use App\Models\Offices;
+use App\Models\Pages;
+use App\Models\Projects;
+use App\Models\Settings;
+use App\Models\Videos;
+use App\Models\Widgets;
 use Illuminate\Http\Request;
 
 class fdhNewsController extends Controller
