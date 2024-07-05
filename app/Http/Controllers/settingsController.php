@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Settings;
+use App\Models\Settings;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Yajra\Datatables\Facades\Datatables;
@@ -61,11 +61,27 @@ class settingsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+  /*   public function search(Request $request)
+     {
+       if ($request->isMethod('get')){
+          $rules = [
+           'searchsetting' => 'required'
+       ];
+        $this->validate($request, $rules);
+        $search = $request->input('searchsetting');
+        $Settings = Settings::where('name', 'LIKE', '%'.$search.'%')->paginate(2);
+        return view('admin.settings', compact('Settings'))->with('success','Searched Successfully');
 
+    }else{
+     return redirect('/admin/settings')->with('error','Error!!');
+     }
+     }*/
 
      public function getAllSettings(){
       $data = Settings::query();
-
+      //echo '<pre>';
+      // print_r($data);
+      //exit;
       return Datatables::eloquent($data)
       ->addColumn('action', 'inc.settingsactions')
       ->addColumn('status', function($data) {

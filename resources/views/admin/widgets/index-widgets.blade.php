@@ -47,7 +47,7 @@
                                     style="width: 100px; height: 100px; object-fit: cover;">
                             </td>
                             <td>
-                                <a href="{{ url('admin/widgets/update/'.$widget->id) }}" class="btn blue btn-md">
+                                <a href="{{ url('admin/widgets/edit/'.$widget->id) }}" class="btn blue btn-md">
                                     <span class="glyphicon glyphicon-edit">&nbsp;Edit</span>
                                 </a>
                                 <button type="button" class="btn btn-danger btn-md" data-toggle="modal"
@@ -93,8 +93,10 @@
                 </div>
             </div> <!-- Column ends here -->
         </div><!-- Row ends here -->
-        @endsection
+    </div>
+</div>
+@endsection
 
-        @section('scripts')
-        <!-- You can add custom scripts here if needed -->
-        @endsection
+@section('scripts')
+<!-- You can add custom scripts here if needed -->
+@endsection

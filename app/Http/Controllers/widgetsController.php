@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Widgets;
+
+use App\Models\Widgets; // Add this line
+
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Yajra\Datatables\Facades\Datatables;
 use Illuminate\Support\Facades\File;
 
-class widgetsController extends Controller
+class WidgetsController extends Controller
 {
 
   public function __construct()
@@ -21,14 +23,56 @@ class widgetsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-       return view('admin.widgets');
-      /*$Widgets = Widgets::orderBy('created_at', 'desc')->paginate(10);
-            return view('admin.widgets', compact('Widgets')); */
-
+      $widgets = Widgets::paginate(10); // Adjust the number of items per page as needed
+      return view('admin.widgets.index-widgets', compact('widgets'));
 
     }
+
+    public function edit($id)
+    {
+        $widget = Widgets::findOrFail($id);
+        return view('admin.widgets.edit-widgets', compact('widget'));
+    }
+
+
+    public function store(Request $request)
+    {
+        $rules = [
+            'title' => 'required',
+            'link' => 'required',
+            'alias' => 'required',
+            'description' => 'required',
+            'status' => 'required'
+        ];
+        $this->validate($request, $rules);
+
+        $widget = new Widgets();
+        if ($request->hasFile('image')) {
+            $dir = 'uploads/';
+            $extension = strtolower($request->file('image')->getClientOriginalExtension());
+            $fileName = time() . '_' . rand(1000, 9999) . '.' . $extension;
+            $request->file('image')->move($dir, $fileName);
+            $widget->image = $fileName;
+        } else {
+            $widget->image = '';
+        }
+
+        $widget->meta_title = $request->meta_title;
+        $widget->meta_description = $request->meta_description;
+        $widget->meta_keywords = $request->meta_keywords;
+        $widget->title = $request->title;
+        $widget->link = $request->link;
+        $widget->alias = $request->alias;
+        $widget->description = $request->description;
+        $widget->status = $request->status;
+        $widget->save();
+
+        return redirect('/admin/widgets')->with('success', 'Widget has been added successfully');
+    }
+
+
 
 
     /**
@@ -38,45 +82,9 @@ class widgetsController extends Controller
      */
     public function create(Request $request)
     {
-      if ($request->isMethod('get')){
-               return view('admin.widgetsform');
-      }else {
-         $rules = [
-               'title' => 'required',
-                'link' => 'required',
-                 'alias' => 'required',
-                   'description' => 'required',
-                    'status' => 'required'
 
+      return view('admin.widgets.create-widgets');
 
-           ];
-        $this->validate($request, $rules);
-
-
-        $Widget = new Widgets();
-        if ($request->hasFile('image')) {
-
-            $dir = 'uploads/';
-            $extension = strtolower($request->file('image')->getClientOriginalExtension()); // get image extension
-            $FileName =  time().'_'.rand(1000,9999).'.'.$extension;
-            $request->file('image')->move($dir, $FileName);
-            $Widget->image = $FileName;
-        }elseif($request->image==null){
-              $Widget->image ='';
-        }
-
-        $Widget->meta_title = $request->meta_title;
-            $Widget->meta_description = $request->meta_description;
-            $Widget->meta_keywords = $request->meta_keywords;
-
-           $Widget->title = $request->title;
-              $Widget->link = $request->link;
-                 $Widget->alias = $request->alias;
-                     $Widget->description = $request->description;
-                           $Widget->status = $request->status;
-                                $Widget->save();
-        return redirect('/admin/widgets')->with('success','Widget has been Added Successfully');
-       }
     }
 
     /**
@@ -85,21 +93,7 @@ class widgetsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    /* public function search(Request $request)
-    {
-      if ($request->isMethod('get')){
-         $rules = [
-          'searchwidget' => 'required'
-      ];
-       $this->validate($request, $rules);
-       $search = $request->input('searchwidget');
-       $Widgets = Widgets::where('title', 'LIKE', '%'.$search.'%')->paginate(4);
-       return view('admin.widgets', compact('Widgets'))->with('success','Searched Successfully');
 
-     }else{
-      return redirect('/admin/widgets')->with('error','Error!!');
-      }
-    } */
 
      public function getAllWidgets(){
 
@@ -115,7 +109,7 @@ class widgetsController extends Controller
               return '<label class="badge badge-danger">Disabled</label>';  } else {
                      return '<label class="badge badge-success">Enabaled</label>';    }
         })
-        ->addColumn('image', function ($data) { 
+        ->addColumn('image', function ($data) {
           if($data->image!==''){
           $url= asset('uploads/'.$data->image);
           return '<img src="'.$url.'" class="img-rounded" align="center" style="object-fit: cover;" height="70px" width="70px"  />';}else{
@@ -124,107 +118,66 @@ class widgetsController extends Controller
           }
         })
       ->rawColumns(['action','status','image'])
-      ->addIndexColumn() 
-      ->make(true); 
+      ->addIndexColumn()
+      ->make(true);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-      if ($request->isMethod('get')){
-        return view('admin.widgetsform', ['WidgetEdit' => Widgets::find($id)]);
-      }
-       else {
-               //Here we are putting validatin
-                 $rules = [
-                   'title' => 'required',
-                    'link' => 'required',
-                    'alias' => 'required',
-                     'description' => 'required',
-                     'status'=>'required'
+        $widget = Widgets::findOrFail($id);
 
-                 ];
-                 $this->validate($request, $rules);
-                 $Widget = Widgets::find($id);
-                 if ($request->hasFile('image')) {
-                     $dir = 'uploads/';
-                     if ($Widget->image != '' && File::exists($dir . $Widget->image))
-                         File::delete($dir . $Widget->image);
-                     $extension = strtolower($request->file('image')->getClientOriginalExtension());
-                     $FileName =  time().'_'.rand(1000,9999).'.'.$extension;
-                     $request->file('image')->move($dir, $FileName);
-                     $Widget->image = $FileName;
-                 }elseif ($request->remove == 1 && File::exists('uploads/' . $Widget->image)) {
-                     File::delete('uploads/' . $Widget->image);
-                    $Widget->image = '';
-                }
-               }
-               $Widget->meta_title = $request->meta_title;
-               $Widget->meta_description = $request->meta_description;
-               $Widget->meta_keywords = $request->meta_keywords;
-               $Widget->title = $request->title;
-               $Widget->link = $request->link;
-                 $Widget->alias = $request->alias;
-                   $Widget->description = $request->description;
-                     $Widget->status = $request->status;
-               $Widget->save();
-                 return redirect('/admin/widgets')->with('success','Widget has been Updated Successfully');
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'alias' => 'required|string|max:255',
+            'link' => 'required|string|max:255',
+            'status' => 'required|boolean',
+            'description' => 'nullable|string',
+            'meta_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string',
+            'meta_keywords' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $widget->title = $request->input('title');
+        $widget->alias = $request->input('alias');
+        $widget->link = $request->input('link');
+        $widget->status = $request->input('status');
+        $widget->description = $request->input('description');
+        $widget->meta_title = $request->input('meta_title');
+        $widget->meta_description = $request->input('meta_description');
+        $widget->meta_keywords = $request->input('meta_keywords');
+
+        if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('uploads'), $imageName);
+            $widget->image = $imageName;
+        } elseif ($request->input('remove') == 1) {
+            $widget->image = null;
+        }
+
+        $widget->save();
+
+        return redirect()->route('widgets.index')->with('success', 'Widget updated successfully');
     }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
 
     public function delete($id)
-    {
-      //  User must be deleted softly i.e 0,1 i.e either it is one or zero
-      try{ $alert = Widgets::find($id);
-           $dir = 'uploads/';
-           if ($alert->image != '' && File::exists($dir . $alert->image)){
-                  File::delete($dir . $alert->image);
-                  Widgets::destroy($id);
-                  $message = "Widget Deleted Successfully";
-                  return response()->json([
-                  'status' => 200,
-                  'message' => $message
-             ]);
-           }//if ends here
-            else{
-            Widgets::destroy($id);
-            $message = "Widget Deleted Successfully";
-            return response()->json([
-            'status' => 200,
-            'message' => $message
-             ]);
-           }
-           }catch(\Exception $e)  {
-            $message =  $e->getMessage();
-           return response()->json(['status' => 400,
-            'message' => $message]);
-          }
+{
+    // User must be deleted softly i.e 0,1 i.e either it is one or zero
+    try {
+        $widget = Widgets::findOrFail($id); // Using findOrFail to handle not found case
+        $dir = 'uploads/';
+        if ($widget->image != '' && File::exists($dir . $widget->image)) {
+            File::delete($dir . $widget->image);
+        }
+        $widget->delete(); // Soft delete the widget
+        $message = "Widget Deleted Successfully";
+        return redirect()->route('widgets.index')->with('success', $message); // Redirecting to index page
+    } catch (\Exception $e) {
+        $message = $e->getMessage();
+        return redirect()->route('widgets.index')->with('error', $message); // Redirecting to index page with error message
     }
+}
 
-  /* public function delete($id)
-    {
-      $Widget = Widgets::find($id);
-             if ($Widget!==null) {
-                 $dir = 'uploads/';
-                 if ($Widget->image != '' && File::exists($dir . $Widget->image)){
-                        File::delete($dir . $Widget->image);
-                        Widgets::destroy($id);
-                      return redirect('/admin/widgets')->with('success', 'Widget Deleted');}
-                  else{
-                    Widgets::destroy($id);
-                  return redirect('/admin/widgets')->with('success', 'Widget Deleted');}
 
-               }
-    }  */
+
 }

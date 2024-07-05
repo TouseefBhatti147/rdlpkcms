@@ -13,7 +13,7 @@ use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChangeController;
 use App\Http\Controllers\filesController;
-use App\Http\Controllers\widgetsController;
+use App\Http\Controllers\WidgetsController;
 use App\Http\Controllers\pagesController;
 use App\Http\Controllers\projectsController;
 use App\Http\Controllers\newsController;
@@ -86,27 +86,32 @@ Route::group(['prefix' => 'admin/files'], function () {
 });
 
 /* Admin Routes for Widgets are defined here */
-Route::group(['prefix' => 'admin/widgets'], function () {
-    Route::post('/user/widgets/create', [UserController::class, 'stWidget'])->name('widgets.create');
+Route::prefix('admin/widgets')->group(function () {
+    Route::get('/', [WidgetsController::class, 'index'])->name('widgets.index');
+    Route::get('/v1/ajax', [WidgetsController::class, 'getAllWidgets'])->name('api.widgets.index');
+    Route::post('/get-widgets', [WidgetsController::class, 'getRecords'])->name('get-widgets');
+    Route::match(['get', 'post'], 'create', [WidgetsController::class, 'create'])->name('widgets.create');
+    Route::post('/', [WidgetsController::class, 'store'])->name('widgets.store');
+    Route::get('/edit/{id}', [WidgetsController::class, 'edit'])->name('widgets.edit');
 
-    Route::get('/', [widgetsController::class, 'index']);
-    Route::get('/v1/ajax', [widgetsController::class, 'getAllWidgets'])->name('api.widgets.index');
-    Route::post('/get-widgets', [widgetsController::class, 'getRecords'])->name('get-widgets');
-    Route::match(['get', 'post'], 'create', [widgetsController::class, 'create']);
-    Route::match(['get', 'put'], 'update/{id}', [widgetsController::class, 'update']);
-    Route::delete('delete/{id}', [widgetsController::class, 'delete']);
+    Route::match(['get', 'put'], 'update/{id}', [WidgetsController::class, 'update'])->name('widgets.update');
+    Route::delete('delete/{id}', [WidgetsController::class, 'delete'])->name('widgets.delete');
 });
 
-/* Admin Routes for Pages are defined here */
-Route::group(['prefix' => 'admin/pages'], function () {
-    Route::get('/', [pagesController::class, 'index']);
-    /* Route::get('/search','pagesController@search')->name('pages.search'); */
-    Route::get('/v1/pages', [pagesController::class, 'getAllPages'])->name('api.pages.index');
-    Route::match(['get', 'post'], 'create', [pagesController::class, 'create']);
-    Route::post('post', [PagesController::class, 'store'])->name('pages.store');
+// User-specific widget creation (assuming UserController exists)
+Route::post('/user/widgets/create', [UserController::class, 'stWidget'])->name('user.widgets.create');
 
-    Route::match(['get', 'put'], 'update/{id}', [pagesController::class, 'update']);
-    Route::delete('delete/{id}', [pagesController::class, 'delete']);
+/* Admin Routes for Pages are defined here */
+Route::prefix('admin/pages')->group(function () {
+    Route::get('/', [PagesController::class, 'index'])->name('pages.index');
+    Route::get('/v1/ajax', [PagesController::class, 'getAllWidgets'])->name('api.pages.index');
+    Route::post('/get-pages', [PagesController::class, 'getRecords'])->name('get-pages');
+    Route::match(['get', 'post'], 'create', [PagesController::class, 'create'])->name('pages.create');
+    Route::post('/', [PagesController::class, 'store'])->name('pages.store');
+    Route::get('/edit/{id}', [PagesController::class, 'edit'])->name('pages.edit');
+
+    Route::match(['get', 'put'], 'update/{id}', [PagesController::class, 'update'])->name('pages.update');
+    Route::delete('delete/{id}', [PagesController::class, 'delete'])->name('pages.delete');
 });
 /* Admin Files Routes are Defined here */
 /* Alias part implementation still pending */
@@ -135,14 +140,27 @@ Route::group(['prefix' => 'admin/news'], function () {
     Route::delete('delete/{id}', [newsController::class, 'delete']);
 });
 
-Route::group(['prefix' => 'admin/flashnews'], function () {
-    Route::get('/', [FlashNewsController::class, 'index'])->name('view.flashnews');
-    Route::match(['get', 'post'], 'create', [FlashNewsController::class, 'create'])->name('create.flashnews');
-    Route::match(['get', 'put'], 'update/{id}', [FlashNewsController::class, 'update'])->name('update.flashnews');
-    Route::delete('delete/{id}', [FlashNewsController::class, 'delete'])->name('delete.flashnews'); // Ajax call
-    Route::get('/v1/flashnews', [FlashNewsController::class, 'getFlashNews'])->name('api.flashnews.index');
-});
+Route::prefix('admin/flashnews')->group(function () {
+    Route::get('/', [FlashNewsController::class, 'index'])->name('flashnews.index');
+    Route::get('/v1/ajax', [FlashNewsController::class, 'getAllWidgets'])->name('api.flashnews.index');
+    Route::post('/get-flashnews', [FlashNewsController::class, 'getRecords'])->name('get-flashnews');
+    Route::match(['get', 'post'], 'create', [FlashNewsController::class, 'create'])->name('flashnews.create');
+    Route::post('/', [FlashNewsController::class, 'store'])->name('flashnews.store');
+    Route::get('/edit/{id}', [FlashNewsController::class, 'edit'])->name('flashnews.edit');
 
+    Route::match(['get', 'put'], 'update/{id}', [FlashNewsController::class, 'update'])->name('flashnews.update');
+    Route::delete('delete/{id}', [FlashNewsController::class, 'delete'])->name('flashnews.delete');
+});
+/*** New Routes for User */
+Route::prefix('admin/users')->group(function () {
+    Route::get('/', [UsersController::class, 'index'])->name('users.index');
+    Route::get('/create', [UsersController::class, 'create'])->name('users.create');
+    Route::post('/', [UsersController::class, 'store'])->name('users.store');
+    Route::get('/edit/{id}', [UsersController::class, 'edit'])->name('users.edit');
+    Route::put('update/{id}', [UsersController::class, 'update'])->name('users.update');
+    Route::delete('delete/{id}', [FlashNewsController::class, 'delete'])->name('users.delete');
+
+});
 /* Admin Routes for Events are defined here */
 Route::group(['prefix' => 'admin/events'], function () {
     Route::get('/', [eventsController::class, 'index']);
@@ -150,6 +168,8 @@ Route::group(['prefix' => 'admin/events'], function () {
     Route::match(['get', 'post'], 'create', [eventsController::class, 'create']);
     Route::match(['get', 'put'], 'update/{id}', [eventsController::class, 'update']);
     Route::delete('delete/{id}', [eventsController::class, 'delete']);
+    Route::post('post', [eventsController::class, 'store'])->name('events.store');
+
     Route::get('/v1/events', [eventsController::class, 'getAllEvents'])->name('api.events.index');
 });
 
@@ -159,28 +179,36 @@ Route::group(['prefix' => 'admin/videos'], function () {
     /* Route::get('/search','videosController@search')->name('videos.search'); */
     Route::match(['get', 'post'], 'create', [videosController::class, 'create']);
     Route::match(['get', 'put'], 'update/{id}', [videosController::class, 'update']);
+    Route::post('post', [videosController::class, 'store'])->name('videos.store');
+
     Route::get('/v1/videos', [videosController::class, 'getAllVideos'])->name('api.videos.index');
     Route::delete('delete/{id}', [videosController::class, 'delete']);
 });
 
 /* Admin Routes for Settings are defined here */
+
 Route::group(['prefix' => 'admin/settings'], function () {
-    Route::get('/', [settingsController::class, 'index']);
-    /* Route::get('/search','settingsController@search')->name('settings.search'); */
-    Route::get('/v1/settings', [settingsController::class, 'getAllSettings'])->name('api.settings.index');
-    Route::match(['get', 'post'], 'create', [settingsController::class, 'create']);
-    Route::match(['get', 'put'], 'update/{id}', [settingsController::class, 'update']);
-    Route::delete('delete/{id}', [settingsController::class, 'delete']);
+    Route::get('/', [SettingsController::class, 'index'])->name('settings.index');
+    Route::get('/create', [SettingsController::class, 'create'])->name('settings.create');
+    Route::post('/', [SettingsController::class, 'store'])->name('settings.store');
+    Route::get('/{id}/edit', [SettingsController::class, 'edit'])->name('settings.edit');
+    Route::put('/{id}', [SettingsController::class, 'update'])->name('settings.update');
+    Route::delete('/{id}', [SettingsController::class, 'destroy'])->name('settings.destroy');
+
+    // Additional custom routes if needed
+    Route::get('/v1/settings', [SettingsController::class, 'getAllSettings'])->name('api.settings.index');
 });
 
 /* Admin Routes for Offices are defined here */
 Route::group(['prefix' => 'admin/offices'], function () {
-    Route::get('/', [officesController::class, 'index']);
-    /* Route::get('/search','officesController@search')->name('offices.search'); */
+    Route::get('/', [officesController::class, 'index'])->name('offices.index');
+    Route::get('/create', [officesController::class, 'create'])->name('offices.create');
+    Route::post('/', [officesController::class, 'store'])->name('offices.store');
+    Route::get('/{id}/edit', [officesController::class, 'edit'])->name('offices.edit');
+    Route::put('/{id}', [officesController::class, 'update'])->name('offices.update');
     Route::get('/v1/offices', [officesController::class, 'getAllOffices'])->name('api.offices.index');
-    Route::match(['get', 'post'], 'create', [officesController::class, 'create']);
-    Route::match(['get', 'put'], 'update/{id}', [officesController::class, 'update']);
-    Route::delete('delete/{id}', [officesController::class, 'delete']);
+
+    Route::delete('/{id}', [officesController::class, 'destroy'])->name('offices.destroy');
 });
 
 /* Admin Routes for Users are defined here */

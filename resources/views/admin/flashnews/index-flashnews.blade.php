@@ -7,7 +7,7 @@
             <div class="portlet-title">
                 <div class="caption font-dark">
                     <i class="icon-settings font-dark"></i>
-                    <span class="caption-subject bold uppercase"> Manage Widgets</span>
+                    <span class="caption-subject bold uppercase"> Manage FlashNews</span>
                 </div>
             </div>
             <div class="portlet-body">
@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="btn-group">
-                                <a href="{{ url('admin/widgets/create') }}">
+                                <a href="{{ url('admin/flashnews/create') }}">
                                     <button class="btn btn-sm red btn-circle form-control">
                                         Add New <i class="fa fa-plus"></i>
                                     </button>
@@ -38,27 +38,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($widgets as $widget)
+                        @foreach($flashNews as $news)
                         <tr>
-                            <td>{{ $widget->title }}</td>
-                            <td>{{ $widget->status ? 'Enabled' : 'Disabled' }}</td>
+                            <td>{{ $news->title }}</td>
+                            <td>{{ $news->status ? 'Enabled' : 'Disabled' }}</td>
                             <td>
-                                <img src="{{ asset('uploads/' . $widget->image) }}" alt="Widget Image"
+                                <img src="{{ asset('uploads/' . $news->image) }}" alt="flashnews Image"
                                     style="width: 100px; height: 100px; object-fit: cover;">
                             </td>
                             <td>
-                                <a href="{{ url('admin/widgets/update/'.$widget->id) }}" class="btn blue btn-md">
+                                <a href="{{ url('admin/flashnews/edit/'.$news->id) }}" class="btn blue btn-md">
                                     <span class="glyphicon glyphicon-edit">&nbsp;Edit</span>
                                 </a>
                                 <button type="button" class="btn btn-danger btn-md" data-toggle="modal"
-                                    data-target="#deleteModal{{ $widget->id }}">
+                                    data-target="#deleteModal{{ $news->id }}">
                                     <span class="glyphicon glyphicon-remove-circle">&nbsp;Delete</span>
                                 </button>
                             </td>
                         </tr>
 
                         <!-- Delete Modal -->
-                        <div class="modal fade" id="deleteModal{{ $widget->id }}" tabindex="-1" role="dialog"
+                        <div class="modal fade" id="deleteModal{{ $news->id }}" tabindex="-1" role="dialog"
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -69,12 +69,12 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        Are you sure you want to delete this widget?
+                                        Are you sure you want to delete this flashnews?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-dismiss="modal">Cancel</button>
-                                        <form action="{{ url('admin/widgets/delete/'.$widget->id) }}" method="POST">
+                                        <form action="{{ url('admin/flashnews/delete/'.$news->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Yes, Delete</button>
@@ -89,12 +89,14 @@
 
                 <!-- Pagination -->
                 <div class="pagination justify-content-end">
-                    {{ $widgets->links() }}
+                    {{ $flashNews->links() }}
                 </div>
             </div> <!-- Column ends here -->
         </div><!-- Row ends here -->
-        @endsection
+    </div>
+</div>
+@endsection
 
-        @section('scripts')
-        <!-- You can add custom scripts here if needed -->
-        @endsection
+@section('scripts')
+<!-- You can add custom scripts here if needed -->
+@endsection

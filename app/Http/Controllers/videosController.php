@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Pages;
-use App\Videos;
+use App\Models\Pages;
+use App\Models\Videos;
 use Carbon\Carbon;
 use Yajra\Datatables\Facades\Datatables;
 use Illuminate\Http\Request;
@@ -85,8 +85,8 @@ class videosController extends Controller
                      return '<label class="badge badge-success">Enabaled</label>';    }
         })
        ->rawColumns(['action','status','video'])
-       ->addIndexColumn() 
-       ->make(true); 
+       ->addIndexColumn()
+       ->make(true);
 
      }//All Videos end here
 
@@ -142,5 +142,5 @@ class videosController extends Controller
         }/*if ends here*/
      }//Logic for deletion ends here
 
-     
+
   }

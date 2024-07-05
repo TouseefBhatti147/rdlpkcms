@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Offices;
+use App\Models\Offices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
@@ -88,7 +88,7 @@ class officesController extends Controller
                      return '<label class="badge badge-success">Enabaled</label>';    }
         })
        ->rawColumns(['action','status'])
-       ->addIndexColumn() 
+       ->addIndexColumn()
        ->make(true);
     }
 
@@ -142,7 +142,7 @@ class officesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
+
      //Logic for deletion starts here
      public function delete($id)
      {

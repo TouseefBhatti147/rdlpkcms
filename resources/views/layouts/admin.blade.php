@@ -54,6 +54,7 @@
     <link href="{{ asset('css/index.css') }}" rel="stylesheet" type="text/css" />
     <script src="https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js"></script>
 
+
     <script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript"></script>
 
     <!-- END THEME LAYOUT STYLES -->

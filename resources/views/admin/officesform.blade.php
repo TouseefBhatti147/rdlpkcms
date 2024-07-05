@@ -175,33 +175,26 @@
                     <div class="row">
                         <div class="col-md-5 col-md-offset-1">
                             <div class="form-group {{ $errors->has('email_1') ? ' has-error' : '' }}">
-                                {!! Form::label("email_1", "Enter first Email", ["class"=>"control-label"]) !!}
-                                {!! Form::text("email_1", isset($OfficeEdit) ? $OfficeEdit->email_1 : null, [
-                                "class" => "form-control" . ($errors->has('email_1') ? " is-invalid" : ""),
-                                "autofocus" => true,
-                                "placeholder" => ""
-                                ]) !!}
+                                <label for="email_1" class="control-label">Enter first Email</label>
+                                <input type="email" id="email_1" name="email_1"
+                                    class="form-control{{ $errors->has('email_1') ? ' is-invalid' : '' }}"
+                                    value="{{ isset($OfficeEdit) ? $OfficeEdit->email_1 : '' }}" autofocus>
                                 @if($errors->has('email_1'))
                                 <span class="invalid-feedback">{{ $errors->first('email_1') }}</span>
                                 @endif
                             </div>
                         </div>
-
-                        <!--/span-->
                         <div class="col-md-5">
                             <div class="form-group {{ $errors->has('email_2') ? ' has-error' : '' }}">
-                                {!! Form::label("email_2", "Enter second Email", ["class"=>"control-label"]) !!}
-                                {!! Form::text("email_2", isset($OfficeEdit) ? $OfficeEdit->email_2 : null, [
-                                "class" => "form-control" . ($errors->has('email_2') ? " is-invalid" : ""),
-                                "autofocus" => true,
-                                "placeholder" => ""
-                                ]) !!}
+                                <label for="email_2" class="control-label">Enter second Email</label>
+                                <input type="email" id="email_2" name="email_2"
+                                    class="form-control{{ $errors->has('email_2') ? ' is-invalid' : '' }}"
+                                    value="{{ isset($OfficeEdit) ? $OfficeEdit->email_2 : '' }}" autofocus>
                                 @if($errors->has('email_2'))
                                 <span class="invalid-feedback">{{ $errors->first('email_2') }}</span>
                                 @endif
                             </div>
                         </div>
-                        <!--/span-->
                     </div>
                     {{-- Sixth row ends here --}}
 
@@ -209,98 +202,90 @@
                     <div class="row">
                         <div class="col-md-5 col-md-offset-1">
                             <div class="form-group {{ $errors->has('uan_number') ? ' has-error' : '' }}">
-                                {!! Form::label("uan_number", "Enter Uan #", ["class"=>"control-label"]) !!}
-                                {!! Form::text("uan_number", isset($OfficeEdit) ? $OfficeEdit->uan_number : null, [
-                                "class" => "form-control" . ($errors->has('uan_number') ? " is-invalid" : ""),
-                                "autofocus" => true,
-                                "placeholder" => ""
-                                ]) !!}
+                                <label for="uan_number" class="control-label">Enter Uan #</label>
+                                <input type="text" id="uan_number" name="uan_number"
+                                    class="form-control{{ $errors->has('uan_number') ? ' is-invalid' : '' }}"
+                                    value="{{ isset($OfficeEdit) ? $OfficeEdit->uan_number : '' }}" autofocus>
                                 @if($errors->has('uan_number'))
                                 <span class="invalid-feedback">{{ $errors->first('uan_number') }}</span>
                                 @endif
                             </div>
                         </div>
-
-                        <!--/span-->
                         <div class="col-md-5">
                             <div class="form-group {{ $errors->has('fax_number') ? ' has-error' : '' }}">
-                                {!! Form::label("fax_number", "Enter Fax #", ["class"=>"control-label"]) !!}
-                                {!! Form::text("fax_number", isset($OfficeEdit) ? $OfficeEdit->fax_number : null, [
-                                "class" => "form-control" . ($errors->has('fax_number') ? " is-invalid" : ""),
-                                "autofocus" => true,
-                                "placeholder" => ""
-                                ]) !!}
+                                <label for="fax_number" class="control-label">Enter Fax #</label>
+                                <input type="text" id="fax_number" name="fax_number"
+                                    class="form-control{{ $errors->has('fax_number') ? ' is-invalid' : '' }}"
+                                    value="{{ isset($OfficeEdit) ? $OfficeEdit->fax_number : '' }}" autofocus>
                                 @if($errors->has('fax_number'))
                                 <span class="invalid-feedback">{{ $errors->first('fax_number') }}</span>
                                 @endif
                             </div>
                         </div>
-                        <!--/span-->
                     </div>
                     {{-- Seventh row ends here --}}
 
-                    {{-- Eight row starts here --}}
+                    {{-- Eighth row starts here --}}
                     <div class="row">
                         <div class="col-md-5 col-md-offset-1">
                             <div class="form-group {{ $errors->has('status') ? ' has-error' : '' }}">
-                                {!! Form::label("status", "Select Status", ["class"=>"control-label"]) !!}
-                                {{ Form::select("status", [
-                '1' => 'Enable',
-                '0' => 'Disable'
-            ], isset($OfficeEdit) ? $OfficeEdit->status : null, [
-                "class" => "bs-select form-control",
-                "placeholder" => "Select Status"
-            ]) }}
+                                <label for="status" class="control-label">Select Status</label>
+                                <select id="status" name="status" class="form-control">
+                                    <option value="1"
+                                        {{ isset($OfficeEdit) && $OfficeEdit->status == '1' ? 'selected' : '' }}>Enable
+                                    </option>
+                                    <option value="0"
+                                        {{ isset($OfficeEdit) && $OfficeEdit->status == '0' ? 'selected' : '' }}>Disable
+                                    </option>
+                                </select>
                                 @if($errors->has('status'))
                                 <span class="invalid-feedback">{{ $errors->first('status') }}</span>
                                 @endif
                             </div>
                         </div>
                     </div>
-                    {{-- Eight row ends here --}}
+                    {{-- Eighth row ends here --}}
 
                     <br><br><br>
 
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-3 col-md-9">
-                                {{ Form::button('<span class="glyphicon glyphicon-save">&nbsp;Save</span>', [
-                'type' => 'submit',
-                'name' => 'btnSave',
-                'class' => 'btn red btn-sm'
-            ]) }}
+                                <button type="submit" class="btn red btn-sm">
+                                    <span class="glyphicon glyphicon-save">&nbsp;Save</span>
+                                </button>
                                 <button type="button" onclick="window.location='{{ url('/admin/offices') }}'"
                                     class="btn default btn-sm">Cancel</button>
                             </div>
                         </div>
                     </div>
-
-                    {{ Form::close() }}
-
                 </div>
+            </form>
     </div>
-    <!-- END SAMPLE FORM PORTLET-->
+</div>
 
-    <!-- END PAGE BASE CONTENT -->
-    @endsection
+<!-- END SAMPLE FORM PORTLET-->
 
-    @section('scripts')
-    @if(!isset($OfficeEdit))
-    <script>
-    const a = 'àáäâãåăæçèéëêǵḧìíïîḿńǹñòóöôœøṕŕßśșțùúüûǘẃẍÿź·/_,:;'
-    const b = 'aaaaaaaaceeeeghiiiimnnnooooooprssstuuuuuwxyz------'
-    const p = new RegExp(a.split('').join('|'), 'g')
-    $('#office_title').keyup(function() {
-        $('#alias').val(this.value
-            .toLowerCase()
-            .replace(/\s+/g, '-') // Replace spaces with -
-            .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
-            .replace(/&/g, '-and-') // Replace & with 'and'
-            .replace(/[^\w\-]+/g, '') // Remove all non-word characters
-            .replace(/\-\-+/g, '-') // Replace multiple - with single -
-            .replace(/^-+/, '') // Trim - from start of text
-        );
-    });
-    </script>
-    @endif
-    @endsection
+<!-- END PAGE BASE CONTENT -->
+@endsection
+
+@section('scripts')
+@if(!isset($OfficeEdit))
+<script>
+const a = 'àáäâãåăæçèéëêǵḧìíïîḿńǹñòóöôœøṕŕßśșțùúüûǘẃẍÿź·/_,:;'
+const b = 'aaaaaaaaceeeeghiiiimnnnooooooprssstuuuuuwxyz------'
+const p = new RegExp(a.split('').join('|'), 'g')
+$('#office_title').keyup(function() {
+    $('#alias').val(this.value
+        .toLowerCase()
+        .replace(/\s+/g, '-') // Replace spaces with -
+        .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+        .replace(/&/g, '-and-') // Replace & with 'and'
+        .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+        .replace(/\-\-+/g, '-') // Replace multiple - with single -
+        .replace(/^-+/, '') // Trim - from start of text
+    );
+});
+</script>
+@endif
+@endsection
