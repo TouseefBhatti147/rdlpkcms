@@ -12,7 +12,7 @@ use App\Http\Controllers\Website\rdlpknewslettersController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChangeController;
-use App\Http\Controllers\filesController;
+use App\Http\Controllers\FilesController;
 use App\Http\Controllers\WidgetsController;
 use App\Http\Controllers\pagesController;
 use App\Http\Controllers\projectsController;
@@ -22,7 +22,7 @@ use App\Http\Controllers\eventsController;
 use App\Http\Controllers\videosController;
 use App\Http\Controllers\settingsController;
 use App\Http\Controllers\officesController;
-use App\Http\Controllers\usersController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\newslettersController;
 use App\Http\Controllers\User\userWidgetsController;
 use App\Http\Controllers\User\userPagesController;
@@ -74,15 +74,18 @@ Route::prefix('admin')->group(function() {
     Route::post('/register', [AdminRegisterController::class, 'register'])->name('admin.register.submit');
 });
 
-Route::group(['prefix' => 'admin/files'], function () {
-    Route::get('/', [filesController::class, 'index']);
-    /* Route::get('/search','filesController@search')->name('files.search'); */
-    Route::get('/v1/files', [filesController::class, 'getAllFiles'])->name('api.files.index');
-    Route::match(['get', 'post'], 'create', [filesController::class, 'create']);
-    Route::post('post', [filesController::class, 'store'])->name('files.store');
+/* Admin New Routes for Files are defined here */
+Route::prefix('admin/files')->group(function () {
+    Route::get('/', [FilesController::class, 'index'])->name('files.index');
+    Route::get('/v1/ajax', [FilesController::class, 'getAllWidgets'])->name('api.files.index');
+    Route::post('/get-pages', [FilesController::class, 'getRecords'])->name('get-files');
+    Route::match(['get', 'post'], 'create', [FilesController::class, 'create'])->name('files.create');
+    Route::post('/', [FilesController::class, 'store'])->name('files.store');
+    Route::get('/edit/{id}', [FilesController::class, 'edit'])->name('files.edit');
+    Route::get('/show/{id}', [FilesController::class, 'show'])->name('files.show');
 
-    Route::match(['get', 'put'], 'update/{id}', [filesController::class, 'update']);
-    Route::delete('delete/{id}', [filesController::class, 'delete']);
+    Route::match(['get', 'put'], '/update/{id}', [FilesController::class, 'update'])->name('admin.files.update');
+    Route::delete('delete/{id}', [FilesController::class, 'delete'])->name('files.delete');
 });
 
 /* Admin Routes for Widgets are defined here */
@@ -158,7 +161,7 @@ Route::prefix('admin/users')->group(function () {
     Route::post('/', [UsersController::class, 'store'])->name('users.store');
     Route::get('/edit/{id}', [UsersController::class, 'edit'])->name('users.edit');
     Route::put('update/{id}', [UsersController::class, 'update'])->name('users.update');
-    Route::delete('delete/{id}', [FlashNewsController::class, 'delete'])->name('users.delete');
+    Route::delete('delete/{id}', [UsersController::class, 'delete'])->name('users.delete');
 
 });
 /* Admin Routes for Events are defined here */

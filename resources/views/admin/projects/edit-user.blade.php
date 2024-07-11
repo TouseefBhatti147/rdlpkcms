@@ -1,0 +1,115 @@
+@extends('layouts.admin')
+
+@section('content')
+<!-- BEGIN PAGE BREADCRUMB -->
+<ul class="page-breadcrumb breadcrumb">
+    <li>
+        <a href="{{ url('/admin/home') }}">Home</a>
+        <i class="fa fa-circle"></i>
+    </li>
+    <li>
+        <a href="#">Edit User</a>
+    </li>
+</ul>
+<!-- END PAGE BREADCRUMB -->
+
+<!-- BEGIN PAGE BASE CONTENT -->
+<div class="portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-settings font-dark"></i>
+            <span class="caption-subject font-dark sbold uppercase">Edit User</span>
+        </div>
+        <div style="float: right;" class="caption">
+            <a href="{{ url('/admin/users') }}">
+                <span class="glyphicon glyphicon-arrow-left"></span> &nbsp;Back
+            </a>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <div class="page-title">
+            @include('inc.messages')
+        </div>
+
+        <form method="POST" action="{{ route('users.update', $user->id) }}" class="form-horizontal"
+            enctype="multipart/form-data">
+            @method('PUT')
+            @csrf
+            <div class="form-body">
+                <div class="form-group form-md-line-input{{ $errors->has('name') ? ' has-error' : '' }}">
+                    <label for="name" class="control-label col-md-2">Enter Name</label>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-user"></i>
+                            </span>
+                            <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}"
+                                class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" autofocus
+                                placeholder="Enter Name Here" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group form-md-line-input{{ $errors->has('email') ? ' has-error' : '' }}">
+                    <label for="email" class="control-label col-md-2">Enter Email</label>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-envelope"></i>
+                            </span>
+                            <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}"
+                                class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                placeholder="Enter Email here" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group form-md-line-input{{ $errors->has('password') ? ' has-error' : '' }}">
+                    <label for="password" class="control-label col-md-2">Enter Password (optional)</label>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-lock"></i>
+                            </span>
+                            <input type="password" id="password" name="password"
+                                class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                placeholder="Enter Password here">
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="form-group form-md-line-input{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                    <label for="password_confirmation" class="control-label col-md-2">Confirm Password
+                        (optional)</label>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-lock"></i>
+                            </span>
+                            <input type="password" id="password_confirmation" name="password_confirmation"
+                                class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}"
+                                placeholder="Confirm Password here">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <div class="row">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="submit" name="btnSave" class="btn red btn-sm">
+                                <span class="glyphicon glyphicon-save"></span>&nbsp;Save
+                            </button>
+                            <button type="button" onclick="window.location='{{ url('/admin/users') }}'"
+                                class="btn default btn-sm">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- END PAGE BASE CONTENT -->
+@endsection

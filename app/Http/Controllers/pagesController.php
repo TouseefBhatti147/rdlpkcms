@@ -1,20 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Pages;
+
+
+use App\Models\Pages; // Add this line
+
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Yajra\Datatables\Facades\Datatables;
 use Illuminate\Support\Facades\File;
 
-class pagesController extends Controller
+class PagesController extends Controller
 {
 
   public function __construct()
   {
    $this->middleware('auth:admin');
-  }
 
+  }
     /**
      * Display a listing of the resource.
      *
@@ -22,9 +25,57 @@ class pagesController extends Controller
      */
     public function index()
     {
-      $Pages = Pages::orderBy('created_at', 'desc')->paginate(10);
-      return view('admin.pages', compact('Pages'));
+      $pages = Pages::paginate(10); // Adjust the number of items per page as needed
+      return view('admin.pages.index-pages', compact('pages'));
+
     }
+
+    public function edit($id)
+    {
+        $page = Pages::findOrFail($id);
+        return view('admin.pages.edit-pages', compact('page'));
+    }
+
+
+    public function store(Request $request)
+    {
+      $rules = [
+        'title' => 'required',
+        'status' => 'required',
+        'alias' => 'required',
+        'description' => 'required',
+         /*   'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',*/
+       ];
+        $this->validate($request, $rules);
+        $Page = new Pages();
+        if ($request->hasFile('image')) {
+          $dir = 'uploads/';
+          if ($Page->image != '' && File::exists($dir . $Page->image))
+              File::delete($dir . $Page->image);
+          $extension = strtolower($request->file('image')->getClientOriginalExtension());
+          $FileName =  time().'_'.rand(1000,9999).'.'.$extension;
+          $request->file('image')->move($dir, $FileName);
+          $Page->image = $FileName;
+      }elseif ($request->remove == 1 && File::exists('uploads/' . $Page->image)) {
+     File::delete('uploads/' . $Page->post_image);
+     $Page->image = null;
+     }
+
+     $Page->meta_title = $request->meta_title;
+     $Page->meta_description = $request->meta_description;
+     $Page->meta_keywords = $request->meta_keywords;
+     $Page->title = $request->title;
+     $Page->website = $request->website;
+     $Page->alias = $request->alias;
+     $Page->description = $request->description;
+     $Page->status = $request->status;
+     $Page->ordering = true;
+     $Page->save();
+        return redirect('/admin/pages')->with('success', 'Pages has been added successfully');
+    }
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -33,70 +84,15 @@ class pagesController extends Controller
      */
     public function create(Request $request)
     {
-      if ($request->isMethod('get')){
-               return view('admin.pagesform');
-      }else {
-         $rules = [
-               'title' => 'required',
-                'website' => 'required',
-                 'alias' => 'required',
-                  'status' => 'required',
-                 'description' => 'required',
 
-           ];
-        $this->validate($request, $rules);
-        $Page = new Pages();
-        if ($request->hasFile('image')) {
+      return view('admin.pages.create-pages');
 
-            $dir = 'uploads/';
-            $extension = strtolower($request->file('image')->getClientOriginalExtension()); // get image extension
-            $FileName =  time().'_'.rand(1000,9999).'.'.$extension;
-            $request->file('image')->move($dir, $FileName);
-            $Page->image = $FileName;
-        }elseif($request->image==null){
-              $Page->image ='';
-        }
-
-        $Page->meta_title = $request->meta_title;
-        $Page->meta_description = $request->meta_description;
-        $Page->meta_keywords = $request->meta_keywords;
-        $Page->title = $request->title;
-      $Page->alias = $request->alias;
-              $Page->website = $request->website;
-
-            $Page->description = $request->description;
-            $Page->status = $request->status;
-            $Page->ordering = true;
-             $Page->save();
-        return redirect('/admin/pages')->with('success','Page has been Added Successfully');
-       }
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-   /*  public function search(Request $request)
-     {
-       if ($request->isMethod('get')){
-          $rules = [
-           'searchpage' => 'required'
-       ];
-        $this->validate($request, $rules);
-        $search = $request->input('searchpage');
-        $Pages = Pages::where('title', 'LIKE', '%'.$search.'%')->paginate(4);
-        return view('admin.pages', compact('Pages'))->with('success','Searched Successfully');
-
-    }else{
-     return redirect('/admin/pages')->with('error','Error!!');
-     }
-     } */
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function getAllPages()
@@ -127,109 +123,61 @@ class pagesController extends Controller
     }
 
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-      if ($request->isMethod('get')){
-        return view('admin.pagesform', ['PageEdit' => Pages::find($id)]);
-      }
-       else {
-               //Here we are putting validatin
-                 $rules = [
-                   'title' => 'required',
-                 'status' => 'required',
-                        'website' => 'required',
-                     'alias' => 'required',
-                     'description' => 'required',
-                      /*   'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',*/
+        $page = Pages::findOrFail($id);
 
-                 ];
-                 $this->validate($request, $rules);
-                 $Page = Pages::find($id);
-                 if ($request->hasFile('image')) {
-                     $dir = 'uploads/';
-                     if ($Page->image != '' && File::exists($dir . $Page->image))
-                         File::delete($dir . $Page->image);
-                     $extension = strtolower($request->file('image')->getClientOriginalExtension());
-                     $FileName =  time().'_'.rand(1000,9999).'.'.$extension;
-                     $request->file('image')->move($dir, $FileName);
-                     $Page->image = $FileName;
-                 }elseif ($request->remove == 1 && File::exists('uploads/' . $Page->image)) {
-                File::delete('uploads/' . $Page->post_image);
-                $Page->image = null;
-                }
-               }
-               $Page->meta_title = $request->meta_title;
-               $Page->meta_description = $request->meta_description;
-               $Page->meta_keywords = $request->meta_keywords;
-               $Page->title = $request->title;
-                $Page->alias = $request->alias;
-                     $Page->website = $request->website;
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'alias' => 'required|string|max:255',
+            'status' => 'required|boolean',
+            'description' => 'nullable|string',
+            'meta_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string',
+            'meta_keywords' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
-                   $Page->description = $request->description;
-                   $Page->status = $request->status;
-                   $Page->ordering = true;
-               $Page->save();
-                 return redirect('/admin/pages')->with('success','Page has been Updated Successfully');
+        $page->title = $request->input('title');
+        $page->alias = $request->input('alias');
+        $page->website = $request->input('website');
+        $page->status = $request->input('status');
+        $page->description = $request->input('description');
+        $page->meta_title = $request->input('meta_title');
+        $page->meta_description = $request->input('meta_description');
+        $page->meta_keywords = $request->input('meta_keywords');
 
+        if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('uploads'), $imageName);
+            $page->image = $imageName;
+        } elseif ($request->input('remove') == 1) {
+            $page->image = null;
+        }
+
+        $page->save();
+
+        return redirect()->route('pages.index')->with('success', 'Page updated successfully');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
 
     public function delete($id)
-    {
-      //  User must be deleted softly i.e 0,1 i.e either it is one or zero
-      try{ $page = Pages::find($id);
-           $dir = 'uploads/';
-           if ($page->image != '' && File::exists($dir . $page->image)){
-                  File::delete($dir . $page->image);
-                  Pages::destroy($id);
-                  $message = "Page Deleted Successfully";
-                  return response()->json([
-                  'status' => 200,
-                  'message' => $message
-             ]);
-           }//if ends here
-            else{
-              Pages::destroy($id);
-              $message = "Page Deleted Successfully";
-            return response()->json([
-            'status' => 200,
-            'message' => $message
-             ]);
-           }
-           }catch(\Exception $e)  {
-            $message =  $e->getMessage();
-           return response()->json(['status' => 400,
-            'message' => $message]);
-          }
+{
+    // User must be deleted softly i.e 0,1 i.e either it is one or zero
+    try {
+        $page = Pages::findOrFail($id); // Using findOrFail to handle not found case
+        $dir = 'uploads/';
+        if ($page->image != '' && File::exists($dir . $page->image)) {
+            File::delete($dir . $page->image);
+        }
+        $page->delete(); // Soft delete the widget
+        $message = "Page Deleted Successfully";
+        return redirect()->route('pages.index')->with('success', $message); // Redirecting to index page
+    } catch (\Exception $e) {
+        $message = $e->getMessage();
+        return redirect()->route('pages.index')->with('error', $message); // Redirecting to index page with error message
     }
+}
 
-     /*   public function delete($id)
-     {
-       $Page = Pages::find($id);
-              if ($Page!==null) {
-                  $dir = 'uploads/';
-                  if ($Page->image != '' && File::exists($dir . $Page->image)){
-                         File::delete($dir . $Page->image);
-                        Pages::destroy($id);
-                      return redirect('/admin/pages')->with('success', 'File Deleted');
-                    }else{
-                          Pages::destroy($id);
-                     return redirect('/admin/pages')->with('success', 'File Deleted');}
 
-                }
-     } */
+
 }

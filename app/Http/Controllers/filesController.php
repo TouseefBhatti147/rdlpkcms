@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Yajra\Datatables\Facades\Datatables;
 use ZipArchive;
 
-class filesController extends Controller
+class FilesController extends Controller
 {
   public function __construct()
   {
@@ -21,10 +21,27 @@ class filesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function show($id)
+{
+    $file = Files::findOrFail($id);
+    return view('admin.files.view-files', compact('file'));
+}
+
+    public function index(Request $request)
     {
-      $Files = Files::orderBy('created_at', 'desc')->paginate(6);
-      return view('admin.files', compact('Files'));
+        $query = Files::query();
+
+        if ($request->has('file_title') && $request->file_title) {
+            $query->where('title', 'like', '%' . $request->file_title . '%');
+        }
+
+        if ($request->has('file_category') && $request->file_category) {
+            $query->where('category', $request->file_category);
+        }
+
+        $files = $query->paginate(10);
+
+        return view('admin.files.index-files', compact('files'));
     }
 
     /**
@@ -128,23 +145,7 @@ class filesController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     //Search is implemented here
-   /* public function search(Request $request)
-    {
-        if ($request->isMethod('get')){
-      $rules = [
-            'category' => 'required',
 
-        ];
-      $this->validate($request, $rules);
-       $search = $request->input('category');
-        $Files = Files::where('category', 'LIKE', '%'.$search.'%')->paginate(4);
-         return view('admin.files', compact('Files'))->with('success','Searched Successfully');
-
-    }else{
-     return redirect('/admin/files')->with('error','Error!!');
-    }
-    } */
 
     public function getAllFiles(Request $request){
       $query = Files::query();
@@ -209,98 +210,52 @@ class filesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id){
-      if ($request->isMethod('get')){
-        return view('admin.filesform', ['FileEdit' => Files::find($id)]);
-      }
-       else {
-               //Here we are putting validatin
-                 $rules = [
-                   'title' => 'required',
-                           'category' => 'required',
-                           'status' => 'required',
-                                            'alias'=> 'required'
+    public function edit($id)
+    {
+        $file = Files::find($id);
+        return view('admin.files.edit-files', compact('file'));
+    }
+    public function update(Request $request, $id)
+    {
+        // Validate incoming request
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'category' => 'required|string|in:logo,slider,partnersandassociates,brochure,newsletter,ourgroup,isocertificates,others',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,png,jpg,jpeg|max:10240', // 10MB max size
+            'status' => 'required|boolean',
+        ]);
 
-                 ];
-                 $this->validate($request, $rules);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
-                 $File = Files::find($id);
-                 /*Code for file starts here*/
-              if (isset($request->file)){
-              if ($request->hasFile('file')) {
-                     //first deleting the old Directory
-                       if ($File->alias != '' ){
-                         $path = '/uploads/flipbooks/' . $File->alias;
-                         File::deleteDirectory(public_path($path));
-                       }
-                       $dir = 'uploads/';
-                       $size = $request->file('file')->getSize();
-                       $allowExt  = array('zip');  //allow extenstion
-                       $extension = strtolower($request->file('file')->getClientOriginalExtension()); // get image extension
-                       $FileNamezip =  time().'_'.rand(1000,9999).'.'.$extension;
-                       if(in_array($extension, $allowExt)){//check a valid image
-                               if($size < 200000000){ //check image size less than 5MB
-                                   $request->file('file')->move($dir, $FileNamezip);
-                                               $File->file = $FileNamezip;
-                                                   $zip = new ZipArchive();
-                                                         $res = $zip->open($dir.$FileNamezip);
-                                                         if ($res === TRUE) {
-                                                         $path = public_path().'/uploads/flipbooks/' . $request->alias;
-                                                                 File::makeDirectory($path, $mode = 0777, true, true);
-                                                         $zip->extractTo($path);
-                                                         }
-                                                         $zip->close();
+        // Find the file record
+        $file = Files::findOrFail($id);
 
-                                                                   if(File::exists($dir.$FileNamezip)){
-                                                                    unlink($dir.$FileNamezip);
-                                                                      }else{
-                                                                        return redirect()->back()->withErrors('No file exsists.')->withInput();  }
+        // Update file properties
+        $file->title = $request->title;
+        $file->category = $request->category;
+        $file->status = $request->status;
 
-                                                                        $newpath = '/uploads/flipbooks/' . $request->alias . '/index.html';
-                                                                        $File->link = $newpath;
+        // Handle file upload if a new file is provided
+        if ($request->hasFile('file')) {
+            // Delete old file if exists
+            if ($file->file && Storage::disk('public')->exists($file->file)) {
+                Storage::disk('public')->delete($file->file);
+            }
 
-                              }else{return redirect()->back()->withErrors('The File may not be greater than 200MB.')->withInput();}
-                       }else{return redirect()->back()->withErrors('Please Select proper image upload format')->withInput();}
-                     }elseif($request->file==null){      $File->file ='';
-                  $File->link =$request->link;
-                   } }
-                 /*Code for file ends here*/
+            // Store new file
+            $file->file = $request->file('file')->store('files', 'public');
+        }
 
-                 if ($request->hasFile('image')) {
-                     $dir = 'uploads/';
-                     if ($File->image != '' && File::exists($dir . $File->image))
-                         File::delete($dir . $File->image);
-                     $extension = strtolower($request->file('image')->getClientOriginalExtension());
-                     $size = $request->file('image')->getSize();
-                     $allowExt  = array('pdf','doc','png','jpg','jpeg','gif');
-                     $FileName =  time().'_'.rand(1000,9999).'.'.$extension;
-                     if(in_array($extension, $allowExt)){//check a valid image
-                       if($size < 200000000){ //check image size less than 5MB
-                         $request->file('image')->move($dir, $FileName);
-                         $File->image = $FileName;
-                      }else{return redirect()->back()->withErrors('The File may not be greater than 200MB.')->withInput();}
-                    }else{return redirect()->back()->withErrors('Please Select proper image upload format')->withInput();}
+        // Save changes to the database
+        $file->save();
 
-                 }
-                 $File->category = $request->category;
-                 $File->title = $request->title;
-                 if(isset($request->title_first_line)){
-                  $File->title_first_line = $request->title_first_line;
-                 }else{
-                  $File->title_first_line = '';
-                 }
-                 if(isset($request->title_second_line)){
-                  $File->title_second_line = $request->title_second_line;
-                 }else{
-                  $File->title_second_line = '';
-                 }
-                 $File->link_status = 0;
-                 $File->alias = $request->alias;
-                 $File->status = $request->status;
-                 $File->save();
-                 return redirect('/admin/files')->with('success','File has been Updated Successfully');
-           }
-         }
+        // Redirect back with success message
+        return redirect('/admin/files')->with('success', 'Pages has been added successfully');
+
+    }
+
 
     /**
      * Remove the specified resource from storage.
