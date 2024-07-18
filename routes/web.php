@@ -15,7 +15,7 @@ use App\Http\Controllers\ChangeController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\WidgetsController;
 use App\Http\Controllers\pagesController;
-use App\Http\Controllers\projectsController;
+use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\newsController;
 use App\Http\Controllers\FlashNewsController;
 use App\Http\Controllers\eventsController;
@@ -84,7 +84,7 @@ Route::prefix('admin/files')->group(function () {
     Route::get('/edit/{id}', [FilesController::class, 'edit'])->name('files.edit');
     Route::get('/show/{id}', [FilesController::class, 'show'])->name('files.show');
 
-    Route::match(['get', 'put'], '/update/{id}', [FilesController::class, 'update'])->name('admin.files.update');
+    Route::match(['get', 'put'], '/update/{id}', [FilesController::class, 'update'])->name('files.update');
     Route::delete('delete/{id}', [FilesController::class, 'delete'])->name('files.delete');
 });
 
@@ -120,27 +120,32 @@ Route::prefix('admin/pages')->group(function () {
 /* Alias part implementation still pending */
 
 /* Admin Routes for Projects are defined here */
-Route::group(['prefix' => 'admin/projects'], function () {
-    Route::get('/', [projectsController::class, 'index']);
-    /* Route::get('/search','projectsController@search')->name('projects.search'); */
-    Route::get('/v1/projects', [projectsController::class, 'getAllProjects'])->name('api.projects.index');
-    Route::match(['get', 'post'], 'create', [projectsController::class, 'create']);
-    Route::match(['get', 'put'], 'update/{id}', [projectsController::class, 'update']);
-    Route::post('post', [projectsController::class, 'store'])->name('projects.store');
+/* Admin New Routes for Files are defined here */
+Route::prefix('admin/projects')->group(function () {
+    Route::get('/', [ProjectsController::class, 'index'])->name('projects.index');
+    Route::get('/v1/ajax', [ProjectsController::class, 'getAllWidgets'])->name('api.projects.index');
+    Route::post('/get-pages', [ProjectsController::class, 'getRecords'])->name('get-projects');
+    Route::match(['get', 'post'], 'create', [ProjectsController::class, 'create'])->name('projects.create');
+    Route::post('/', [ProjectsController::class, 'store'])->name('projects.store');
+    Route::get('/edit/{id}', [ProjectsController::class, 'edit'])->name('projects.edit');
+    Route::get('/show/{id}', [ProjectsController::class, 'show'])->name('projects.show');
 
-    Route::delete('delete/{id}', [projectsController::class, 'delete']);
+    Route::match(['get', 'put'], '/update/{id}', [ProjectsController::class, 'update'])->name('projects.update');
+    Route::delete('delete/{id}', [ProjectsController::class, 'delete'])->name('projects.delete');
 });
 
 /* Admin Routes for News are defined here */
-Route::group(['prefix' => 'admin/news'], function () {
-    Route::get('/', [newsController::class, 'index']);
-    /* Route::get('/search','newsController@search')->name('news.search'); */
-    Route::match(['get', 'post'], 'create', [newsController::class, 'create']);
-    Route::match(['get', 'put'], 'update/{id}', [newsController::class, 'update']);
-    Route::get('/v1/news', [newsController::class, 'getAllNews'])->name('api.news.index');
-    Route::post('post', [newsController::class, 'store'])->name('news.store');
+Route::prefix('admin/news')->group(function () {
+    Route::get('/', [NewsController::class, 'index'])->name('news.index');
+    Route::get('/v1/ajax', [NewsController::class, 'getAllWidgets'])->name('api.news.index');
+    Route::post('/get-pages', [NewsController::class, 'getRecords'])->name('get-news');
+    Route::match(['get', 'post'], 'create', [NewsController::class, 'create'])->name('news.create');
+    Route::post('/', [NewsController::class, 'store'])->name('news.store');
+    Route::get('/edit/{id}', [NewsController::class, 'edit'])->name('news.edit');
+    Route::get('/show/{id}', [NewsController::class, 'show'])->name('news.show');
 
-    Route::delete('delete/{id}', [newsController::class, 'delete']);
+    Route::match(['get', 'put'], '/update/{id}', [NewsController::class, 'update'])->name('news.update');
+    Route::delete('delete/{id}', [NewsController::class, 'delete'])->name('news.delete');
 });
 
 Route::prefix('admin/flashnews')->group(function () {

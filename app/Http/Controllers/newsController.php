@@ -1,27 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Events;
-use App\Models\Files;
+
 use App\Models\News;
-use App\Models\Offices;
-use App\Models\Pages;
-use App\Models\Projects;
-use App\Models\Settings;
-use App\Models\Videos;
-use App\Models\Widgets;
-use Carbon\Carbon;
-use Yajra\Datatables\Facades\Datatables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Yajra\DataTables\Facades\DataTables;
 
-class newsController extends Controller
+class NewsController extends Controller
 {
-
-  public function __construct()
-  {
-   $this->middleware('auth:admin');
-  }
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
 
     /**
      * Display a listing of the resource.
@@ -30,8 +21,10 @@ class newsController extends Controller
      */
     public function index()
     {
-      $News = News::orderBy('created_at', 'desc')->paginate(4);
-      return view('admin.news', compact('News'));
+        $news = News::orderBy('created_at', 'desc')->paginate(4);
+        return view('admin.news.index-news', compact('news'));
+
+        return view('admin.news', compact('news'));
     }
 
     /**
@@ -39,92 +32,8 @@ class newsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
-    {
-      if ($request->isMethod('get')){
-               return view('admin.newsform');
-      }else {
-         $rules = [
-               'title' => 'required',
-                  'alias' => 'required',
-                   'short_description' => 'required',
-                    'status'=> 'required',
-                     'description' => 'required',
-                      'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-           ];
-        $this->validate($request, $rules);
-        $News = new News();
-        if ($request->hasFile('image')) {
-
-            $dir = 'uploads/';
-            $extension = strtolower($request->file('image')->getClientOriginalExtension()); // get image extension
-            $FileName =  time().'_'.rand(1000,9999).'.'.$extension;
-            $request->file('image')->move($dir, $FileName);
-            $News->image = $FileName;
-        }
-         $News->meta_title = $request->meta_title;
-                 $News->meta_description = $request->meta_description;
-                  $News->meta_keywords = $request->meta_keywords;
-           $News->title = $request->title;
-                 $News->alias = $request->alias;
-                  $News->short_description = $request->short_description;
-                     $News->description = $request->description;
-                           $News->status = $request->status;
-                                    $News->ordering = true;
-                                $News->save();
-        return redirect('/admin/news')->with('success','News has been Added Successfully');
-       }
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-/*     public function search(Request $request)
-     {
-       if ($request->isMethod('get')){
-          $rules = [
-           'searchnews' => 'required'
-       ];
-        $this->validate($request, $rules);
-        $search = $request->input('searchnews');
-        $News = News::where('title', 'LIKE', '%'.$search.'%')->paginate(4);
-        return view('admin.news', compact('News'))->with('success','Searched Successfully');
-
-   }else{
-    return redirect('/admin/news')->with('error','Error!!');
-   }
-     } */
-
-
-    public function getAllNews(){
-
-      $data = News::query();
-      //echo '<pre>';
-      // print_r($data);
-      //exit;
-      return Datatables::eloquent($data)
-      ->addColumn('action', 'inc.newsactions')
-      ->addColumn('status', function($data) {
-        $val = 1;
-        if ($data->status !== $val) {
-              return '<label class="badge badge-danger">Disabled</label>';  } else {
-                     return '<label class="badge badge-success">Enabaled</label>';    }
-        })
-        ->addColumn('image', function ($data) {
-          if($data->image!==''){
-          $url= asset('uploads/'.$data->image);
-          return '<img src="'.$url.'" class="img-rounded" align="center" style="object-fit: cover;" height="70px" width="70px"  />';}else{
-            $url= asset('images/noimage.jpg');
-            return '<img src="'.$url.'" class="img-rounded" align="center" style="object-fit: cover;" height="70px" width="70px"  />';
-          }
-        })
-      ->rawColumns(['action','status','image'])
-      ->addIndexColumn()
-      ->make(true);
-
+    public function create()
+    {  return view('admin.news.create-news');
     }
 
     /**
@@ -135,7 +44,7 @@ class newsController extends Controller
      */
     public function show($id)
     {
-        //
+        // This method can be implemented if needed.
     }
 
     /**
@@ -146,7 +55,9 @@ class newsController extends Controller
      */
     public function edit($id)
     {
-        //
+      $newsEdit = News::findOrFail($id);
+      return view('admin.news.edit-news', compact('newsEdit'));
+
     }
 
     /**
@@ -156,46 +67,86 @@ class newsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function store(Request $request)
+    {
+        $rules = [
+            'title' => 'required',
+            'short_description' => 'required',
+            'alias' => 'required',
+            'description' => 'required',
+            'status' => 'required'
+        ];
+        $this->validate($request, $rules);
+
+        $news = new News();
+        if ($request->hasFile('image')) {
+            $dir = 'uploads/';
+            $extension = strtolower($request->file('image')->getClientOriginalExtension());
+            $fileName = time() . '_' . rand(1000, 9999) . '.' . $extension;
+            $request->file('image')->move($dir, $fileName);
+            $news->image = $fileName;
+        } else {
+            $news->image = '';
+        }
+
+        $news->meta_title = $request->meta_title;
+        $news->meta_description = $request->meta_description;
+        $news->short_description = $request->short_description;
+        $news->meta_keywords = $request->meta_keywords;
+        $news->title = $request->title;
+        $news->alias = $request->alias;
+        $news->description = $request->description;
+        $news->status = $request->status;
+        $news->save();
+
+        return redirect('/admin/news')->with('success', 'news has been added successfully');
+    }
     public function update(Request $request, $id)
     {
-      if ($request->isMethod('get')){
-        return view('admin.newsform', ['NewsEdit' => News::find($id)]);
-      }
-       else {
-               //Here we are putting validatin
-                 $rules = [
-                   'title' => 'required',
-                      'alias' => 'required',
-                       'short_description' => 'required',
-                        'status'=> 'required',
-                         'description' => 'required',
-                          'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
-                             ];
-                 $this->validate($request, $rules);
-                 $News = News::find($id);
-                 if ($request->hasFile('image')) {
-                     $dir = 'uploads/';
-                     if ($News->image != '' && File::exists($dir . $News->image))
-                         File::delete($dir . $News->image);
-                     $extension = strtolower($request->file('image')->getClientOriginalExtension());
-                     $FileName =  time().'_'.rand(1000,9999).'.'.$extension;
-                     $request->file('image')->move($dir, $FileName);
-                     $News->image = $FileName;
-                 }elseif ($request->remove == 1 && File::exists('uploads/' . $News->image)) {
-                     File::delete('uploads/' . $News->image);
-                    $News->image = null;
+        if ($request->isMethod('get')) {
+            return view('admin.newsform', ['newsEdit' => News::find($id)]);
+        } else {
+            $request->validate([
+                'title' => 'required',
+                'alias' => 'required',
+                'short_description' => 'required',
+                'status' => 'required',
+                'description' => 'required',
+                'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+
+            $news = News::find($id);
+
+            if ($request->hasFile('image')) {
+                $dir = 'uploads/';
+                if ($news->image != '' && File::exists($dir . $news->image)) {
+                    File::delete($dir . $news->image);
                 }
-               }   $News->meta_title = $request->meta_title;
-                          $News->meta_description = $request->meta_description;
-                           $News->meta_keywords = $request->meta_keywords;
-                      $News->title = $request->title;
-                      $News->alias = $request->alias;
-                      $News->short_description = $request->short_description;
-                      $News->description = $request->description;
-                      $News->status = $request->status;
-                      $News->ordering = true;
-                      $News->save();
-                               return redirect('/admin/news')->with('success','News has been Updated Successfully');
+                $extension = strtolower($request->file('image')->getClientOriginalExtension());
+                $fileName = time() . '_' . rand(1000, 9999) . '.' . $extension;
+                $request->file('image')->move($dir, $fileName);
+                $news->image = $fileName;
+            } elseif ($request->remove == 1 && File::exists('uploads/' . $news->image)) {
+                File::delete('uploads/' . $news->image);
+                $news->image = null;
+            }
+
+            $news->fill($request->only([
+                'meta_title',
+                'meta_description',
+                'meta_keywords',
+                'title',
+                'alias',
+                'short_description',
+                'description',
+                'status',
+            ]));
+
+            $news->ordering = true;
+            $news->save();
+
+            return redirect('/admin/news')->with('success', 'News has been Updated Successfully');
+        }
     }
 
     /**
@@ -204,53 +155,23 @@ class newsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
     public function delete($id)
     {
-      //  User must be deleted softly i.e 0,1 i.e either it is one or zero
-      try{ $news = News::find($id);
-           $dir = 'uploads/';
-           if ($news->image != '' && File::exists($dir . $news->image)){
-                  File::delete($dir . $news->image);
-                  News::destroy($id);
-                  $message = "News Deleted Successfully";
-                  return response()->json([
-                  'status' => 200,
-                  'message' => $message
-             ]);
-           }//if ends here
-            else{
-            News::destroy($id);
-            $message = "News Deleted Successfully";
-            return response()->json([
-            'status' => 200,
-            'message' => $message
-             ]);
-           }
-           }catch(\Exception $e)  {
-            $message =  $e->getMessage();
-           return response()->json(['status' => 400,
-            'message' => $message]);
-          }
+        // User must be deleted softly i.e 0,1 i.e either it is one or zero
+        try {
+            $news = News::findOrFail($id); // Using findOrFail to handle not found case
+            $dir = 'uploads/';
+            if ($news->image != '' && File::exists($dir . $news->image)) {
+                File::delete($dir . $news->image);
+            }
+            $news->delete(); // Soft delete the project
+            $message = "news Deleted Successfully";
+            return redirect()->route('news.index')->with('success', $message); // Redirecting to index page
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            return redirect()->route('news.index')->with('error', $message); // Redirecting to index page with error message
+        }
     }
-
-
-     /*  public function delete($id)
-     {
-       $News = News::find($id);
-              if ($News!==null) {
-                  $dir = 'uploads/';
-                  if ($News->image != '' && File::exists($dir . $News->image)){
-                         File::delete($dir . $News->image);
-                         News::destroy($id);
-                       return redirect('/admin/news')->with('success', 'News Deleted');}
-                   else{
-                     News::destroy($id);
-                   return redirect('/admin/news')->with('success', 'News Deleted');}
-
-                }
-     }*/
-
 
 
 }

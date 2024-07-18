@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Files;
+use Illuminate\Support\Facades\Storage;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -145,7 +147,43 @@ class FilesController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+     public function store(Request $request)
+     {
+         $request->validate([
+             'title' => 'required|string',
+             'title_first_line' => 'nullable|string|max:255',
+             'title_second_line' => 'nullable|string|max:255',
+             'image' => 'required',
+             'file' => 'nullable|string|max:150',
+             'category' => 'required|string',
+             'status' => 'nullable|boolean',
+             'alias' => 'nullable|string|max:255',
+             'link' => 'nullable|string|max:150',
+             'link_status' => 'nullable|boolean',
+         ]);
 
+         $file = new Files();
+         if ($request->hasFile('image')) {
+          $dir = 'uploads/';
+          $extension = strtolower($request->file('image')->getClientOriginalExtension());
+          $fileName = time() . '_' . rand(1000, 9999) . '.' . $extension;
+          $request->file('image')->move($dir, $fileName);
+          $file->image = $fileName;
+      } else {
+          $file->image = '';
+      }
+         $file->title = $request->title;
+         $file->title_first_line = $request->title_first_line;
+         $file->title_second_line = $request->title_second_line;
+         $file->file = $request->file;
+         $file->category = $request->category;
+         $file->status = $request->status;
+         $file->alias = $request->alias;
+         $file->link = $request->link;
+         $file->link_status = $request->link_status;
+         $file->save();
+         return redirect('/admin/files')->with('success','File has been Added Successfully');
+     }
 
     public function getAllFiles(Request $request){
       $query = Files::query();
@@ -217,45 +255,44 @@ class FilesController extends Controller
     }
     public function update(Request $request, $id)
     {
-        // Validate incoming request
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'category' => 'required|string|in:logo,slider,partnersandassociates,brochure,newsletter,ourgroup,isocertificates,others',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,png,jpg,jpeg|max:10240', // 10MB max size
-            'status' => 'required|boolean',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        // Find the file record
         $file = Files::findOrFail($id);
 
-        // Update file properties
-        $file->title = $request->title;
-        $file->category = $request->category;
-        $file->status = $request->status;
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'title_first_line' => 'nullable|string|max:255',
+            'title_second_line' => 'nullable|string|max:255',
+            'image' => 'nullable|file|mimes:jpg,jpeg,png,gif|max:2048', // Assuming image upload
+            'file' => 'nullable|file|mimes:pdf|max:2048', // Assuming file upload
+            'category' => 'nullable|string',
+            'status' => 'required|boolean',
+            'alias' => 'nullable|string|max:255',
+            'link' => 'nullable|string|max:150',
+        ]);
 
-        // Handle file upload if a new file is provided
-        if ($request->hasFile('file')) {
-            // Delete old file if exists
-            if ($file->file && Storage::disk('public')->exists($file->file)) {
-                Storage::disk('public')->delete($file->file);
-            }
 
-            // Store new file
-            $file->file = $request->file('file')->store('files', 'public');
-        }
+        // Update the file's metadata
+        $file->title = $request->input('title');
+        $file->title_first_line = $request->input('title_first_line');
+        $file->title_second_line = $request->input('title_second_line');
+        $file->category = $request->input('category');
+        $file->status = $request->input('status');
+        $file->alias = $request->input('alias');
+        $file->link = $request->input('link');
+        $file->link_status = $request->input('link_status');
 
-        // Save changes to the database
+        if ($request->hasFile('image')) {
+          $imageName = time().'.'.$request->image->extension();
+          $request->image->move(public_path('uploads'), $imageName);
+          $file->image = $imageName;
+      } elseif ($request->input('remove') == 1) {
+          $file->image = null;
+      }
+
         $file->save();
 
-        // Redirect back with success message
-        return redirect('/admin/files')->with('success', 'Pages has been added successfully');
 
-    }
-
+        return redirect('/admin/files')->with('success','File has been Updated Successfully');
+      }
 
     /**
      * Remove the specified resource from storage.
@@ -265,28 +302,20 @@ class FilesController extends Controller
      */
     public function delete($id)
     {
-      try{
-     $File = Files::find($id);
-            if ($File!==null) {
-                $dir = 'uploads/';
-                   if($File->link != ''){ $path = '/uploads/flipbooks/' . $File->alias;   File::deleteDirectory(public_path($path)); }
-                if ($File->image != '' && File::exists($dir . $File->image) ){
-
-                     File::delete($dir . $File->image);
-                     Files::destroy($id);
-                     $message = "File Deleted Successfully";
-                     return response()->json([
-                     'status' => 200,
-                     'message' => $message
-                      ]);
-                  }
-
-              }/*if ends here*/
-           }catch(\Exception $e)  {
-            $message =  $e->getMessage();
-           return response()->json(['status' => 400,
-            'message' => $message]);
-          }
-       }/*Function ends here*/
+     // User must be deleted softly i.e 0,1 i.e either it is one or zero
+     try {
+      $file = Files::findOrFail($id); // Using findOrFail to handle not found case
+      $dir = 'uploads/';
+      if ($file->image != '' && File::exists($dir . $file->image)) {
+          File::delete($dir . $file->image);
+      }
+      $file->delete(); // Soft delete the widget
+      $message = "File Deleted Successfully";
+      return redirect('/admin/files')->with('success','File has been Updated Successfully');
+    } catch (\Exception $e) {
+      $message = $e->getMessage();
+      return redirect()->route('file.index')->with('error', $message); // Redirecting to index page with error message
+  }
+    }/*Function ends here*/
 
 }

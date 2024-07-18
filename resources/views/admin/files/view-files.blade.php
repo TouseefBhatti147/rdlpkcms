@@ -46,9 +46,27 @@
 
                 <div class="form-group">
                     <label for="file">File</label>
-                    <div>
-                        <a href="{{ asset('storage/'.$file->file_path) }}" target="_blank">View File</a>
-                    </div>
+                    @php
+                    $filePath = 'uploads/' . $file->image;
+                    $fullPath = public_path($filePath);
+                    $fileExists = file_exists($fullPath);
+                    $extension = pathinfo($fullPath, PATHINFO_EXTENSION);
+                    @endphp
+
+                    @if($fileExists)
+                    @if(in_array($extension, ['jpg', 'jpeg', 'png', 'gif']))
+                    <!-- Display image -->
+                    <img src="{{ asset($filePath) }}" alt="File Image"
+                        style="width: 500px; height: 500px; object-fit: cover;">
+                    @elseif($extension == 'pdf')
+                    <!-- Display PDF -->
+                    <iframe src="{{ asset($filePath) }}" width="100%" height="600px"></iframe>
+                    @else
+                    <p>Unsupported file type.</p>
+                    @endif
+                    @else
+                    <p>File not found.</p>
+                    @endif
                 </div>
 
                 <a href="{{ route('files.index') }}" class="btn btn-secondary">Back</a>
