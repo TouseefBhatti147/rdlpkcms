@@ -174,20 +174,7 @@ class projectsController extends Controller
         }
     }
 
-     /*  public function delete($id)
-     {
-       $Project = Projects::find($id);
-              if ($Project!==null) {
-                  $dir = 'uploads/';
-                  if ($Project->image != '' && File::exists($dir . $Project->image)){
-                         File::delete($dir . $Project->image);
-                        Projects::destroy($id);
-                      return redirect('/admin/projects')->with('success', 'Project Deleted');
-                    }else{
-                      return redirect('/admin/projects')->with('error', 'Error');}
 
-                }
-     }*/
 
 
 }

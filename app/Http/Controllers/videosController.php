@@ -1,18 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Pages;
+
 use App\Models\Videos;
-use Carbon\Carbon;
-use Yajra\Datatables\Facades\Datatables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Yajra\DataTables\Facades\DataTables;
 
-class videosController extends Controller
+class VideosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
 
-  public function __construct()
-  { $this->middleware('auth:admin'); }
     /**
      * Display a listing of the resource.
      *
@@ -20,75 +21,44 @@ class videosController extends Controller
      */
     public function index()
     {
-      $Videos = Videos::orderBy('created_at', 'desc')->paginate(4);
-      return view('admin.videos', compact('Videos'));
+        $videos = Videos::orderBy('created_at', 'desc')->paginate(4);
+        return view('admin.videos.index-videos', compact('videos'));
+
+        return view('admin.videos', compact('videos'));
     }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
-    {
-      if ($request->isMethod('get')){
-               return view('admin.videosform');
-      }else{
-         $rules = [
-               'title' => 'required',
-                'alias' => 'required',
-                'status' => 'required'
-           ];
-        $this->validate($request, $rules);
-        $Video = new Videos();
-         $Video->title = $request->title;
-         $Video->alias = $request->alias;
-              $Video->status = $request->status;
-               $Video->save();
-        return redirect('/admin/videos')->with('success','Video has been Added Successfully');
-       }
+    public function create()
+    {  return view('admin.videos.create-videos');
     }
+
     /**
-     * Store a newly created resource in storage.
+     * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-     public function search(Request $request)
-     {
-       if ($request->isMethod('get')){
-          $rules = [
-           'searchvideo' => 'required'
-       ];
-        $this->validate($request, $rules);
-        $search = $request->input('searchvideo');
-        $Videos = Videos::where('title', 'LIKE', '%'.$search.'%')->paginate(4);
-        return view('admin.videos', compact('Videos'))->with('success','Searched Successfully');
+    public function show($id)
+    {
+        // This method can be implemented if needed.
+    }
 
-    }else{
-     return redirect('/admin/videos')->with('error','Error!!');
-     }
-     }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+      $videosEdit = Videos::findOrFail($id);
+      return view('admin.videos.edit-videos', compact('videosEdit'));
 
-     //All Videos sart here
-     public function getAllVideos(){
-      $data = Videos::query();
-      //echo '<pre>';
-      // print_r($data);
-      //exit;
-      return Datatables::eloquent($data)
-      ->addColumn('action', 'inc.videosactions')
-      ->addColumn('video', 'inc.videoframe')
-      ->addColumn('status', function($data) {
-        $val = 1;
-        if ($data->status !== $val) {
-              return '<label class="badge badge-danger">Disabled</label>';  } else {
-                     return '<label class="badge badge-success">Enabaled</label>';    }
-        })
-       ->rawColumns(['action','status','video'])
-       ->addIndexColumn()
-       ->make(true);
-
-     }//All Videos end here
+    }
 
     /**
      * Update the specified resource in storage.
@@ -97,50 +67,88 @@ class videosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function store(Request $request)
+    {
+        $rules = [
+            'title' => 'required',
+            'alias' => 'required',
+            'status' => 'required'
+        ];
+        $this->validate($request, $rules);
+
+        $videos = new Videos();
+
+
+
+        $videos->title = $request->title;
+        $videos->alias = $request->alias;
+        $videos->status = $request->status;
+        $videos->save();
+
+        return redirect('/admin/videos')->with('success', 'videos has been added successfully');
+    }
     public function update(Request $request, $id)
     {
-      if ($request->isMethod('get')){return view('admin.videosform', ['VideoEdit' => Videos::find($id)]); }
-       else {
-               //Here we are putting validatin
-                 $rules = [
-                   'title' => 'required',
-                      'status' => 'required',
-                        'alias' => 'required',
-                 ];
-               $this->validate($request, $rules);
-                  $Video =Videos::find($id);
-                  $Video->title = $request->title;
-                   $Video->alias = $request->alias;
-                       $Video->status = $request->status;
-                        $Video->save();
-                 return redirect('/admin/videos')->with('success','Video has been Updated Successfully');
+        if ($request->isMethod('get')) {
+            return view('admin.videosform', ['videosEdit' => Videos::find($id)]);
+        } else {
+            $request->validate([
+                'title' => 'required',
+                'alias' => 'required',
+                'status' => 'required',
+            ]);
+
+            $videos = Videos::find($id);
+
+            if ($request->hasFile('image')) {
+                $dir = 'uploads/';
+                if ($videos->image != '' && File::exists($dir . $videos->image)) {
+                    File::delete($dir . $videos->image);
                 }
+                $extension = strtolower($request->file('image')->getClientOriginalExtension());
+                $fileName = time() . '_' . rand(1000, 9999) . '.' . $extension;
+                $request->file('image')->move($dir, $fileName);
+                $videos->image = $fileName;
+            } elseif ($request->remove == 1 && File::exists('uploads/' . $videos->image)) {
+                File::delete('uploads/' . $videos->image);
+                $videos->image = null;
+            }
+
+            $videos->fill($request->only([
+                'title',
+                'alias',
+                'status',
+            ]));
+
+            $videos->save();
+
+            return redirect('/admin/videos')->with('success', 'Videos has been Updated Successfully');
+        }
     }
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
- //Logic for deletion starts here
-     public function delete($id)
-     {
-       $video = Videos::find($id);
-              if ($video!==null) {
-                try{
-                  Videos::destroy($id);
-                  $message = "Video Deleted Successfully";
-                  return response()->json([
-                  'status' => 200,
-                  'message' => $message
-                 ]);
-                }catch(\Exception $e){
-                  $message =  $e->getMessage();
-                  return back()->withErrors($message);
-                }
-        }/*if ends here*/
-     }//Logic for deletion ends here
+    public function delete($id)
+    {
+        // User must be deleted softly i.e 0,1 i.e either it is one or zero
+        try {
+            $videos = Videos::findOrFail($id); // Using findOrFail to handle not found case
+            $dir = 'uploads/';
+            if ($videos->image != '' && File::exists($dir . $videos->image)) {
+                File::delete($dir . $videos->image);
+            }
+            $videos->delete(); // Soft delete the project
+            $message = "videos Deleted Successfully";
+            return redirect()->route('videos.index')->with('success', $message); // Redirecting to index page
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            return redirect()->route('videos.index')->with('error', $message); // Redirecting to index page with error message
+        }
+    }
 
 
-  }
+}
