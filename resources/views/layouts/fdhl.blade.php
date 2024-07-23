@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="@yield('description')">
     <meta name="keywords" content="@yield('keywords')">
-    <meta name="msapplication-TileImage" content="{{asset('/images/logo5.gif')}}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('/images/logo5.gif')}}">
-    <link rel="icon" type="image/gif" href="{{asset('/images/logo5.gif')}}" sizes="32x32">
+    <meta name="msapplication-TileImage" content="{{asset('/images/logo.gif')}}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('/images/logo.gif')}}">
+    <link rel="icon" type="image/gif" href="{{asset('/images/logo.gif')}}" sizes="32x32">
     <title>Royal Developers & Builders (Pvt) Limited | @yield('title')</title>
     <!-- copy element {{asset('')}} -->
     <link href="{{asset('assets/global/css/components.min.css')}}" rel="stylesheet" id="style_components"
@@ -25,7 +25,7 @@
     </script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="shortcut icon" href="{{asset('/images/logo5.gif')}}" />
+    <link rel="shortcut icon" href="{{ asset('images/logo.jpg') }}" />
     <link href="{{asset('assets/pages/css/error.min.css')}}" rel="stylesheet" type="text/css" />
     @yield('css')
     <style>
@@ -45,7 +45,7 @@
 <body>
     <div id="loader">
         <!-- loader div starts here -->
-        <img id="logoloader" alt="logoloader" src="{{ asset('images/logo5.gif') }}">
+        <img id="logoloader" alt="logoloader" src="{{ asset('images/logo.jpg') }}">
         <img id="loadersvg" alt="Loader" src="{{ asset('images/loader.svg') }}">
     </div> <!-- loader div ends here -->
     <div id="contents">

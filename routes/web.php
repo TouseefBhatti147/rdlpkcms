@@ -23,7 +23,7 @@ use App\Http\Controllers\videosController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\officesController;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\newslettersController;
+use App\Http\Controllers\NewslettersController;
 use App\Http\Controllers\User\userWidgetsController;
 use App\Http\Controllers\User\userPagesController;
 
@@ -232,15 +232,14 @@ Route::group(['prefix' => 'admin/users'], function () {
 });
 
 /* Admin Routes for Newsletters are defined here */
-Route::group(['prefix' => 'admin/newsletters'], function () {
-    Route::get('/', [newslettersController::class, 'index']);
-    Route::get('/v1/newsletters', [newslettersController::class, 'getAllNewsletters'])->name('api.newsletters.index');
-    /* Route::get('/search','newslettersController@search')->name('newsletters.search'); */
-    Route::match(['get', 'post'], 'create', [newslettersController::class, 'create']);
-    Route::match(['get', 'put'], 'update/{id}', [newslettersController::class, 'update']);
-    Route::delete('delete/{id}', [newslettersController::class, 'delete']);
+Route::prefix('admin/newsletters')->group(function () {
+    Route::get('/', [NewslettersController::class, 'index'])->name('newsletters.index');
+    Route::match(['get', 'post'], 'create', [NewslettersController::class, 'create'])->name('newsletters.create');
+    Route::post('/', [NewslettersController::class, 'store'])->name('newsletters.store');
+    Route::get('/edit/{id}', [NewslettersController::class, 'edit'])->name('newsletters.edit');
+    Route::match(['get', 'put'], 'update/{id}', [NewslettersController::class, 'update'])->name('newsletters.update');
+    Route::delete('delete/{id}', [NewslettersController::class, 'delete'])->name('newsletters.delete');
 });
-
 /* User Routes */
 Route::prefix('user')->group(function() {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('user.dashboard');

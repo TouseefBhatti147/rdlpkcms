@@ -72,82 +72,50 @@ class SettingsController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'title' => 'required',
-            'website' => 'required',
+            'name' => 'required',
             'alias' => 'required',
-            'description' => 'required',
-            'short_description' => 'required',
+            'value' => 'required',
             'status' => 'required'
         ];
         $this->validate($request, $rules);
 
-        $project = new Settings();
-        if ($request->hasFile('image')) {
-            $dir = 'uploads/';
-            $extension = strtolower($request->file('image')->getClientOriginalExtension());
-            $fileName = time() . '_' . rand(1000, 9999) . '.' . $extension;
-            $request->file('image')->move($dir, $fileName);
-            $project->image = $fileName;
-        } else {
-            $project->image = '';
-        }
+        $setting = new Settings();
 
-        $project->meta_title = $request->meta_title;
-        $project->meta_description = $request->meta_description;
-        $project->short_description = $request->short_description;
-        $project->meta_keywords = $request->meta_keywords;
-        $project->title = $request->title;
-        $project->website = $request->website;
-        $project->alias = $request->alias;
-        $project->description = $request->description;
-        $project->status = $request->status;
-        $project->save();
 
-        return redirect('/admin/settings')->with('success', 'project has been added successfully');
+
+        $setting->name = $request->name;
+        $setting->alias = $request->alias;
+        $setting->value = $request->value;
+        $setting->status = $request->status;
+        $setting->save();
+
+        return redirect('/admin/settings')->with('success', 'setting has been added successfully');
     }
     public function edit($id)
     {
-        $ProjectEdit = Settings::findOrFail($id);
-        return view('admin.settings.edit-settings', compact('ProjectEdit'));
+        $SettingEdit = Settings::findOrFail($id);
+        return view('admin.settings.edit-settings', compact('SettingEdit'));
     }
     public function update(Request $request, $id)
     {
-        $project = Settings::findOrFail($id);
+        $setting = Settings::findOrFail($id);
 
         $request->validate([
-            'title' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'alias' => 'required|string|max:255',
-            'website' => 'required|string|max:255',
             'status' => 'required|boolean',
-            'description' => 'nullable|string',
-            'short_description' => 'nullable|string',
-            'meta_title' => 'nullable|string|max:255',
-            'meta_description' => 'nullable|string',
-            'meta_keywords' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'value' => 'required',
+
         ]);
 
-        $project->title = $request->input('title');
-        $project->alias = $request->input('alias');
-        $project->website = $request->input('website');
-        $project->status = $request->input('status');
-        $project->description = $request->input('description');
-        $project->short_description = $request->input('short_description');
-        $project->meta_title = $request->input('meta_title');
-        $project->meta_description = $request->input('meta_description');
-        $project->meta_keywords = $request->input('meta_keywords');
+        $setting->name = $request->input('name');
+        $setting->alias = $request->input('alias');
+        $setting->status = $request->input('status');
+        $setting->value = $request->input('value');
 
-        if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('uploads'), $imageName);
-            $project->image = $imageName;
-        } elseif ($request->input('remove') == 1) {
-            $project->image = null;
-        }
+        $setting->save();
 
-        $project->save();
-
-        return redirect()->route('settings.index')->with('success', 'project updated successfully');
+        return redirect()->route('settings.index')->with('success', 'setting updated successfully');
     }
     /**
      * Remove the specified resource from storage.
@@ -159,13 +127,10 @@ class SettingsController extends Controller
     {
         // User must be deleted softly i.e 0,1 i.e either it is one or zero
         try {
-            $project = Settings::findOrFail($id); // Using findOrFail to handle not found case
-            $dir = 'uploads/';
-            if ($project->image != '' && File::exists($dir . $project->image)) {
-                File::delete($dir . $project->image);
-            }
-            $project->delete(); // Soft delete the project
-            $message = "project Deleted Successfully";
+            $setting = Settings::findOrFail($id); // Using findOrFail to handle not found case
+
+            $setting->delete(); // Soft delete the setting
+            $message = "setting Deleted Successfully";
             return redirect()->route('settings.index')->with('success', $message); // Redirecting to index page
         } catch (\Exception $e) {
             $message = $e->getMessage();

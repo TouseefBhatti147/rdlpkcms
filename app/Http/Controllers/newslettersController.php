@@ -1,148 +1,133 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Newsletters;
+
+
+use App\Models\Newsletters; // Add this line
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Validator;
-use ZipArchive;
 use Carbon\Carbon;
 use Yajra\Datatables\Facades\Datatables;
-class newslettersController extends Controller
-{
+use Illuminate\Support\Facades\File;
 
+class NewslettersController extends Controller
+{
 
   public function __construct()
   {
    $this->middleware('auth:admin');
-  }
 
+  }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-     public function index()
-     {
-      // $Newsletters = Newsletters::orderBy('created_at', 'desc')->paginate(4);
-      $News = Newsletters::orderBy('created_at', 'desc')->paginate(10);
-      return view('admin.newsletters', compact('News'));
-     }
+    public function index()
+    {
+        $newsLetter = Newsletters::orderBy('created_at', 'desc')->paginate(10); // Paginate by 10 items per page
+
+        return view('admin.newsletters.index-newsletters', compact('newsLetter'));
+    }
+
+    public function edit($id)
+    {
+        $NewsEdit = Newsletters::findOrFail($id);
+        return view('admin.newsletters.edit-newsletters', compact('NewsEdit'));
+
+
+    }
+
+
+    public function store(Request $request)
+{
+    // Validate the request data
+    $rules = [
+        'title' => 'required|string|max:61',
+        'alias' => 'required|string|unique:newsletters,alias',
+        'link' => 'nullable|string',
+        'pdf_file' => 'nullable|file|mimes:pdf|max:2048',
+        'status' => 'required|boolean',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+        'meta_title' => 'nullable|string|max:255',
+        'meta_description' => 'nullable|string',
+        'meta_keywords' => 'nullable|string',
+    ];
+    $this->validate($request, $rules);
+
+    $newsletter = new Newsletters();
+
+    // Handle image upload
+    if ($request->hasFile('image')) {
+        $dir = 'uploads/';
+        $extension = strtolower($request->file('image')->getClientOriginalExtension());
+        $fileName = time() . '_' . rand(1000, 9999) . '.' . $extension;
+        $request->file('image')->move($dir, $fileName);
+        $newsletter->image = $fileName;
+    } else {
+        $newsletter->image = '';
+    }
+
+    // Handle PDF file upload
+    if ($request->hasFile('pdf_file')) {
+        $dir = 'uploads/';
+        $extension = strtolower($request->file('pdf_file')->getClientOriginalExtension());
+        $fileName = time() . '_' . rand(1000, 9999) . '.' . $extension;
+        $request->file('pdf_file')->move($dir, $fileName);
+        $newsletter->pdf_file = $fileName;
+    }
+
+    $newsletter->title = $request->title;
+    $newsletter->alias = $request->alias;
+    $newsletter->link = $request->link;
+    $newsletter->status = $request->status;
+    $newsletter->meta_title = $request->meta_title;
+    $newsletter->meta_description = $request->meta_description;
+    $newsletter->meta_keywords = $request->meta_keywords;
+
+    $newsletter->save();
+
+    // Redirect to the newsletters list with a success message
+    return redirect()->route('newsletters.index')->with('success', 'Newsletter created successfully.');
+}
+
+
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-     public function create(Request $request)
-     {
-       if ($request->isMethod('get')){
-                return view('admin.newslettersform');
-       }else {
-          $rules = [
-                'title' => 'required',
-                   'alias' => 'required',
-                  //  'file'=> 'required|mimes:zip',
-                    'pdf_file'=> 'required|mimes:pdf',
-                    'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                     'status'=> 'required',
-            ];
-         $this->validate($request, $rules);
-         $News = new Newsletters();
-         if ($request->hasFile('image')) {
-             $dir = 'uploads/';
-             $extension = strtolower($request->file('image')->getClientOriginalExtension()); // get image extension
-             $FileNameimg =  time().'_'.rand(1000,9999).'.'.$extension;
-             $request->file('image')->move($dir, $FileNameimg);
-             $News->image = $FileNameimg;
-         }
-        //PDF file is being uploaded from here
-         if ($request->hasFile('pdf_file')) {
-             $dir = 'uploads/';
-             $extension = strtolower($request->file('pdf_file')->getClientOriginalExtension()); // get image extension
-             $FileNamepdf =  time().'_'.rand(1000,9999).'.'.$extension;
-             $request->file('pdf_file')->move($dir, $FileNamepdf);
-             $News->pdf_file = $FileNamepdf;
-         }
-         if ($request->hasFile('file')) {
-             $dir = 'uploads/';
-             $size = $request->file('file')->getSize();
-             $allowExt  = array('zip');
-             $extension = strtolower($request->file('file')->getClientOriginalExtension()); // get image extension
-             $FileName =  time().'_'.rand(1000,9999).'.'.$extension;
-             if(in_array($extension, $allowExt)){//check a valid image
-               if($size < 200000000){ //check image size less than 5MB
+    public function create(Request $request)
+    {
 
-             $request->file('file')->move($dir, $FileName);
-             $News->file = $FileName;
-             $zip = new ZipArchive();
-             $res = $zip->open($dir.$FileName);
-             if ($res === TRUE) {
-             $path = public_path().'/uploads/flipbooks/' . $request->alias;
-                     File::makeDirectory($path, $mode = 0777, true, true);
-                     $newpath = '/uploads/flipbooks/' . $request->alias . '/index.html';
-                      $News->link = $newpath;
-             $zip->extractTo($path);
-             }
-             $zip->close();
-             if(File::exists($dir.$FileName)){
-             unlink($dir.$FileName);
-             }else{
-             return redirect()->back()->withErrors('No file exsists.')->withInput();  }
-           }else{return redirect()->back()->withErrors('The File may not be greater than 200MB.')->withInput();}
-           }else{return redirect()->back()->withErrors('Please Select proper image upload format')->withInput();}
-         }else{
-            $News->file = '';
-              $News->link ='';
-         }
+      return view('admin.newsletters.create-newsletters');
 
-            $News->title = $request->title;
-                  $News->alias = $request->alias;
-                       $News->meta_title = $request->meta_title;
-                            $News->meta_description = $request->meta_description;
-                                $News->meta_keywords = $request->meta_keywords;
-                                     $News->status = $request->status;
-                                          $News->save();
+    }
 
-              return redirect('/admin/newsletters')->with('success','Newsletter has been Added Successfully');
-        }
-     }
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
- /*   public function search(Request $request)
-    {
-      if ($request->isMethod('get')){
-         $rules = [
-          'searchnewsletter' => 'required'
-      ];
-       $this->validate($request, $rules);
-       $search = $request->input('searchnewsletter');
-       $News = Newsletters::where('title', 'LIKE', '%'.$search.'%')->paginate(4);
-       return view('admin.newsletters', compact('News'))->with('success','Searched Successfully');
 
-      }else{
-     return redirect('/admin/newsletters')->with('error','Error!!');
-     }
-    } */
 
-    public function getAllNewsletters(){
-      $data = Newsletters::query();
+     public function getAllFlashNews(){
+
+      $data = FlashNews::query();
       //echo '<pre>';
       // print_r($data);
       //exit;
       return Datatables::eloquent($data)
-      ->addColumn('action', 'inc.newslettersactions')
+      ->addColumn('action', 'inc.widgetactions')
       ->addColumn('status', function($data) {
         $val = 1;
         if ($data->status !== $val) {
               return '<label class="badge badge-danger">Disabled</label>';  } else {
                      return '<label class="badge badge-success">Enabaled</label>';    }
         })
-        ->addColumn('image', function ($data) { 
+        ->addColumn('image', function ($data) {
           if($data->image!==''){
           $url= asset('uploads/'.$data->image);
           return '<img src="'.$url.'" class="img-rounded" align="center" style="object-fit: cover;" height="70px" width="70px"  />';}else{
@@ -151,165 +136,71 @@ class newslettersController extends Controller
           }
         })
       ->rawColumns(['action','status','image'])
-      ->addIndexColumn() 
-      ->make(true); 
+      ->addIndexColumn()
+      ->make(true);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
-    {
-      if ($request->isMethod('get')){
-        return view('admin.newslettersform', ['NewsEdit' => Newsletters::find($id)]);
-      }
-       else {
-               //Here we are putting validatin
-                 $rules = [
-                   'title' => 'required',
-                      'alias' => 'required',
-                       'link' => 'required',
-                        'status'=> 'required',
+{
+    $newsletter = Newsletters::findOrFail($id);
 
-                 ];
-                 $this->validate($request, $rules);
-                 $News = Newsletters::find($id);
-                 if ($request->hasFile('image')) {
-                     $dir = 'uploads/';
-                     if ($News->image != '' && File::exists($dir . $News->image))
-                         File::delete($dir . $News->image);
-                         $extension = strtolower($request->file('image')->getClientOriginalExtension()); // get image extension
-                         $FileNameimg =  time().'_'.rand(1000,9999).'.'.$extension;
-                         $request->file('image')->move($dir, $FileNameimg);
-                         $News->image = $FileNameimg;
-                 }elseif ($request->remove == 1 && File::exists('uploads/' . $News->image)) {
-                File::delete('uploads/' . $News->image);
-                $News->image = null;
-                }
+    $request->validate([
+        'title' => 'required|string|max:61',
+        'alias' => 'required|string', // Corrected validation rule
+        'link' => 'nullable|string',
+        'pdf_file' => 'nullable|file|mimes:pdf|max:2048',
+        'status' => 'required|boolean',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+        'meta_title' => 'nullable|string|max:255',
+        'meta_description' => 'nullable|string',
+        'meta_keywords' => 'nullable|string',
+    ]);
 
+    $newsletter->title = $request->input('title');
+    $newsletter->alias = $request->input('alias'); // Corrected variable name
+    $newsletter->link = $request->input('link');
+    $newsletter->status = $request->input('status');
 
-                if ($request->hasFile('pdf_file')) {
-                    $dir = 'uploads/';
-                    if ($News->pdf_file != '' && File::exists($dir . $News->pdf_file))
-                        File::delete($dir . $News->pdf_file);
-                        $extension = strtolower($request->file('pdf_file')->getClientOriginalExtension()); // get image extension
-                        $FileNamepdf =  time().'_'.rand(1000,9999).'.'.$extension;
-                        $request->file('pdf_file')->move($dir, $FileNamepdf);
-                        $News->pdf_file = $FileNamepdf;
-                }elseif ($request->remove == 1 && File::exists('uploads/' . $News->pdf_file)) {
-               File::delete('uploads/' . $News->pdf_file);
-               $News->pdf_file = null;
-               }
-
-
-                if ($request->hasFile('file')) {
-                    //first deleting the old Directory
-                      if ($News->alias != '' ){
-                        $path = '/uploads/flipbooks/' . $News->alias;
-                        File::deleteDirectory(public_path($path));
-                      }
-
-                      $dir = 'uploads/';
-                      $size = $request->file('file')->getSize();
-                      $allowExt  = array('zip');
-                      $extension = strtolower($request->file('file')->getClientOriginalExtension()); // get image extension
-                      $FileName =  time().'_'.rand(1000,9999).'.'.$extension;
-                      if(in_array($extension, $allowExt)){//check a valid image
-                        if($size < 200000000){ //check image size less than 5MB
-
-                      $request->file('file')->move($dir, $FileName);
-                      $News->file = $FileName;
-                      $zip = new ZipArchive();
-                      $res = $zip->open($dir.$FileName);
-                      if ($res === TRUE) {
-                      $path = public_path().'/uploads/flipbooks/' . $request->alias;
-                              File::makeDirectory($path, $mode = 0777, true, true);
-
-                      $zip->extractTo($path);
-                      }
-                      $zip->close();
-
-                    }else{return redirect()->back()->withErrors('The File may not be greater than 200MB.')->withInput();}
-                     }else{return redirect()->back()->withErrors('Please Select proper image upload format')->withInput();}
-
-                     if(File::exists($dir.$FileName)){
-                     unlink($dir.$FileName);
-                     }else{
-                     return redirect()->back()->withErrors('No file exsists.')->withInput();  }
-
-                   }else{
-                      $News->file = '';
-                      $newpath = '/uploads/flipbooks/' . $request->alias . '/index.html';
-                      $News->link = $newpath;
-                   }
-               }
-
-
-
-
-               $News->title = $request->title;
-                     $News->alias = $request->alias;
-                         $News->meta_title = $request->meta_title;
-                             $News->meta_description = $request->meta_description;
-                              $News->meta_keywords = $request->meta_keywords;
-                               $News->status = $request->status;
-                                    $News->save();
-                 return redirect('/admin/newsletters')->with('success','Newsletter has been Updated Successfully');
-
+    if ($request->hasFile('image')) {
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('uploads'), $imageName);
+        $newsletter->image = $imageName;
+    } elseif ($request->input('remove') == 1) {
+        $newsletter->image = null;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    if ($request->hasFile('pdf_file')) {
+        $pdfName = time().'.'.$request->pdf_file->extension();
+        $request->pdf_file->move(public_path('uploads'), $pdfName);
+        $newsletter->pdf_file = $pdfName;
+    } elseif ($request->input('remove') == 1) {
+        $newsletter->pdf_file = null;
+    }
+
+    $newsletter->save();
+
+    return redirect()->route('newsletters.index')->with('success', 'Newsletter updated successfully');
+}
 
 
     public function delete($id)
-    {
-     //  Deleting newsletters
-      try{ 
-        $newsl = Newsletters::find($id);
-        if($newsl !==null){
-            $dir = 'uploads/';
-            if($newsl->image != '' && File::exists($dir . $newsl->image)){  File::delete($dir . $newsl->image);}
-            if($newsl->pdf_file != '' && File::exists($dir . $newsl->pdf_file))  {File::delete($dir . $newsl->pdf_file);}
-            if($newsl->alias != ''){$path = '/uploads/flipbooks/' . $newsl->alias;   File::deleteDirectory(public_path($path)); }
-            Newsletters::destroy($id);
-            $message = "Newsletter Deleted Successfully";
-            return response()->json([
-            'status' => 200,
-            'message' => $message
-             ]);
-           }
-          }catch(\Exception $e)  {
-            $message =  $e->getMessage();
-           return response()->json(['status' => 400,
-            'message' => $message]);
-          }
+{
+    // User must be deleted softly i.e 0,1 i.e either it is one or zero
+    try {
+        $newsletters = Newsletters::findOrFail($id); // Using findOrFail to handle not found case
+        $dir = 'uploads/';
+        if ($newsletters->image != '' && File::exists($dir . $newsletters->image)) {
+            File::delete($dir . $newsletters->image);
+        }
+        $newsletters->delete(); // Soft delete the widget
+        $message = "Newsletters Deleted Successfully";
+        return redirect()->route('newsletters.index')->with('success', $message); // Redirecting to index page
+    } catch (\Exception $e) {
+        $message = $e->getMessage();
+        return redirect()->route('newsletters.index')->with('error', $message); // Redirecting to index page with error message
     }
+}
 
-    /* public function delete($id)
-     {
-              $Newsletter = Newsletters::find($id);
-              if ($Newsletter!==null) {
-                  $dir = 'uploads/';
-             
-                if($Newsletter->image != '' && File::exists($dir . $Newsletter->image)){  File::delete($dir . $Newsletter->image);}
-                      if($Newsletter->pdf_file != '' && File::exists($dir . $Newsletter->pdf_file))  {File::delete($dir . $Newsletter->pdf_file);}
-                         if($Newsletter->alias != ''){ $path = '/uploads/flipbooks/' . $Newsletter->alias;   File::deleteDirectory(public_path($path)); }
 
-               
-                Newsletters::destroy($id);
-                return redirect('/admin/newsletters')->with('success', 'Newsletter Deleted');
-                }
-                else
-                {  return redirect('/admin/newsletters')->withError('error', 'Newsletter Not Deleted'); }
-     }*/
 
 }

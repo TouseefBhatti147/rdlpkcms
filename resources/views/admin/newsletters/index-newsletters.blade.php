@@ -7,7 +7,7 @@
             <div class="portlet-title">
                 <div class="caption font-dark">
                     <i class="icon-settings font-dark"></i>
-                    <span class="caption-subject bold uppercase"> Manage Settings</span>
+                    <span class="caption-subject bold uppercase"> Manage Newsletters</span>
                 </div>
             </div>
             <div class="portlet-body">
@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="btn-group">
-                                <a href="{{ url('admin/settings/create') }}">
+                                <a href="{{ url('admin/newsletters/create') }}">
                                     <button class="btn btn-sm red btn-circle form-control">
                                         Add New <i class="fa fa-plus"></i>
                                     </button>
@@ -31,36 +31,34 @@
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Alias</th>
-                            <th>Value</th>
+                            <th>Title</th>
                             <th>Status</th>
+                            <th>Image</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($settings as $setting)
+                        @foreach($newsLetter as $news)
                         <tr>
-                            <td>{{ $setting->name }}</td>
-                            <td>{{ $setting->alias }}</td>
+                            <td>{{ $news->title }}</td>
+                            <td>{{ $news->status ? 'Enabled' : 'Disabled' }}</td>
                             <td>
-                                {{ $setting->value }}
+                                <img src="{{ asset('uploads/' . $news->image) }}" alt="newsletters Image"
+                                    style="width: 100px; height: 100px; object-fit: cover;">
                             </td>
                             <td>
-                                {{ $setting->status == 1 ? 'Active' : 'Inactive' }}
-                            </td>
-                            <td>
-                                <a href="{{ url('admin/settings/edit/'.$setting->id) }}" class="btn blue btn-md">
+                                <a href="{{ url('admin/newsletters/edit/'.$news->id) }}" class="btn blue btn-md">
                                     <span class="glyphicon glyphicon-edit">&nbsp;Edit</span>
                                 </a>
                                 <button type="button" class="btn btn-danger btn-md" data-toggle="modal"
-                                    data-target="#deleteModal{{ $setting->id }}">
+                                    data-target="#deleteModal{{ $news->id }}">
                                     <span class="glyphicon glyphicon-remove-circle">&nbsp;Delete</span>
                                 </button>
                             </td>
                         </tr>
 
                         <!-- Delete Modal -->
-                        <div class="modal fade" id="deleteModal{{ $setting->id }}" tabindex="-1" role="dialog"
+                        <div class="modal fade" id="deleteModal{{ $news->id }}" tabindex="-1" role="dialog"
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -71,12 +69,12 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        Are you sure you want to delete this setting?
+                                        Are you sure you want to delete this newsletters?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-dismiss="modal">Cancel</button>
-                                        <form action="{{ url('admin/settings/delete/'.$setting->id) }}" method="POST">
+                                        <form action="{{ url('admin/newsletters/delete/'.$news->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Yes, Delete</button>
@@ -91,7 +89,7 @@
 
                 <!-- Pagination -->
                 <div class="pagination justify-content-end">
-                    {{ $settings->links() }}
+                    {{ $newsLetter->links() }}
                 </div>
             </div> <!-- Column ends here -->
         </div><!-- Row ends here -->

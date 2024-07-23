@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Newsletters extends Model
 {
-  protected $fillable = ['title','alias','link','image','file','status'];
+  protected $fillable = [
+    'title', 'alias', 'link', 'pdf_file', 'status', 'image', 'meta_title', 'meta_description', 'meta_keywords'
+];
   public static function getNewslettersCount(){
              $count = self::where('status','=','1')->count();
              return $count;
