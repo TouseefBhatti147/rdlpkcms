@@ -14,7 +14,7 @@ use App\Settings;
 use App\Videos;
 use App\Widgets;
 
-class fdhEventsController extends Controller
+class rdlpkEventsController extends Controller
 {
     public function showEvents($alias){
         if(empty($alias)){

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
 
-class userWidgetsController extends Controller
+class userPagesController extends Controller
 {
 
      public function __construct()

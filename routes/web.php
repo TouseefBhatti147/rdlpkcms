@@ -3,12 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\rdlpkIndexController;
 use App\Http\Controllers\Auth\AdminRegisterController;
-use App\Http\Controllers\Website\rdlpkNewsController;
-use App\Http\Controllers\Website\rdlpkEventsController;
-use App\Http\Controllers\Website\rdlpkProjectsController;
+use App\Http\Controllers\rdlpkNewsController;
+use App\Http\Controllers\rdlpkEventsController;
+use App\Http\Controllers\rdlpkProjectsController;
 use App\Http\Controllers\ContactUsController;
-use App\Http\Controllers\Website\rdlpkPagesController;
-use App\Http\Controllers\Website\rdlpknewslettersController;
+use App\Http\Controllers\rdlpkPagesController;
+use App\Http\Controllers\rdlpknewslettersController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChangeController;
@@ -42,13 +42,13 @@ Route::get('/iso-certificates', [rdlpkIndexController::class, 'isocertificates']
 Route::get('/our-group', [rdlpkIndexController::class, 'ourgroup']);
 // New routes end here
 Route::get('/news', [rdlpkIndexController::class, 'newsdetail']);
-Route::get('/news/{alias}', [fdhNewsController::class, 'showNews']);
+Route::get('/news/{alias}', [rdlpkNewsController::class, 'showNews']);
 Route::get('/events', [rdlpkIndexController::class, 'latestevents']);
-Route::get('/events/{alias}', [fdhEventsController::class, 'showEvents']);
+Route::get('/events/{alias}', [rdlpkEventsController::class, 'showEvents']);
 Route::get('/videos', [rdlpkIndexController::class, 'latestvideos']);
 Route::get('/current-projects', [rdlpkIndexController::class, 'currentprojects']);
-Route::get('/current-projects/{alias}', [fdhProjectsController::class, 'showCurrentProjects']);
-Route::get('/upcoming-projects/{alias}', [fdhProjectsController::class, 'showUpcomingProjects']);
+Route::get('/current-projects/{alias}', [rdlpkProjectsController::class, 'showCurrentProjects']);
+Route::get('/upcoming-projects/{alias}', [rdlpkProjectsController::class, 'showUpcomingProjects']);
 Route::get('/upcoming-projects', [rdlpkIndexController::class, 'upcomingprojects']);
 Route::get('/contact-us', [ContactUsController::class, 'index'])->name('contact.index');
 Route::post('/contact-us', [ContactUsController::class, 'send'])->name('contact.send');
@@ -102,7 +102,7 @@ Route::prefix('admin/widgets')->group(function () {
 });
 
 // User-specific widget creation (assuming UserController exists)
-Route::post('/user/widgets/create', [UserController::class, 'stWidget'])->name('user.widgets.create');
+Route::post('/user/widgets/create', [UsersController::class, 'stWidget'])->name('user.widgets.create');
 
 /* Admin Routes for Pages are defined here */
 Route::prefix('admin/pages')->group(function () {

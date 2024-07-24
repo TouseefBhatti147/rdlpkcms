@@ -14,7 +14,7 @@ use App\Models\Videos;
 use App\Models\Widgets;
 use Illuminate\Http\Request;
 
-class fdhNewsController extends Controller
+class rdlpkNewsController extends Controller
 {
     public function showNews($alias){
         if(empty($alias)){

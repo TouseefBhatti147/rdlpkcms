@@ -14,7 +14,7 @@ use App\Videos;
 use App\Widgets;
 use Illuminate\Http\Request;
 
-class fdhProjectsController extends Controller
+class rdlpkProjectsController extends Controller
 {
   public function showCurrentProjects($alias)
   {

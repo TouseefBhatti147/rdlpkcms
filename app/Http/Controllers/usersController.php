@@ -8,7 +8,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class usersController extends Controller
+class UsersController extends Controller
 {
     public function __construct()
     {

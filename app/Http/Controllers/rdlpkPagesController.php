@@ -15,7 +15,7 @@ use App\Videos;
 use App\Newsletters;
 use App\Widgets;
 
-class fdhPagesController extends Controller
+class rdlpkPagesController extends Controller
 {
     public function showPages($alias){
         if(empty($alias)){

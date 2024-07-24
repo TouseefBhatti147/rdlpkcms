@@ -15,7 +15,7 @@ use App\Videos;
 use App\Widgets;
 use App\Newsletters;
 
-class fdhnewslettersController extends Controller
+class rdlpknewslettersController extends Controller
 {
     public function showNewsletters($alias){
         if(empty($alias)){
