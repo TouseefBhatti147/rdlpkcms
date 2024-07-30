@@ -135,7 +135,11 @@ class OfficesController extends Controller
             return redirect('/admin/offices')->with('success', 'Office has been Updated Successfully');
 
     }
-
+    public function showFooter()
+    {
+        $offices = Office::getAllActiveOffices();
+        return view('web.footer', compact('offices'));
+    }
     /**
      * Remove the specified resource from storage.
      *

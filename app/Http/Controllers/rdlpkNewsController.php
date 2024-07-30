@@ -20,7 +20,8 @@ class rdlpkNewsController extends Controller
         if(empty($alias)){
             abort(404);
                   }
-               $data['files'] = Files::getFiles();
+                  $data['files'] = Files::getFiles();
+                  $data['officess'] = Offices::getAllActiveOffices();
                   $data['pages'] = Pages::getPages();
                   $data['news'] = News::where(['alias'=>$alias,'status'=>1])->first();
                   $data['settings'] = Settings::getSettings();

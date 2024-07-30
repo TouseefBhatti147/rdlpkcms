@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>FDHL</title>
+    <title>RDLPK</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <meta content="Preview page FDHL" name="description" />
-    <meta content="Ali Shahbaz" name="author" />
+    <meta content="Preview page RDLPK" name="description" />
+    <meta content="RDLPK" name="author" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
         type="text/css" /><!-- already added -->
@@ -45,7 +45,7 @@
     <link href="{{ asset('css/index.css') }}" rel="stylesheet" type="text/css" />
     <script src="https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js"></script>
     <!-- END THEME LAYOUT STYLES -->
-    <link rel="shortcut icon" href="{{asset('/images/logo5.gif')}}" />
+    <link rel="shortcut icon" href="{{asset('/images/logo.jpg')}}" />
     <link rel="stylesheet" href="{{ asset('assets/pages/css/index.css') }}">
 </head>
 
@@ -60,7 +60,7 @@
                 <!-- BEGIN LOGO -->
                 <div class="page-logo">
                     <a href="{{('/user/home')}}" class="nav-link nav-toggle">
-                        <img src="{{ asset('images/logo5.gif') }}" alt="logo" class="dashboardlogo" /> </a>
+                        <img src="{{ asset('images/logo.jpg') }}" alt="logo" class="dashboardlogo" /> </a>
                 </div>
                 <!-- END LOGO -->
                 <!-- BEGIN RESPONSIVE MENU TOGGLER -->

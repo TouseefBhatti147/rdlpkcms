@@ -30,6 +30,8 @@ class rdlpkIndexController extends Controller
         $data['offices'] = Offices::getOffices();
         $data['widgets'] = Widgets::getWidgets();
         $data['videos'] = Videos::getVideos();
+        $data['projectss'] = Projects::getAllCurrentProjects();
+        $data['officess'] = Offices::getAllActiveOffices();
         $data['projects'] = Projects::getProjects();
         $data['twonews'] = News::getTwoNews();
         $data['twoevents'] = Events::getTwoEvents();
@@ -49,6 +51,7 @@ class rdlpkIndexController extends Controller
 
     public function aboutus()
     {
+    $data['officess'] = Offices::getAllActiveOffices();
     $data['files'] = Files::getFiles();
     $data['pages'] = Pages::getPages();
     $data['settings'] = Settings::getSettings();
@@ -71,6 +74,8 @@ class rdlpkIndexController extends Controller
     $data['offices'] = Offices::getOffices();
     $data['news'] = News::getNews();
     $data['allnews'] = News::getAllNews();
+    $data['officess'] = Offices::getAllActiveOffices();
+
     // echo '<pre>';
     // print_r($data);
     // exit;
@@ -79,6 +84,7 @@ class rdlpkIndexController extends Controller
 
     public function latestevents()
     {
+    $data['officess'] = Offices::getAllActiveOffices();
     $data['widgets'] = Widgets::getWidgets();
     $data['files'] = Files::getFiles();
     $data['pages'] = Pages::getPages();
@@ -94,6 +100,7 @@ class rdlpkIndexController extends Controller
 
     public function latestvideos()
     {
+    $data['officess'] = Offices::getAllActiveOffices();
     $data['widgets'] = Widgets::getWidgets();
     $data['files'] = Files::getFiles();
     $data['pages'] = Pages::getPages();
@@ -107,8 +114,17 @@ class rdlpkIndexController extends Controller
     return view('web.videos',$data);
     }
 
+    public function Slider()
+    {
+    $data['sliders'] = Files::getSliders();
+
+
+    return view('inc.slider',$data);
+    }
     public function currentprojects()
     {
+    $data['sliders'] = Files::getSliders();
+    $data['officess'] = Offices::getAllActiveOffices();
     $data['widgets'] = Widgets::getWidgets();
     $data['files'] = Files::getFiles();
     $data['pages'] = Pages::getPages();
@@ -123,11 +139,12 @@ class rdlpkIndexController extends Controller
 
     public function upcomingprojects()
     {
+    $data['sliders'] = Files::getSliders();
+    $data['officess'] = Offices::getAllActiveOffices();
     $data['widgets'] = Widgets::getWidgets();
     $data['files'] = Files::getFiles();
     $data['pages'] = Pages::getPages();
     $data['settings'] = Settings::getSettings();
-    $data['offices'] = Offices::getOffices();
     $data['allupcomingprojects'] = Projects::getAllupcomingProjects();
     //  echo '<pre>';
     //  print_r($data);
@@ -139,8 +156,8 @@ class rdlpkIndexController extends Controller
         $data['widgets'] = Widgets::getWidgets();
         $data['files'] = Files::getFiles();
         $data['settings'] = Settings::getSettings();
-        $data['offices'] = Offices::getOffices();
         $data['pages'] = Pages::getPages();
+        $data['officess'] = Offices::getAllActiveOffices();
         return view('web.broucher-view',$data);
     }
 
@@ -149,8 +166,8 @@ class rdlpkIndexController extends Controller
         $data['files'] = Files::getFiles();
         $data['pages'] = Pages::getPages();
         $data['settings'] = Settings::getSettings();
-        $data['offices'] = Offices::getOffices();
         $data['newsletters'] = Newsletters::getNewsletters();
+        $data['officess'] = Offices::getAllActiveOffices();
         return view('web.newsletters',$data);
     }
 
@@ -161,7 +178,7 @@ class rdlpkIndexController extends Controller
         $data['files']   = Files::getFiles();
         $data['pages']   = Pages::getPages();
         $data['settings']= Settings::getSettings();
-        $data['offices'] = Offices::getOffices();
+        $data['officess'] = Offices::getAllActiveOffices();
         return view('certificates.all',$data);
     }
     //Function for iso certificates ends here
@@ -173,7 +190,7 @@ class rdlpkIndexController extends Controller
         $data['files'] = Files::getFiles();
         $data['pages'] = Pages::getPages();
         $data['settings'] = Settings::getSettings();
-        $data['offices'] = Offices::getOffices();
+        $data['officess'] = Offices::getAllActiveOffices();
         return view('web.ourgroup',$data);
     }
     //Function for our group page ends here

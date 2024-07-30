@@ -19,10 +19,12 @@ class ContactUsController extends Controller
 {
 public function index()
 {
+$data['officess'] = Offices::getAllActiveOffices();
 $data['files'] = Files::getFiles();
 $data['pages'] = Pages::getPages();
 $data['settings'] = Settings::getSettings();
 $data['offices'] = Offices::getOffices();
+
 $data['widgets'] = Widgets::getWidgets();
 $data['videos'] = Videos::getVideos();
 return view('web.contactus', $data);

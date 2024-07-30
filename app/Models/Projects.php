@@ -28,9 +28,17 @@ class Projects extends Model
    }
    public static function getAllcureentProjects(){
      $value = 1;
-        $projects = self::where('status', 1 )->where('project_status', 'current' )->orderBy('created_at', 'desc')->get();
-        return $projects;
+        $cprojects = self::where('status', 1 )->where('project_status', 'current' )->orderBy('created_at', 'desc')->get();
+        return $cprojects;
+
+
+
     }
+    public static function getAllCurrentProjects()
+    {
+      return self::where('status', 1)->where('project_status', 'current')->orderBy('created_at', 'desc')->get();
+    }
+
     public static function getAllupcomingProjects(){
       $value = 1;
          $projects = self::where('status', 1 )->where('project_status', 'upcoming' )->orderBy('created_at', 'desc')->get();

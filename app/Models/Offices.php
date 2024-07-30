@@ -69,6 +69,11 @@ class Offices extends Model
             return 'No office found';
         }
     }
+// In your Office model
+public static function getAllActiveOffices()
+{
+    return self::where('status', 1)->get();
+}
 
     public static function getOfficesCount()
     {
