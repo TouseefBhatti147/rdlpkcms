@@ -42,7 +42,7 @@
             </div>
             <div
                 class="col-12  d-flex justify-content-center col-sm-12 justify-content-sm-center col-md-5 justify-content-md-start col-lg-4 justify-content-lg-start">
-                <span target="_blank" href="https://fdhlpk.com/"
+                <span target="_blank" href="https://royslorchard.pk/"
                     class="btn btn-sm c-btn-blue c-btn-uppercase c-btn-bold c-btn-border-1x c-btn-square">
                     <table>
 

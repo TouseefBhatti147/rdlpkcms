@@ -48,8 +48,8 @@ class UsersController extends Controller
     }
     public function edit($id)
     {
-        $users = User::findOrFail($id);
-        return view('admin.users.edit-user', compact('users'));
+        $user = User::findOrFail($id);
+        return view('admin.users.edit-user', compact('user'));
     }
     // Show form to edit user or handle form submission
     public function store(Request $request)

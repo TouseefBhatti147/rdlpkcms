@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Events;
-use App\Files;
-use App\News;
-use App\Offices;
-use App\Pages;
-use App\Projects;
-use App\Settings;
-use App\Videos;
-use App\Widgets;
-use App\Newsletters;
+use App\Models\Events;
+use App\Models\Files;
+use App\Models\News;
+use App\Models\Offices;
+use App\Models\Pages;
+use App\Models\Projects;
+use App\Models\Settings;
+use App\Models\Videos;
+use App\Models\Widgets;
+use App\Models\Newsletters;
 
 class rdlpknewslettersController extends Controller
 {
@@ -21,6 +21,8 @@ class rdlpknewslettersController extends Controller
         if(empty($alias)){
             abort(404);
                   }
+                  $data['officess'] = Offices::getAllActiveOffices();
+
                 $data['files'] = Files::getFiles();
                 $data['newsletters'] = Newsletters::where(['alias'=>$alias])->first();
                 $data['pages'] = Pages::getPages();

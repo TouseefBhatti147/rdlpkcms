@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Widgets; // Add this line
+use Illuminate\Support\Facades\Auth; // Make sure this line is included
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -18,6 +19,16 @@ class WidgetsController extends Controller
    $this->middleware('auth:admin');
 
   }
+  public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/login1');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -25,6 +36,10 @@ class WidgetsController extends Controller
      */
     public function index()
     {
+        if (!Auth::check()) {
+            // If not authenticated, redirect to the login screen
+            return redirect()->route('admin.login')->with('error', 'You must be logged in to access this page.');
+        }
       $widgets = Widgets::paginate(10); // Adjust the number of items per page as needed
       return view('admin.widgets.index-widgets', compact('widgets'));
 
@@ -32,6 +47,10 @@ class WidgetsController extends Controller
 
     public function edit($id)
     {
+        if (!Auth::check()) {
+            // If not authenticated, redirect to the login screen
+            return redirect()->route('admin.login')->with('error', 'You must be logged in to access this page.');
+        }
         $widget = Widgets::findOrFail($id);
         return view('admin.widgets.edit-widgets', compact('widget'));
     }
@@ -82,6 +101,10 @@ class WidgetsController extends Controller
      */
     public function create(Request $request)
     {
+        if (!Auth::check()) {
+            // If not authenticated, redirect to the login screen
+            return redirect()->route('admin.login')->with('error', 'You must be logged in to access this page.');
+        }
 
       return view('admin.widgets.create-widgets');
 
