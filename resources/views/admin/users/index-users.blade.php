@@ -33,6 +33,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Title</th>
                             <th>Created Date</th>
                             <th>Updated Date</th>
                         </tr>
@@ -42,6 +43,7 @@
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
+                            <td>{{ $user->job_title }}</td>
                             <td>
                                 {{ $user->created_at }}
                             </td>

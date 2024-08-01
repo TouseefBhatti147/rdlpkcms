@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Admin;
 use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
@@ -19,16 +19,28 @@ class UsersController extends Controller
     public function index()
     {
         // Retrieve users with pagination
-        $users = User::orderBy('created_at', 'desc')->paginate(10); // Paginate by 10 items per page
+        $users = Admin::orderBy('created_at', 'desc')->paginate(10); // Paginate by 10 items per page
         return view('admin.users.index-users', compact('users'));
     }
 
     // Show form to create a new user or handle form submission
-    public function create(Request $request)
+    public function create()
     {
-        if ($request->isMethod('get')) {
-            return view('admin.usersform');
-        } else {
+        $admin = Auth::guard('admin')->user();
+        if ($admin && $admin->id == 5) {
+            return view('admin.users.create-user');
+        }else{
+            return redirect('/admin/users');
+        }
+
+
+    }
+
+
+
+    public function store(Request $request)
+    {
+
             $rules = [
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email',
@@ -37,64 +49,51 @@ class UsersController extends Controller
             ];
             $this->validate($request, $rules);
 
-            $user = new User();
+            $user = new Admin();
             $user->name = $request->name;
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
             $user->save();
 
             return redirect('/admin/users')->with('success', 'User has been Added Successfully');
-        }
+
     }
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $user = Admin::findOrFail($id);
         return view('admin.users.edit-user', compact('user'));
     }
     // Show form to edit user or handle form submission
-    public function store(Request $request)
-    {
-        $rules = [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
-            'password_confirmation' => 'required|same:password'
-        ];
-        $this->validate($request, $rules);
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        return redirect('admin/users')->with('success', 'User has been Added Successfully');
-    }
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
+        // Find the admin by ID
+        $admin = Admin::findOrFail($id);
+
         // Validate the request data
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|string|email|max:255|unique:admins,email,' . $admin->id,
             // Optionally validate password fields if they are being updated
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
-        // Update the user data
-        $user->name = $request->name;
-        $user->email = $request->email;
+        // Update the admin data
+        $admin->name = $request->name;
+        $admin->email = $request->email;
 
         // Only update the password if it's provided
         if ($request->filled('password')) {
-            $user->password = bcrypt($request->password);
+            $admin->password = bcrypt($request->password);
         }
 
-        // Save the updated user data
-        $user->save();
+        // Save the updated admin data
+        $admin->save();
 
         // Redirect back with a success message
-        return redirect('admin/users')->with('success','User has been Updated Successfully');
+        return redirect('admin/users')->with('success', 'Admin has been updated successfully');
     }
+
     // Get all users for DataTables
     public function getAllUsers()
     {
@@ -109,7 +108,7 @@ class UsersController extends Controller
     // Delete user
     public function delete($id)
     {
-        $user = User::find($id);
+        $user = Admin::find($id);
         if ($user !== null) {
             try {
                 $user->delete();

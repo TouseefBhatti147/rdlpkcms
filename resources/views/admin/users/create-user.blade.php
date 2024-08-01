@@ -53,8 +53,14 @@
                                     class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" autofocus
                                     placeholder="Enter Name Here" required>
                             </div>
+                            @if ($errors->has('name'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('name') }}</strong>
+                            </span>
+                            @endif
                         </div>
                     </div>
+
 
                     <div class="form-group form-md-line-input{{ $errors->has('email') ? ' has-error' : '' }}">
                         <label for="email" class="control-label col-md-2">Enter Email</label>
@@ -68,6 +74,11 @@
                                     class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
                                     placeholder="Enter Email here" required>
                             </div>
+                            @if ($errors->has('email'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('email') }}</strong>
+                            </span>
+                            @endif
                         </div>
                     </div>
 
@@ -84,21 +95,31 @@
                                     class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                     placeholder="Enter Password here" required>
                             </div>
+                            @if ($errors->has('password'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('password') }}</strong>
+                            </span>
+                            @endif
                         </div>
                     </div>
 
                     <div
-                        class="form-group form-md-line-input{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                        <label for="password_confirmation" class="control-label col-md-2">Confirm Password</label>
+                        class="form-group form-md-line-input{{ $errors->has('confirm_password') ? ' has-error' : '' }}">
+                        <label for="confirm_password" class="control-label col-md-2">Confirm Password</label>
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="fa fa-user"></i>
                                 </span>
-                                <input type="password" id="password_confirmation" name="password_confirmation"
-                                    class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}"
+                                <input type="password" id="confirm_password" name="confirm_password"
+                                    class="form-control{{ $errors->has('confirm_password') ? ' is-invalid' : '' }}"
                                     placeholder="Confirm Password here" required>
                             </div>
+                            @if ($errors->has('confirm_password'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('confirm_password') }}</strong>
+                            </span>
+                            @endif
                         </div>
                     </div>
                     @endif
