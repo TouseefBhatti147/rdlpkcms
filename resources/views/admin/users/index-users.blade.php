@@ -51,6 +51,7 @@
                                 {{ $user->updated_at }}
                             </td>
                             <td>
+                                @if(auth()->check() && auth()->user()->id == 3)
                                 <a href="{{ url('admin/users/edit/'.$user->id) }}" class="btn blue btn-md">
                                     <span class="glyphicon glyphicon-edit">&nbsp;Edit</span>
                                 </a>
@@ -58,7 +59,16 @@
                                     data-target="#deleteModal{{ $user->id }}">
                                     <span class="glyphicon glyphicon-remove-circle">&nbsp;Delete</span>
                                 </button>
+                                @else
+                                <button type="button" class="btn btn-default btn-md" disabled>
+                                    <span class="glyphicon glyphicon-edit">&nbsp;Edit</span>
+                                </button>
+                                <button type="button" class="btn btn-default btn-md" disabled>
+                                    <span class="glyphicon glyphicon-remove-circle">&nbsp;Delete</span>
+                                </button>
+                                @endif
                             </td>
+
                         </tr>
 
                         <!-- Delete Modal -->

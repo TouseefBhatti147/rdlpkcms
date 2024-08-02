@@ -27,7 +27,7 @@ class UsersController extends Controller
     public function create()
     {
         $admin = Auth::guard('admin')->user();
-        if ($admin && $admin->id == 5) {
+        if ($admin && $admin->id == 3) {
             return view('admin.users.create-user');
         }else{
             return redirect('/admin/users');
